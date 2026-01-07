@@ -34,6 +34,17 @@ else
     }
 fi
 
+# Check if users exist, if not, seed them
+echo "Checking if users exist..."
+USER_COUNT=$(php artisan tinker --execute="echo \App\Models\User::count();" 2>/dev/null || echo "0")
+if [ "$USER_COUNT" = "0" ] || [ -z "$USER_COUNT" ]; then
+    echo "No users found, creating initial users..."
+    php artisan db:seed --class=CompanySeeder --force
+    php artisan db:seed --class=UserSeeder --force
+else
+    echo "Users already exist, skipping seeding."
+fi
+
 # Create storage link
 php artisan storage:link || true
 
