@@ -1,0 +1,131 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Company;
+use Illuminate\Http\Request;
+
+class CompanyController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
+    {
+        $user = auth()->user();
+        $query = Company::query();
+
+        // Managers solo ven su propia empresa
+        if ($user->role === 'manager') {
+            $query->where('id', $user->company_id);
+        }
+
+        // Filtros (solo para admin)
+        if ($user->role === 'admin') {
+            if ($request->filled('name')) {
+                $query->where('name', 'like', '%' . $request->name . '%');
+            }
+            if ($request->filled('email')) {
+                $query->where('email', 'like', '%' . $request->email . '%');
+            }
+        }
+
+        $companies = $query->paginate(20);
+        return view('companies.index', compact('companies'));
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $user = auth()->user();
+        if ($user->role !== 'admin') {
+            abort(403, 'Solo los administradores pueden crear empresas.');
+        }
+        return view('companies.create');
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+        $user = auth()->user();
+        if ($user->role !== 'admin') {
+            abort(403, 'Solo los administradores pueden crear empresas.');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:companies',
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:255',
+        ]);
+
+        Company::create($request->all());
+        return redirect()->route('companies.index')->with('success', 'Empresa creada.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        $company = Company::findOrFail($id);
+        return view('companies.show', compact('company'));
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        $company = Company::findOrFail($id);
+        $user = auth()->user();
+
+        if ($user->role === 'manager' && $company->id !== $user->company_id) {
+            abort(403, 'Solo puedes editar tu propia empresa.');
+        }
+
+        return view('companies.edit', compact('company'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        $company = Company::findOrFail($id);
+        $user = auth()->user();
+
+        if ($user->role === 'manager' && $company->id !== $user->company_id) {
+            abort(403, 'Solo puedes editar tu propia empresa.');
+        }
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:companies,email,' . $id,
+            'phone' => 'nullable|string|max:20',
+            'address' => 'nullable|string|max:255',
+        ]);
+
+        $company->update($request->all());
+        return redirect()->route('companies.index')->with('success', 'Empresa actualizada.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $user = auth()->user();
+        if ($user->role !== 'admin') {
+            abort(403, 'Solo los administradores pueden eliminar empresas.');
+        }
+
+        $company = Company::findOrFail($id);
+        $company->delete();
+        return redirect()->route('companies.index')->with('success', 'Empresa eliminada.');
+    }
+}
