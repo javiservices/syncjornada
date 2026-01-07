@@ -5,6 +5,13 @@ echo "Running Laravel initialization..."
 # Wait a bit for services to be fully ready
 sleep 10
 
+# Check if APP_KEY is set
+if [ -z "$APP_KEY" ] || [ "$APP_KEY" = "base64:" ]; then
+    echo "ERROR: APP_KEY is not set!"
+    echo "Please set APP_KEY in Render Dashboard Environment variables"
+    echo "You can generate one with: php artisan key:generate --show"
+fi
+
 # Clear all cache first
 echo "Clearing cache..."
 php artisan config:clear || true
