@@ -2,36 +2,41 @@
 
 echo "Running Laravel initialization..."
 
-# Wait for database to be ready with retries
-echo "Waiting for database to be ready..."
-max_attempts=60
+# Wait a bit for services to be fully ready
+sleep 10
+
+# Clear all cache first
+echo "Clearing cache..."
+php artisan config:clear || true
+php artisan cache:clear || true
+php artisan route:clear || true
+php artisan view:clear || true
+
+# Try migrations with retries
+echo "Running migrations..."
+max_attempts=5
 attempt=0
 
-until php artisan migrate:status &> /dev/null || [ $attempt -eq $max_attempts ]; do
-    echo "Database not ready yet... attempt $((attempt+1))/$max_attempts"
-    sleep 3
+until php artisan migrate --force 2>&1 || [ $attempt -eq $max_attempts ]; do
+    echo "Migration attempt $((attempt+1))/$max_attempts failed, retrying..."
+    sleep 5
     ((attempt++))
 done
 
 if [ $attempt -eq $max_attempts ]; then
-    echo "ERROR: Database connection failed after $max_attempts attempts"
-    echo "Check your database configuration and try manual deploy later"
-    exit 0
+    echo "WARNING: Migrations failed after $max_attempts attempts"
+    echo "You may need to run migrations manually"
+else
+    echo "Migrations completed successfully!"
 fi
-
-echo "Database is ready!"
-
-# Run migrations
-echo "Running migrations..."
-php artisan migrate --force
 
 # Create storage link
 php artisan storage:link || true
 
-# Clear and cache
+# Cache configuration
 echo "Optimizing application..."
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
+php artisan config:cache || true
+php artisan route:cache || true
+php artisan view:cache || true
 
-echo "Laravel initialization completed successfully!"
+echo "Laravel initialization completed!"
