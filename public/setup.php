@@ -52,8 +52,13 @@
         $canConnect = false;
 
         try {
+            $dbConnection = getenv('DB_CONNECTION') ?: 'pgsql';
+            $dsn = $dbConnection === 'pgsql' 
+                ? "pgsql:host=" . getenv('DB_HOST') . ";port=" . getenv('DB_PORT') . ";dbname=" . getenv('DB_DATABASE')
+                : "mysql:host=" . getenv('DB_HOST') . ";port=" . getenv('DB_PORT') . ";dbname=" . getenv('DB_DATABASE');
+            
             $pdo = new PDO(
-                "mysql:host=" . getenv('DB_HOST') . ";port=" . getenv('DB_PORT') . ";dbname=" . getenv('DB_DATABASE'),
+                $dsn,
                 getenv('DB_USERNAME'),
                 getenv('DB_PASSWORD'),
                 [PDO::ATTR_TIMEOUT => 5]
@@ -108,9 +113,11 @@
             <strong>Información del Sistema:</strong>
             <ul>
                 <li>PHP Version: <?php echo PHP_VERSION; ?></li>
+                <li>DB Connection: <?php echo getenv('DB_CONNECTION') ?: 'No configurado'; ?></li>
                 <li>DB Host: <?php echo getenv('DB_HOST') ?: 'No configurado'; ?></li>
                 <li>DB Port: <?php echo getenv('DB_PORT') ?: 'No configurado'; ?></li>
                 <li>DB Name: <?php echo getenv('DB_DATABASE') ?: 'No configurado'; ?></li>
+                <li>PDO PostgreSQL: <?php echo extension_loaded('pdo_pgsql') ? '✅ Instalado' : '❌ No disponible'; ?></li>
             </ul>
         </div>
     </div>

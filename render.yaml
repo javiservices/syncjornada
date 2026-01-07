@@ -16,7 +16,7 @@ services:
       - key: APP_URL
         sync: false
       - key: DB_CONNECTION
-        value: mysql
+        value: pgsql
       - key: DB_HOST
         fromDatabase:
           name: syncjornada-db
@@ -57,3 +57,4 @@ databases:
     plan: free
     databaseName: syncjornada
     user: syncjornada_user
+    ipAllowList: []
