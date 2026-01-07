@@ -41,10 +41,6 @@ services:
         value: stack
       - key: LOG_LEVEL
         value: debug
-      - key: DB_CHARSET
-        value: utf8mb4
-      - key: DB_COLLATION
-        value: utf8mb4_unicode_ci
       - key: SESSION_DRIVER
         value: database
       - key: CACHE_STORE
