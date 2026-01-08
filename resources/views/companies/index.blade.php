@@ -48,14 +48,23 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $company->phone ?: '-' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $company->address ?: '-' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('companies.edit', $company->id) }}" style="background-color: #2563eb; color: white; padding: 12px 24px; font-size: 16px; font-weight: bold; border-radius: 8px; text-decoration: none; border: 2px solid #1d4ed8; display: inline-block; margin-right: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);" onmouseover="this.style.backgroundColor='#1d4ed8'" onmouseout="this.style.backgroundColor='#2563eb'">EDITAR EMPRESA</a>
-                                        @if(auth()->user()->role === 'admin')
-                                            <form action="{{ route('companies.destroy', $company->id) }}" method="POST" class="inline">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="inline-flex items-center px-3 py-1.5 border border-transparent text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
-                                            </form>
-                                        @endif
+                                        <div class="flex items-center gap-2">
+                                            <a href="{{ route('companies.show', $company->id) }}" class="inline-flex items-center px-3 py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors" title="Ver detalles">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="{{ route('companies.edit', $company->id) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            @if(auth()->user()->role === 'admin')
+                                                <form action="{{ route('companies.destroy', $company->id) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="inline-flex items-center px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors" onclick="return confirm('¿Estás seguro de eliminar esta empresa?')" title="Eliminar">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
