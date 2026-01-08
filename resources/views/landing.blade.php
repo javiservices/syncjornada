@@ -179,7 +179,7 @@
                     </a>
                     <a href="{{ route('company-request.create') }}"
                        class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 sm:px-6 py-2.5 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-medium shadow-lg shadow-blue-500/30 text-sm sm:text-base">
-                        <i class="fas fa-rocket mr-1 sm:mr-2"></i><span class="hidden sm:inline">Prueba Gratis</span><span class="sm:hidden">Gratis</span>
+                        <i class="fas fa-rocket mr-1 sm:mr-2"></i><span class="hidden sm:inline">Prueba Gratis</span><span class="sm:hidden">Probar</span>
                     </a>
                 @endguest
             </div>
