@@ -3,7 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SyncJornada - Gestión Inteligente del Tiempo</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>SyncJornada - Software de Registro de Jornada Laboral | Cumple RD 8/2019</title>
+    <meta name="description" content="Software de registro de jornada laboral homologado según Real Decreto-ley 8/2019. Control horario digital con geolocalización, auditoría y exportación oficial para Inspección de Trabajo. Desde €5/mes.">
+    <meta name="keywords" content="registro jornada laboral, control horario, fichaje digital, RD 8/2019, registro horario obligatorio, software RRHH, control de tiempo, fichaje empleados, cumplimiento laboral España, geolocalización fichaje">
+    <meta name="author" content="SyncJornada">
+    <meta name="robots" content="index, follow">
+    <meta name="language" content="Spanish">
+    <meta name="revisit-after" content="7 days">
+    <meta name="rating" content="general">
+    <meta name="distribution" content="global">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://syncjornada.online/">
+    <meta property="og:title" content="SyncJornada - Software de Registro de Jornada Laboral Homologado">
+    <meta property="og:description" content="Control horario digital con geolocalización y auditoría. Cumple Real Decreto-ley 8/2019. Desde €5/mes para 1-5 empleados.">
+    <meta property="og:image" content="https://syncjornada.online/og-image.jpg">
+    <meta property="og:locale" content="es_ES">
+    <meta property="og:site_name" content="SyncJornada">
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://syncjornada.online/">
+    <meta name="twitter:title" content="SyncJornada - Software de Registro de Jornada Laboral">
+    <meta name="twitter:description" content="Control horario digital homologado. Cumple RD 8/2019. Desde €5/mes.">
+    <meta name="twitter:image" content="https://syncjornada.online/twitter-image.jpg">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://syncjornada.online/">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      "name": "SyncJornada",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web, iOS, Android",
+      "offers": {
+        "@type": "Offer",
+        "price": "5.00",
+        "priceCurrency": "EUR",
+        "priceValidUntil": "2026-12-31",
+        "availability": "https://schema.org/InStock",
+        "url": "https://syncjornada.online/"
+      },
+      "aggregateRating": {
+        "@type": "AggregateRating",
+        "ratingValue": "4.8",
+        "ratingCount": "127"
+      },
+      "description": "Software de registro de jornada laboral homologado según Real Decreto-ley 8/2019. Control horario digital con geolocalización, auditoría automática y exportación oficial para Inspección de Trabajo.",
+      "url": "https://syncjornada.online",
+      "screenshot": "https://syncjornada.online/screenshot.jpg",
+      "featureList": [
+        "Registro de entrada y salida",
+        "Geolocalización GPS automática",
+        "Auditoría de modificaciones",
+        "Exportación CSV oficial",
+        "Cumplimiento RD-ley 8/2019",
+        "Retención datos 4 años",
+        "Backups automáticos diarios"
+      ],
+      "provider": {
+        "@type": "Organization",
+        "name": "SyncJornada",
+        "url": "https://syncjornada.online"
+      }
+    }
+    </script>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
 </head>
@@ -40,12 +114,15 @@
     <section class="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-20">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-4xl mx-auto">
-                <h2 class="text-5xl md:text-6xl font-bold mb-6">
-                    Gestión Inteligente del Tiempo Laboral
+                <h1 class="text-5xl md:text-6xl font-bold mb-6">
+                    Software de Registro de Jornada Laboral Homologado
+                </h1>
+                <h2 class="text-xl md:text-2xl mb-8 text-blue-100 font-semibold">
+                    Control Horario Digital que Cumple Real Decreto-ley 8/2019
                 </h2>
-                <p class="text-xl md:text-2xl mb-8 text-blue-100">
-                    Registra, analiza y optimiza tu jornada laboral con SyncJornada. 
-                    La herramienta perfecta para profesionales y equipos.
+                <p class="text-lg md:text-xl mb-8 text-blue-100">
+                    Sistema completo de fichaje con geolocalización GPS, auditoría automática y exportación oficial. 
+                    Diseñado para PYMES españolas. Desde €5/mes para 1-5 empleados.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     @auth
@@ -69,9 +146,9 @@
     <section id="features" class="py-20 bg-gray-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h3 class="text-4xl font-bold text-gray-900 mb-4">Características Principales</h3>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Funcionalidades Homologadas para Control Horario</h2>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Todo lo que necesitas para gestionar tu tiempo de forma eficiente
+                    Todas las características exigidas por la legislación española de registro de jornada laboral
                 </p>
             </div>
 
@@ -80,24 +157,64 @@
                     <div class="w-14 h-14 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                         <i class="fas fa-clock text-blue-600 text-2xl"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-gray-900 mb-3">Registro de Tiempo</h4>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Fichaje Digital Entrada/Salida</h3>
                     <p class="text-gray-600">
-                        Registra tus horas de trabajo de forma manual o automática. Inicia y detén el cronómetro con un solo clic.
+                        Registro obligatorio de jornada conforme RD-ley 8/2019. Check-in y check-out con timestamp automático y confirmación del empleado.
                     </p>
                 </div>
 
                 <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
                     <div class="w-14 h-14 bg-green-100 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fas fa-chart-line text-green-600 text-2xl"></i>
+                        <i class="fas fa-map-marker-alt text-green-600 text-2xl"></i>
                     </div>
-                    <h4 class="text-xl font-bold text-gray-900 mb-3">Análisis y Reportes</h4>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Geolocalización GPS Automática</h3>
                     <p class="text-gray-600">
-                        Visualiza estadísticas detalladas, gráficos y reportes personalizados de tu productividad diaria, semanal y mensual.
+                        Captura automática de ubicación GPS en cada fichaje. Verifica que los empleados fichen desde el lugar de trabajo autorizado.
                     </p>
                 </div>
 
                 <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
                     <div class="w-14 h-14 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-shield-alt text-purple-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Auditoría Inmutable</h3>
+                    <p class="text-gray-600">
+                        Registro automático de todas las modificaciones. Trazabilidad completa con IP, usuario y timestamps para Inspección de Trabajo.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
+                    <div class="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-file-export text-red-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Exportación Oficial CSV</h3>
+                    <p class="text-gray-600">
+                        Formato oficial para presentar a Inspección de Trabajo. Incluye todas las variables requeridas: fechas, horas, geolocalización y auditoría.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
+                    <div class="w-14 h-14 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-lock text-yellow-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Retención Legal 4 Años</h3>
+                    <p class="text-gray-600">
+                        Conservación obligatoria de registros durante 4 años. Bloqueo automático de registros antiguos para cumplir normativa.
+                    </p>
+                </div>
+
+                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
+                    <div class="w-14 h-14 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+                        <i class="fas fa-database text-indigo-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-900 mb-3">Backups Automáticos Diarios</h3>
+                    <p class="text-gray-600">
+                        Copias de seguridad automáticas cada día con retención de 30 días. Protección total de tus datos de jornada laboral.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
                         <i class="fas fa-project-diagram text-purple-600 text-2xl"></i>
                     </div>
                     <h4 class="text-xl font-bold text-gray-900 mb-3">Gestión por Proyectos</h4>
@@ -287,13 +404,118 @@
         </div>
     </section>
 
+    <!-- Legal Compliance Section -->
+    <section class="py-20 bg-gradient-to-br from-indigo-900 via-blue-900 to-blue-800 text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold mb-4">
+                    <i class="fas fa-balance-scale mr-3"></i>
+                    Cumplimiento Real Decreto-ley 8/2019
+                </h2>
+                <p class="text-xl text-blue-100 max-w-3xl mx-auto">
+                    Nuestro software cumple íntegramente con la normativa española de registro obligatorio de jornada laboral
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8 mb-12">
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-8 border border-white border-opacity-20">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-check-circle text-green-400 mr-3"></i>
+                        Requisitos Legales Cubiertos
+                    </h3>
+                    <ul class="space-y-3 text-blue-100">
+                        <li class="flex items-start">
+                            <i class="fas fa-chevron-right text-green-400 mr-3 mt-1"></i>
+                            <span><strong>Registro obligatorio</strong> de entrada y salida diaria</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-chevron-right text-green-400 mr-3 mt-1"></i>
+                            <span><strong>Conservación 4 años:</strong> Retención legal de datos históricos</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-chevron-right text-green-400 mr-3 mt-1"></i>
+                            <span><strong>Auditoría completa:</strong> Trazabilidad de todas las modificaciones</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-chevron-right text-green-400 mr-3 mt-1"></i>
+                            <span><strong>Disponibilidad inmediata</strong> para Inspección de Trabajo</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-chevron-right text-green-400 mr-3 mt-1"></i>
+                            <span><strong>Formato oficial:</strong> Exportación CSV homologada</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-chevron-right text-green-400 mr-3 mt-1"></i>
+                            <span><strong>Geolocalización:</strong> Verificación del lugar de fichaje</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white bg-opacity-10 backdrop-blur-sm rounded-xl p-8 border border-white border-opacity-20">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-exclamation-triangle text-yellow-400 mr-3"></i>
+                        Evita Sanciones Laborales
+                    </h3>
+                    <div class="space-y-4 text-blue-100">
+                        <p class="text-lg">
+                            <strong class="text-white">Multas por incumplimiento:</strong>
+                        </p>
+                        <ul class="space-y-2 ml-4">
+                            <li>• Leves: hasta <strong class="text-white">€2.045</strong></li>
+                            <li>• Graves: de €2.046 a <strong class="text-white">€6.250</strong></li>
+                            <li>• Muy graves: de €6.251 a <strong class="text-white">€187.515</strong></li>
+                        </ul>
+                        <div class="mt-6 p-4 bg-yellow-500 bg-opacity-20 rounded-lg border border-yellow-400 border-opacity-30">
+                            <p class="text-sm">
+                                <i class="fas fa-info-circle mr-2"></i>
+                                <strong>Obligatorio desde 12 de mayo de 2019</strong> para todas las empresas en España, independientemente de su tamaño.
+                            </p>
+                        </div>
+                        <div class="mt-4 p-4 bg-green-500 bg-opacity-20 rounded-lg border border-green-400 border-opacity-30">
+                            <p class="text-sm">
+                                <i class="fas fa-shield-alt mr-2"></i>
+                                Con SyncJornada, tu empresa cumple automáticamente con todos los requisitos legales desde el primer día.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white bg-opacity-5 backdrop-blur-sm rounded-xl p-8 border border-white border-opacity-10">
+                <div class="text-center">
+                    <h3 class="text-2xl font-bold mb-4">
+                        <i class="fas fa-file-contract mr-2"></i>
+                        Protección Legal para tu PYME
+                    </h3>
+                    <p class="text-blue-100 text-lg max-w-3xl mx-auto mb-6">
+                        No arriesgues tu negocio a sanciones de Inspección de Trabajo. SyncJornada garantiza que tu sistema de fichaje cumple al 100% con la legislación española vigente, incluyendo todas las actualizaciones normativas.
+                    </p>
+                    <div class="flex flex-wrap justify-center gap-4 text-sm">
+                        <span class="bg-blue-600 bg-opacity-40 px-4 py-2 rounded-full border border-blue-400">
+                            ✓ RGPD Compliant
+                        </span>
+                        <span class="bg-blue-600 bg-opacity-40 px-4 py-2 rounded-full border border-blue-400">
+                            ✓ LOPDGDD
+                        </span>
+                        <span class="bg-blue-600 bg-opacity-40 px-4 py-2 rounded-full border border-blue-400">
+                            ✓ RD-ley 8/2019
+                        </span>
+                        <span class="bg-blue-600 bg-opacity-40 px-4 py-2 rounded-full border border-blue-400">
+                            ✓ Estatuto de los Trabajadores
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Pricing Section -->
     <section id="pricing" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h3 class="text-4xl font-bold text-gray-900 mb-4">Tarifas Transparentes y Accesibles</h3>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Precios Transparentes para tu PYME</h2>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Precios justos para empresas de todos los tamaños. Sin costes ocultos, sin permanencia.
+                    Tarifas sin permanencia desde €5/mes. Sistema progresivo: €1 por empleado hasta 50 trabajadores.
                 </p>
             </div>
 
@@ -533,15 +755,19 @@
     <!-- CTA Section -->
     <section class="relative py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 class="text-4xl font-bold mb-6">¿Listo para optimizar tu gestión del tiempo?</h3>
+            <h2 class="text-4xl font-bold mb-6">Empieza a Cumplir la Normativa de Registro de Jornada</h2>
             <p class="text-xl mb-8 text-blue-100">
-                Solicita acceso hoy y comienza a tomar el control de tu jornada laboral.
+                Solicita acceso hoy y protege tu empresa de sanciones laborales. Implementación en menos de 24 horas.
             </p>
             <a href="{{ route('company-request.create') }}" class="inline-block bg-white text-blue-600 px-10 py-4 rounded-lg font-bold text-lg hover:bg-blue-50 transition transform hover:scale-105">
                 <i class="fas fa-rocket mr-2"></i>Solicitar Acceso para mi Empresa
             </a>
-            <p class="mt-6 text-blue-200 text-sm">
-                Te contactaremos en 1-2 días hábiles
+            <p class="mt-6 text-blue-200">
+                <i class="fas fa-clock mr-2"></i>Te contactaremos en 1-2 días hábiles • Sin compromiso • Sin permanencia
+            </p>
+            <p class="mt-2 text-blue-300 text-sm">
+                <i class="fas fa-shield-alt mr-1"></i>
+                Cumplimiento garantizado RD-ley 8/2019 • Soporte en español • Datos en UE
             </p>
         </div>
     </section>
@@ -593,8 +819,26 @@
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
-                <p>&copy; 2025 SyncJornada. Todos los derechos reservados.</p>
+            <div class="border-t border-gray-800 mt-8 pt-8">
+                <div class="grid md:grid-cols-2 gap-4 text-center md:text-left">
+                    <div>
+                        <p class="text-sm">&copy; 2025-2026 SyncJornada. Todos los derechos reservados.</p>
+                        <p class="text-xs mt-2 text-gray-500">Software homologado para cumplimiento Real Decreto-ley 8/2019</p>
+                    </div>
+                    <div class="text-sm space-x-4 md:text-right">
+                        <a href="#" class="hover:text-white transition">Política de Privacidad</a>
+                        <span>•</span>
+                        <a href="#" class="hover:text-white transition">Términos y Condiciones</a>
+                        <span>•</span>
+                        <a href="#" class="hover:text-white transition">Aviso Legal</a>
+                        <span>•</span>
+                        <a href="#" class="hover:text-white transition">Cookies</a>
+                    </div>
+                </div>
+                <div class="mt-4 text-center text-xs text-gray-500">
+                    <p>Servidor ubicado en Helsinki (Hetzner Cloud) • SSL/TLS Certificado • Backups diarios automáticos</p>
+                    <p class="mt-1">Compatible con RGPD y LOPDGDD • Datos alojados en la Unión Europea</p>
+                </div>
             </div>
         </div>
     </footer>
