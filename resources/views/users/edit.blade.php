@@ -23,6 +23,11 @@
                             @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
                         <div class="mb-4">
+                            <label for="nif" class="block text-sm font-medium text-gray-700">DNI/NIE</label>
+                            <input type="text" name="nif" id="nif" value="{{ old('nif', $user->nif) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="12345678Z">
+                            @error('nif') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-4">
                             <label for="company_id" class="block text-sm font-medium text-gray-700">Empresa</label>
                             @if(auth()->user()->role === 'admin')
                                 <select name="company_id" id="company_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>

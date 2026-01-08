@@ -18,6 +18,11 @@
                             @error('name') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
                         <div class="mb-4">
+                            <label for="cif" class="block text-sm font-medium text-gray-700">CIF</label>
+                            <input type="text" name="cif" id="cif" value="{{ old('cif', $company->cif) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" placeholder="A12345678">
+                            @error('cif') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                        <div class="mb-4">
                             <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
                             <input type="email" name="email" id="email" value="{{ old('email', $company->email) }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
                             @error('email') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror

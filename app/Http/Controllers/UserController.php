@@ -72,6 +72,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
+            'nif' => 'nullable|string|max:20',
             'password' => 'required|string|min:8|confirmed',
             'company_id' => 'required|exists:companies,id',
             'role' => 'required|in:admin,manager,employee',
@@ -93,6 +94,7 @@ class UserController extends Controller
         User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'nif' => $request->nif,
             'password' => Hash::make($request->password),
             'company_id' => $request->company_id,
             'role' => $request->role,
@@ -149,6 +151,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
+            'nif' => 'nullable|string|max:20',
             'company_id' => 'required|exists:companies,id',
             'role' => 'required|in:admin,manager,employee',
         ]);
