@@ -61,11 +61,15 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ ucfirst($user->role) }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <a href="{{ route('users.edit', $user->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Editar</a>
+                                        @if($user->id !== auth()->id())
                                         <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
                                         </form>
+                                        @else
+                                        <span class="text-gray-400 text-xs">(Tú mismo)</span>
+                                        @endif
                                     </td>
                                 </tr>
                                 @endforeach
@@ -101,11 +105,15 @@
                                 <!-- Actions -->
                                 <div class="mt-2 pt-2 border-t border-gray-200 flex space-x-2">
                                     <a href="{{ route('users.edit', $user->id) }}" class="flex-1 bg-indigo-500 text-white px-2 py-1.5 rounded text-xs font-medium text-center hover:bg-indigo-600 transition-colors">Editar</a>
+                                    @if($user->id !== auth()->id())
                                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="flex-1">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="w-full bg-red-500 text-white px-2 py-1.5 rounded text-xs font-medium hover:bg-red-600 transition-colors" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
                                     </form>
+                                    @else
+                                    <div class="flex-1 bg-gray-300 text-gray-500 px-2 py-1.5 rounded text-xs font-medium text-center cursor-not-allowed">Tú mismo</div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

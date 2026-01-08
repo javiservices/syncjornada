@@ -177,6 +177,12 @@ class UserController extends Controller
     {
         $user = User::findOrFail($id);
         $authUser = auth()->user();
+        
+        // No se puede eliminar a sí mismo desde aquí
+        if ($user->id === $authUser->id) {
+            return redirect()->route('users.index')->with('error', 'No puedes eliminar tu propia cuenta desde aquí. Usa la página de perfil.');
+        }
+        
         if ($authUser->role !== 'admin' && $user->company_id !== $authUser->company_id) {
             abort(403);
         }
