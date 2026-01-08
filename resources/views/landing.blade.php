@@ -97,7 +97,7 @@
                     <a href="#pricing" class="text-gray-600 hover:text-blue-600 transition">Tarifas</a>
                     <a href="#benefits" class="text-gray-600 hover:text-blue-600 transition">Beneficios</a>
                 </nav>
-                @auth
+                @if(auth()->check())
                     <a href="{{ route('dashboard') }}" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
                         <i class="fas fa-chart-line mr-2"></i>Mi Dashboard
                     </a>
@@ -105,7 +105,7 @@
                     <a href="{{ route('login') }}" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition">
                         <i class="fas fa-sign-in-alt mr-2"></i>Iniciar Sesión
                     </a>
-                @endauth
+                @endif
             </div>
         </div>
     </header>
@@ -125,7 +125,7 @@
                     Diseñado para PYMES españolas. Desde €5/mes para 1-5 empleados.
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    @auth
+                    @if(auth()->check())
                         <a href="{{ route('dashboard') }}" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition">
                             <i class="fas fa-chart-line mr-2"></i>Ir a mi Dashboard
                         </a>
@@ -133,7 +133,7 @@
                         <a href="{{ route('login') }}" class="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-50 transition">
                             <i class="fas fa-sign-in-alt mr-2"></i>Iniciar Sesión
                         </a>
-                    @endauth
+                    @endif
                     <a href="#features" class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transition">
                         <i class="fas fa-info-circle mr-2"></i>Saber Más
                     </a>
