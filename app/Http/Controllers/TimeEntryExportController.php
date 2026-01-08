@@ -16,7 +16,7 @@ class TimeEntryExportController extends Controller
             'end_date' => 'required|date|after_or_equal:start_date',
             'company_id' => 'nullable|exists:companies,id',
             'user_id' => 'nullable|exists:users,id',
-            'format' => 'required|in:csv',
+            'format' => 'required|in:csv,pdf',
         ]);
 
         $user = auth()->user();
@@ -46,6 +46,10 @@ class TimeEntryExportController extends Controller
         }
 
         $entries = $query->orderBy('date', 'desc')->get();
+
+        if ($request->format === 'pdf') {
+            return $this->exportPdf($entries, $request);
+        }
 
         return $this->exportCsv($entries);
     }
@@ -106,5 +110,19 @@ class TimeEntryExportController extends Controller
         };
 
         return response()->stream($callback, 200, $headers);
+    }
+
+    private function exportPdf($entries, $request)
+    {
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('exports.time-entries-pdf', [
+            'entries' => $entries,
+            'startDate' => $request->start_date,
+            'endDate' => $request->end_date,
+            'generatedAt' => now(),
+            'generatedBy' => auth()->user(),
+        ]);
+
+        $filename = 'registro_jornada_' . now()->format('Y-m-d_His') . '.pdf';
+        return $pdf->download($filename);
     }
 }

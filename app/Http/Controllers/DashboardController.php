@@ -90,6 +90,61 @@ class DashboardController extends Controller
             ->whereNull('check_out')
             ->count();
         
+        // Datos para gráficos - últimos 7 días
+        $last7Days = [];
+        $hoursPerDay = [];
+        for ($i = 6; $i >= 0; $i--) {
+            $date = now()->subDays($i);
+            $last7Days[] = $date->format('d/m');
+            
+            $dayEntries = TimeEntry::where('user_id', $user->id)
+                ->whereDate('date', $date->toDateString())
+                ->whereNotNull('check_out')
+                ->get();
+            
+            $minutesDay = 0;
+            foreach ($dayEntries as $entry) {
+                $checkIn = Carbon::parse($entry->check_in);
+                $checkOut = Carbon::parse($entry->check_out);
+                $minutesDay += $checkIn->diffInMinutes($checkOut);
+            }
+            $hoursPerDay[] = round($minutesDay / 60, 2);
+        }
+        
+        // Estadísticas para managers/admins
+        $teamStats = null;
+        if (in_array($user->role, ['manager', 'admin'])) {
+            $companyId = $user->company_id;
+            
+            // Empleados activos hoy
+            $activeToday = TimeEntry::whereDate('date', $today)
+                ->whereNotNull('check_in')
+                ->whereNull('check_out')
+                ->whereHas('user', function($q) use ($companyId) {
+                    $q->where('company_id', $companyId);
+                })
+                ->count();
+            
+            // Total empleados
+            $totalEmployees = \App\Models\User::where('company_id', $companyId)
+                ->where('role', 'employee')
+                ->count();
+            
+            // Fichajes pendientes hoy
+            $pendingToday = TimeEntry::whereDate('date', $today)
+                ->whereNull('check_out')
+                ->whereHas('user', function($q) use ($companyId) {
+                    $q->where('company_id', $companyId);
+                })
+                ->count();
+            
+            $teamStats = [
+                'active_today' => $activeToday,
+                'total_employees' => $totalEmployees,
+                'pending_today' => $pendingToday,
+            ];
+        }
+        
         return view('dashboard', compact(
             'timeEntries',
             'isCheckedIn',
@@ -98,7 +153,11 @@ class DashboardController extends Controller
             'hoursMonth',
             'daysWorked',
             'pendingCheckouts',
-            'lastEntry'
+            'lastEntry',
+            'last7Days',
+            'hoursPerDay',
+            'teamStats',
+            'weekEntries'
         ));
     }
 }

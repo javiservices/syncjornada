@@ -43,4 +43,26 @@ class TimeEntry extends Model
     {
         return $this->hasMany(TimeEntryAudit::class);
     }
+
+    public function breaks(): HasMany
+    {
+        return $this->hasMany(Break::class);
+    }
+
+    /**
+     * Calculate net worked minutes (excluding breaks)
+     */
+    public function getNetWorkedMinutes(): int
+    {
+        if (!$this->check_in || !$this->check_out) {
+            return 0;
+        }
+
+        $totalMinutes = $this->check_in->diffInMinutes($this->check_out);
+        $breakMinutes = $this->breaks()->sum(function($break) {
+            return $break->getDurationInMinutes();
+        });
+
+        return max(0, $totalMinutes - $breakMinutes);
+    }
 }

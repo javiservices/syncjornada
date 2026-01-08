@@ -109,6 +109,41 @@
                             </button>
                         </form>
 
+                        {{-- Botón de Pausa/Reanudar (solo si está fichado) --}}
+                        @if($isCheckedIn && $lastEntry)
+                            @php
+                                $activeBreak = $lastEntry->breaks()->whereNull('break_end')->first();
+                            @endphp
+                            <div class="mt-4 pt-4 border-t border-gray-200">
+                                @if($activeBreak)
+                                    <form method="POST" action="{{ route('breaks.end', $lastEntry) }}">
+                                        @csrf
+                                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                                            <i class="fas fa-play"></i>
+                                            Reanudar Trabajo
+                                            <span class="ml-2 text-xs bg-green-500 px-2 py-0.5 rounded">
+                                                En pausa desde {{ $activeBreak->break_start->format('H:i') }}
+                                            </span>
+                                        </button>
+                                    </form>
+                                @else
+                                    <form method="POST" action="{{ route('breaks.start', $lastEntry) }}" class="space-y-2">
+                                        @csrf
+                                        <select name="reason" class="w-full border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
+                                            <option value="Descanso">Descanso</option>
+                                            <option value="Comida">Comida</option>
+                                            <option value="Personal">Asunto personal</option>
+                                            <option value="Otro">Otro</option>
+                                        </select>
+                                        <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                                            <i class="fas fa-pause"></i>
+                                            Iniciar Pausa
+                                        </button>
+                                    </form>
+                                @endif
+                            </div>
+                        @endif
+
                         <div id="locationStatus" class="mt-3 text-xs text-center text-gray-500"></div>
                     </div>
                 </div>
@@ -192,6 +227,86 @@
                         </p>
                     </div>
                 </div>
+            </div>
+
+            <!-- Gráficos y Estadísticas -->
+            <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Gráfico de horas trabajadas -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">
+                            <i class="fas fa-chart-line mr-2 text-blue-600"></i>
+                            Horas Trabajadas (Últimos 7 días)
+                        </h3>
+                    </div>
+                    <div style="height: 250px;">
+                        <canvas id="hoursChart"></canvas>
+                    </div>
+                </div>
+
+                @if($teamStats)
+                <!-- Estadísticas del equipo (solo managers/admins) -->
+                <div class="bg-white border border-gray-200 rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-gray-900">
+                            <i class="fas fa-users mr-2 text-purple-600"></i>
+                            Estado del Equipo Hoy
+                        </h3>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div class="bg-green-50 rounded-lg p-4 text-center">
+                            <p class="text-3xl font-bold text-green-600">{{ $teamStats['active_today'] }}</p>
+                            <p class="text-sm text-gray-600 mt-1">Activos ahora</p>
+                        </div>
+                        <div class="bg-orange-50 rounded-lg p-4 text-center">
+                            <p class="text-3xl font-bold text-orange-600">{{ $teamStats['pending_today'] }}</p>
+                            <p class="text-sm text-gray-600 mt-1">Sin cerrar</p>
+                        </div>
+                    </div>
+                    <div style="height: 150px;">
+                        <canvas id="teamChart"></canvas>
+                    </div>
+                </div>
+                @else
+                <!-- Resumen semanal para empleados -->
+                <div class="bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-6">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
+                        <i class="fas fa-calendar-week mr-2 text-blue-600"></i>
+                        Resumen de la Semana
+                    </h3>
+                    <div class="space-y-4">
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Horas totales:</span>
+                            <span class="text-2xl font-bold text-blue-600">
+                                {{ $hoursWeek['hours'] }}h {{ $hoursWeek['minutes'] }}min
+                            </span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-600">Promedio diario:</span>
+                            <span class="text-lg font-semibold text-gray-900">
+                                @php
+                                    $avgMinutes = $hoursWeek['hours'] * 60 + $hoursWeek['minutes'];
+                                    $daysWorkedWeek = $weekEntries->pluck('date')->unique()->count();
+                                    if ($daysWorkedWeek > 0) {
+                                        $avgDaily = $avgMinutes / $daysWorkedWeek;
+                                        $avgHours = floor($avgDaily / 60);
+                                        $avgMins = round($avgDaily % 60);
+                                        echo "{$avgHours}h {$avgMins}min";
+                                    } else {
+                                        echo "0h 0min";
+                                    }
+                                @endphp
+                            </span>
+                        </div>
+                        <div class="pt-4 border-t border-blue-200">
+                            <p class="text-sm text-gray-600 text-center">
+                                <i class="fas fa-info-circle mr-1"></i>
+                                Objetivo: 40 horas semanales
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                @endif
             </div>
 
             <!-- Recent Time Entries - Simplified -->
@@ -364,5 +479,87 @@
             document.getElementById('locationStatus').innerHTML = 
                 '<i class="fas fa-info-circle mr-1"></i> Geolocalización no disponible en este navegador';
         }
+    </script>
+
+    <!-- Chart.js para gráficos -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+        // Gráfico de horas trabajadas últimos 7 días
+        const ctx = document.getElementById('hoursChart');
+        if (ctx) {
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: @json($last7Days),
+                    datasets: [{
+                        label: 'Horas trabajadas',
+                        data: @json($hoursPerDay),
+                        borderColor: 'rgb(37, 99, 235)',
+                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                        tension: 0.4,
+                        fill: true,
+                        borderWidth: 2,
+                        pointRadius: 4,
+                        pointBackgroundColor: 'rgb(37, 99, 235)',
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.parsed.y.toFixed(2) + ' horas';
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + 'h';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        @if($teamStats)
+        // Gráfico de empleados activos para managers/admins
+        const ctxTeam = document.getElementById('teamChart');
+        if (ctxTeam) {
+            new Chart(ctxTeam, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Activos', 'Inactivos'],
+                    datasets: [{
+                        data: [{{ $teamStats['active_today'] }}, {{ $teamStats['total_employees'] - $teamStats['active_today'] }}],
+                        backgroundColor: [
+                            'rgb(34, 197, 94)',
+                            'rgb(229, 231, 235)'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+        @endif
     </script>
 </x-app-layout>

@@ -61,20 +61,36 @@
                                 <h3 class="text-sm font-medium text-blue-900">Exportación Oficial (Normativa RD-ley 8/2019)</h3>
                                 <p class="text-xs text-blue-700 mt-1">Exporta los registros con auditoría completa para inspección de trabajo</p>
                             </div>
-                            <form method="POST" action="{{ route('time-entries.export') }}" class="flex gap-2">
-                                @csrf
-                                <input type="hidden" name="start_date" value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}">
-                                <input type="hidden" name="end_date" value="{{ request('date_to', now()->format('Y-m-d')) }}">
-                                <input type="hidden" name="company_id" value="{{ request('company_id') }}">
-                                <input type="hidden" name="user_id" value="{{ request('user_id') }}">
-                                <input type="hidden" name="format" value="csv">
-                                <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2">
-                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                    </svg>
-                                    Exportar CSV Oficial
-                                </button>
-                            </form>
+                            <div class="flex gap-2">
+                                <form method="POST" action="{{ route('time-entries.export') }}">
+                                    @csrf
+                                    <input type="hidden" name="start_date" value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}">
+                                    <input type="hidden" name="end_date" value="{{ request('date_to', now()->format('Y-m-d')) }}">
+                                    <input type="hidden" name="company_id" value="{{ request('company_id') }}">
+                                    <input type="hidden" name="user_id" value="{{ request('user_id') }}">
+                                    <input type="hidden" name="format" value="csv">
+                                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                        </svg>
+                                        Exportar CSV
+                                    </button>
+                                </form>
+                                <form method="POST" action="{{ route('time-entries.export') }}">
+                                    @csrf
+                                    <input type="hidden" name="start_date" value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}">
+                                    <input type="hidden" name="end_date" value="{{ request('date_to', now()->format('Y-m-d')) }}">
+                                    <input type="hidden" name="company_id" value="{{ request('company_id') }}">
+                                    <input type="hidden" name="user_id" value="{{ request('user_id') }}">
+                                    <input type="hidden" name="format" value="pdf">
+                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                                        </svg>
+                                        Exportar PDF
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
 
