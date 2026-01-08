@@ -61,10 +61,22 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ ucfirst($user->role) }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex items-center gap-2">
-                                            <a href="{{ route('users.edit', $user->id) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors" title="Editar">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            @if($user->id !== auth()->id())
+                                            @php
+                                                $canManage = auth()->user()->role === 'admin' || 
+                                                           (auth()->user()->role === 'manager' && !in_array($user->role, ['admin', 'manager']));
+                                            @endphp
+                                            
+                                            @if($canManage)
+                                                <a href="{{ route('users.edit', $user->id) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors" title="Editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            @else
+                                                <span class="inline-flex items-center px-3 py-2 bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed" title="Sin permisos para editar">
+                                                    <i class="fas fa-edit"></i>
+                                                </span>
+                                            @endif
+                                            
+                                            @if($user->id !== auth()->id() && $canManage)
                                                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
                                                     @csrf
                                                     @method('DELETE')
@@ -72,9 +84,13 @@
                                                         <i class="fas fa-trash"></i>
                                                     </button>
                                                 </form>
-                                            @else
+                                            @elseif($user->id === auth()->id())
                                                 <span class="inline-flex items-center px-3 py-2 bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed" title="No puedes eliminarte a ti mismo">
                                                     <i class="fas fa-user-shield"></i>
+                                                </span>
+                                            @else
+                                                <span class="inline-flex items-center px-3 py-2 bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed" title="Sin permisos para eliminar">
+                                                    <i class="fas fa-trash"></i>
                                                 </span>
                                             @endif
                                         </div>
@@ -111,16 +127,28 @@
                                 </div>
 
                                 <!-- Actions -->
+                                @php
+                                    $canManage = auth()->user()->role === 'admin' || 
+                                               (auth()->user()->role === 'manager' && !in_array($user->role, ['admin', 'manager']));
+                                @endphp
+                                
                                 <div class="mt-2 pt-2 border-t border-gray-200 flex space-x-2">
-                                    <a href="{{ route('users.edit', $user->id) }}" class="flex-1 bg-indigo-500 text-white px-2 py-1.5 rounded text-xs font-medium text-center hover:bg-indigo-600 transition-colors">Editar</a>
-                                    @if($user->id !== auth()->id())
+                                    @if($canManage)
+                                        <a href="{{ route('users.edit', $user->id) }}" class="flex-1 bg-indigo-500 text-white px-2 py-1.5 rounded text-xs font-medium text-center hover:bg-indigo-600 transition-colors">Editar</a>
+                                    @else
+                                        <span class="flex-1 bg-gray-300 text-gray-600 px-2 py-1.5 rounded text-xs font-medium text-center cursor-not-allowed">Editar</span>
+                                    @endif
+                                    
+                                    @if($user->id !== auth()->id() && $canManage)
                                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="flex-1">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="w-full bg-red-500 text-white px-2 py-1.5 rounded text-xs font-medium hover:bg-red-600 transition-colors" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
                                     </form>
                                     @else
-                                    <div class="flex-1 bg-gray-300 text-gray-500 px-2 py-1.5 rounded text-xs font-medium text-center cursor-not-allowed">Tú mismo</div>
+                                    <span class="flex-1 bg-gray-300 text-gray-500 px-2 py-1.5 rounded text-xs font-medium text-center cursor-not-allowed">
+                                        {{ $user->id === auth()->id() ? 'Tú mismo' : 'Sin permisos' }}
+                                    </span>
                                     @endif
                                 </div>
                             </div>

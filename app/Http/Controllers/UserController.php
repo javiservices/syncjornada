@@ -129,6 +129,11 @@ class UserController extends Controller
             abort(403);
         }
 
+        // Un manager no puede editar a un admin o a otro manager
+        if ($authUser->role === 'manager' && in_array($user->role, ['admin', 'manager'])) {
+            abort(403, 'No tienes permisos para editar este usuario.');
+        }
+
         if ($authUser->role === 'admin') {
             $companies = Company::all();
         } else {
@@ -146,6 +151,11 @@ class UserController extends Controller
         $authUser = auth()->user();
         if ($authUser->role !== 'admin' && $user->company_id !== $authUser->company_id) {
             abort(403);
+        }
+
+        // Un manager no puede editar a un admin o a otro manager
+        if ($authUser->role === 'manager' && in_array($user->role, ['admin', 'manager'])) {
+            abort(403, 'No tienes permisos para editar este usuario.');
         }
 
         $request->validate([
@@ -188,6 +198,11 @@ class UserController extends Controller
         
         if ($authUser->role !== 'admin' && $user->company_id !== $authUser->company_id) {
             abort(403);
+        }
+
+        // Un manager no puede eliminar a un admin o a otro manager
+        if ($authUser->role === 'manager' && in_array($user->role, ['admin', 'manager'])) {
+            return redirect()->route('users.index')->with('error', 'No tienes permisos para eliminar este usuario.');
         }
 
         $user->delete();
