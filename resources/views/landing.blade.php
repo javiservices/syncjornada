@@ -215,52 +215,12 @@
             </div>
         </div>
     </section>
-                        <i class="fas fa-project-diagram text-purple-600 text-2xl"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-gray-900 mb-3">Gestión por Proyectos</h4>
-                    <p class="text-gray-600">
-                        Organiza tu tiempo por proyectos o tareas. Asigna categorías y etiquetas para un mejor control.
-                    </p>
-                </div>
-
-                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
-                    <div class="w-14 h-14 bg-red-100 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fas fa-calendar-alt text-red-600 text-2xl"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-gray-900 mb-3">Calendario Integrado</h4>
-                    <p class="text-gray-600">
-                        Vista de calendario completa para revisar tu historial y planificar tu jornada laboral.
-                    </p>
-                </div>
-
-                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
-                    <div class="w-14 h-14 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fas fa-file-export text-yellow-600 text-2xl"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-gray-900 mb-3">Exportación de Datos</h4>
-                    <p class="text-gray-600">
-                        Exporta tus registros en múltiples formatos (PDF, Excel, CSV) para facturación o reportes externos.
-                    </p>
-                </div>
-
-                <div class="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition">
-                    <div class="w-14 h-14 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
-                        <i class="fas fa-mobile-alt text-indigo-600 text-2xl"></i>
-                    </div>
-                    <h4 class="text-xl font-bold text-gray-900 mb-3">Multiplataforma</h4>
-                    <p class="text-gray-600">
-                        Accede desde cualquier dispositivo: computadora, tablet o móvil. Tus datos siempre sincronizados.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <!-- How it Works Section -->
     <section id="how-it-works" class="py-20 bg-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h3 class="text-4xl font-bold text-gray-900 mb-4">¿Cómo Funciona?</h3>
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">¿Cómo Funciona?</h2>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto">
                     Tres pasos simples para empezar a gestionar tu tiempo
                 </p>
@@ -271,7 +231,7 @@
                     <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">
                         1
                     </div>
-                    <h4 class="text-2xl font-bold text-gray-900 mb-4">Registra tu Tiempo</h4>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Registra tu Tiempo</h3>
                     <p class="text-gray-600 text-lg">
                         Inicia el cronómetro cuando comiences a trabajar. Añade una descripción y selecciona el proyecto.
                     </p>
@@ -281,7 +241,7 @@
                     <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">
                         2
                     </div>
-                    <h4 class="text-2xl font-bold text-gray-900 mb-4">Revisa y Analiza</h4>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Revisa y Analiza</h3>
                     <p class="text-gray-600 text-lg">
                         Consulta tus registros históricos, visualiza gráficos y analiza en qué inviertes tu tiempo.
                     </p>
@@ -291,7 +251,7 @@
                     <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">
                         3
                     </div>
-                    <h4 class="text-2xl font-bold text-gray-900 mb-4">Exporta y Optimiza</h4>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Exporta y Optimiza</h3>
                     <p class="text-gray-600 text-lg">
                         Genera reportes para facturación u optimiza tu productividad con base en los datos recopilados.
                     </p>
@@ -305,7 +265,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid lg:grid-cols-2 gap-12 items-center">
                 <div>
-                    <h3 class="text-4xl font-bold text-gray-900 mb-6">¿Por qué elegir SyncJornada?</h3>
+                    <h2 class="text-4xl font-bold text-gray-900 mb-6">¿Por qué elegir SyncJornada?</h2>
                     <div class="space-y-6">
                         <div class="flex items-start">
                             <div class="flex-shrink-0">
@@ -314,7 +274,7 @@
                                 </div>
                             </div>
                             <div class="ml-4">
-                                <h4 class="text-xl font-bold text-gray-900 mb-2">Aumenta tu Productividad</h4>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Aumenta tu Productividad</h3>
                                 <p class="text-gray-600">
                                     Identifica patrones de trabajo, elimina distracciones y enfócate en lo que realmente importa.
                                 </p>
@@ -328,7 +288,7 @@
                                 </div>
                             </div>
                             <div class="ml-4">
-                                <h4 class="text-xl font-bold text-gray-900 mb-2">Facturación Precisa</h4>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Facturación Precisa</h3>
                                 <p class="text-gray-600">
                                     Si trabajas por horas, mantén un registro exacto para facturar correctamente a tus clientes.
                                 </p>
@@ -342,51 +302,33 @@
                                 </div>
                             </div>
                             <div class="ml-4">
-                                <h4 class="text-xl font-bold text-gray-900 mb-2">Colaboración en Equipo</h4>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Colaboración en Equipo</h3>
                                 <p class="text-gray-600">
                                     Perfecto para equipos que necesitan coordinar horarios y compartir información de proyectos.
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-start">
-                            <div class="flex-shrink-0">
-                                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-shield-alt text-red-600 text-xl"></i>
-                                </div>
-                            </div>
-                            <div class="ml-4">
-                                <h4 class="text-xl font-bold text-gray-900 mb-2">Seguridad y Privacidad</h4>
-                                <p class="text-gray-600">
-                                    Tus datos están protegidos con encriptación y respaldos automáticos. Total privacidad garantizada.
                                 </p>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="bg-white p-8 rounded-2xl shadow-2xl">
-                    <div class="mb-6">
-                        <h4 class="text-2xl font-bold text-gray-900 mb-4">Ideal para:</h4>
-                        <ul class="space-y-3">
-                            <li class="flex items-center text-gray-700">
-                                <i class="fas fa-briefcase text-blue-600 mr-3"></i>
-                                <span class="font-medium">Freelancers y Consultores</span>
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6 text-center">Ideal para:</h3>
+                    <div class="space-y-4">
+                        <ul class="space-y-3 text-gray-700">
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span class="font-medium">Freelancers y Autónomos</span>
                             </li>
-                            <li class="flex items-center text-gray-700">
-                                <i class="fas fa-laptop-code text-blue-600 mr-3"></i>
-                                <span class="font-medium">Desarrolladores y Diseñadores</span>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span class="font-medium">Agencias y Consultoras</span>
                             </li>
-                            <li class="flex items-center text-gray-700">
-                                <i class="fas fa-user-tie text-blue-600 mr-3"></i>
-                                <span class="font-medium">Profesionales Independientes</span>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
+                                <span class="font-medium">Startups y PYMES</span>
                             </li>
-                            <li class="flex items-center text-gray-700">
-                                <i class="fas fa-building text-blue-600 mr-3"></i>
-                                <span class="font-medium">Pequeñas y Medianas Empresas</span>
-                            </li>
-                            <li class="flex items-center text-gray-700">
-                                <i class="fas fa-chart-pie text-blue-600 mr-3"></i>
+                            <li class="flex items-center">
+                                <i class="fas fa-check-circle text-green-500 mr-3"></i>
                                 <span class="font-medium">Equipos Remotos</span>
                             </li>
                         </ul>
@@ -526,7 +468,7 @@
                         <div class="inline-flex items-center justify-center w-16 h-16 bg-blue-100 rounded-full mb-4">
                             <i class="fas fa-user text-blue-600 text-2xl"></i>
                         </div>
-                        <h4 class="text-2xl font-bold text-gray-900 mb-2">Micro</h4>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Micro</h3>
                         <p class="text-gray-600 text-sm">Para pequeños equipos</p>
                     </div>
                     
@@ -571,7 +513,7 @@
                         <div class="inline-flex items-center justify-center w-16 h-16 bg-white bg-opacity-20 rounded-full mb-4">
                             <i class="fas fa-users text-white text-2xl"></i>
                         </div>
-                        <h4 class="text-2xl font-bold text-white mb-2">Pequeña</h4>
+                        <h3 class="text-2xl font-bold text-white mb-2">Pequeña</h3>
                         <p class="text-blue-100 text-sm">Equipos en crecimiento</p>
                     </div>
                     
@@ -617,7 +559,7 @@
                         <div class="inline-flex items-center justify-center w-16 h-16 bg-purple-100 rounded-full mb-4">
                             <i class="fas fa-building text-purple-600 text-2xl"></i>
                         </div>
-                        <h4 class="text-2xl font-bold text-gray-900 mb-2">Mediana</h4>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Mediana</h3>
                         <p class="text-gray-600 text-sm">Empresas consolidadas</p>
                     </div>
                     
@@ -663,7 +605,7 @@
                         <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-100 rounded-full mb-4">
                             <i class="fas fa-city text-indigo-600 text-2xl"></i>
                         </div>
-                        <h4 class="text-2xl font-bold text-gray-900 mb-2">Empresa</h4>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-2">Empresa</h3>
                         <p class="text-gray-600 text-sm">Grandes organizaciones</p>
                     </div>
                     
@@ -706,10 +648,10 @@
             <!-- Additional Info -->
             <div class="bg-blue-50 border border-blue-200 rounded-xl p-8 max-w-4xl mx-auto">
                 <div class="text-center mb-6">
-                    <h4 class="text-2xl font-bold text-gray-900 mb-2">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-2">
                         <i class="fas fa-shield-alt text-blue-600 mr-2"></i>
                         Todos los planes incluyen
-                    </h4>
+                    </h3>
                 </div>
                 <div class="grid md:grid-cols-3 gap-6 text-center">
                     <div>
@@ -775,17 +717,16 @@
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-400 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-4 gap-8">
-                <div class="md:col-span-2">
+            <div class="grid md:grid-cols-4 gap-8 mb-8">
+                <div>
                     <div class="flex items-center space-x-2 mb-4">
                         <i class="fas fa-clock text-blue-500 text-2xl"></i>
-                        <h4 class="text-2xl font-bold text-white">SyncJornada</h4>
+                        <span class="text-xl font-bold text-white">SyncJornada</span>
                     </div>
-                    <p class="text-gray-400 mb-4 max-w-md">
-                        La solución definitiva para la gestión inteligente del tiempo laboral. 
-                        Aumenta tu productividad y toma el control de tu jornada.
+                    <p class="text-sm mb-4">
+                        Software de registro de jornada laboral homologado para empresas españolas.
                     </p>
-                    <div class="flex space-x-4">
+                    <div class="flex space-x-3">
                         <a href="#" class="text-gray-400 hover:text-white transition">
                             <i class="fab fa-twitter text-xl"></i>
                         </a>
@@ -801,7 +742,7 @@
                     </div>
                 </div>
                 <div>
-                    <h5 class="text-white font-semibold mb-4">Producto</h5>
+                    <h4 class="text-white font-semibold mb-4">Producto</h4>
                     <ul class="space-y-2">
                         <li><a href="#features" class="hover:text-white transition">Características</a></li>
                         <li><a href="#how-it-works" class="hover:text-white transition">Cómo Funciona</a></li>
@@ -810,12 +751,21 @@
                     </ul>
                 </div>
                 <div>
-                    <h5 class="text-white font-semibold mb-4">Soporte</h5>
+                    <h4 class="text-white font-semibold mb-4">Soporte</h4>
                     <ul class="space-y-2">
                         <li><a href="#" class="hover:text-white transition">Centro de Ayuda</a></li>
                         <li><a href="#" class="hover:text-white transition">Documentación</a></li>
                         <li><a href="#" class="hover:text-white transition">Contacto</a></li>
                         <li><a href="#" class="hover:text-white transition">Estado del Sistema</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="hover:text-white transition">Política de Privacidad</a></li>
+                        <li><a href="#" class="hover:text-white transition">Términos y Condiciones</a></li>
+                        <li><a href="#" class="hover:text-white transition">Aviso Legal</a></li>
+                        <li><a href="#" class="hover:text-white transition">Cookies</a></li>
                     </ul>
                 </div>
             </div>
