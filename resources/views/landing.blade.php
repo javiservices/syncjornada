@@ -35,6 +35,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
     <!-- Schema.org -->
+    @verbatim
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -51,6 +52,7 @@
       "url": "https://syncjornada.online"
     }
     </script>
+    @endverbatim
 </head>
 
 <body class="bg-gray-50 text-gray-900">
@@ -71,14 +73,14 @@
 
         @auth
             <a href="{{ route('dashboard') }}"
-            class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">
+               class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">
                 Dashboard
             </a>
         @endauth
 
         @guest
             <a href="{{ route('login') }}"
-            class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">
+               class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">
                 Iniciar sesión
             </a>
         @endguest
