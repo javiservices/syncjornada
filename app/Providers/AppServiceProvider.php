@@ -19,8 +19,14 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // Force HTTPS only if APP_FORCE_HTTPS is true
-        if (env('APP_FORCE_HTTPS', false)) {
+        // Trust all proxies for HTTPS detection
+        $this->app['request']->setTrustedProxies(
+            [$this->app['request']->getClientIp()],
+            \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL
+        );
+
+        // Force HTTPS in production
+        if ($this->app->environment('production')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
         }
     }
