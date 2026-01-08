@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Break extends Model
+class TimeEntryBreak extends Model
 {
+    protected $table = 'breaks';
+
     protected $fillable = [
         'time_entry_id',
         'break_start',

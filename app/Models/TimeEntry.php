@@ -46,7 +46,7 @@ class TimeEntry extends Model
 
     public function breaks(): HasMany
     {
-        return $this->hasMany(Break::class);
+        return $this->hasMany(TimeEntryBreak::class);
     }
 
     /**

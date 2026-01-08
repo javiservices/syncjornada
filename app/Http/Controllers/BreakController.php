@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Break;
+use App\Models\TimeEntryBreak;
 use App\Models\TimeEntry;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -34,7 +34,7 @@ class BreakController extends Controller
             'reason' => 'nullable|string|max:255',
         ]);
 
-        Break::create([
+        TimeEntryBreak::create([
             'time_entry_id' => $timeEntry->id,
             'break_start' => now(),
             'reason' => $request->reason ?? 'Descanso',
@@ -70,7 +70,7 @@ class BreakController extends Controller
     /**
      * Delete a break (only if created today)
      */
-    public function destroy(Break $break)
+    public function destroy(TimeEntryBreak $break)
     {
         // Verificar permisos
         if ($break->timeEntry->user_id !== auth()->id()) {
