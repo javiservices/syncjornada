@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TimeEntry extends Model
 {
@@ -13,20 +15,32 @@ class TimeEntry extends Model
         'check_out', 
         'notes', 
         'remote_work',
+        'location',
         'check_in_latitude',
         'check_in_longitude',
         'check_out_latitude',
-        'check_out_longitude'
+        'check_out_longitude',
+        'ip_address',
+        'user_agent',
+        'employee_confirmed',
+        'is_locked'
     ];
 
     protected $casts = [
         'check_in' => 'datetime',
         'check_out' => 'datetime',
         'remote_work' => 'boolean',
+        'employee_confirmed' => 'boolean',
+        'is_locked' => 'boolean',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function audits(): HasMany
+    {
+        return $this->hasMany(TimeEntryAudit::class);
     }
 }

@@ -68,8 +68,17 @@ class TimeEntryController extends Controller
         $lastEntry = TimeEntry::where('user_id', $user->id)->where('date', $today)->latest()->first();
 
         if ($lastEntry && !$lastEntry->check_out) {
-            // Cerrar la entrada abierta con ubicación
-            $updateData = ['check_out' => now()];
+            // Verificar si está bloqueado
+            if ($lastEntry->is_locked) {
+                return redirect()->back()->with('error', 'Este registro está bloqueado y no puede modificarse.');
+            }
+
+            // Cerrar la entrada abierta con ubicación, IP y user agent
+            $updateData = [
+                'check_out' => now(),
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+            ];
             if ($request->filled('latitude') && $request->filled('longitude')) {
                 $updateData['check_out_latitude'] = $request->latitude;
                 $updateData['check_out_longitude'] = $request->longitude;
@@ -80,12 +89,15 @@ class TimeEntryController extends Controller
             $lastEntry->update($updateData);
             return redirect()->back()->with('success', 'Check out registrado.');
         } else {
-            // Crear nueva entrada con ubicación
+            // Crear nueva entrada con ubicación, IP y user agent
             $createData = [
                 'user_id' => $user->id,
                 'date' => $today,
                 'check_in' => now(),
                 'remote_work' => $request->boolean('remote_work'),
+                'ip_address' => $request->ip(),
+                'user_agent' => $request->userAgent(),
+                'employee_confirmed' => true,
             ];
             if ($request->filled('latitude') && $request->filled('longitude')) {
                 $createData['check_in_latitude'] = $request->latitude;
@@ -170,6 +182,11 @@ class TimeEntryController extends Controller
         // Admin puede editar todos
 
         $timeEntry = $query->findOrFail($id);
+
+        // Evitar edición de registros bloqueados
+        if ($timeEntry->is_locked) {
+            return redirect()->back()->with('error', 'Este registro está bloqueado y no puede modificarse por normativa legal (retención 4 años).');
+        }
 
         // Optional: Prevent editing if more than 24 hours old
         if ($timeEntry->created_at->diffInHours(now()) > 24) {

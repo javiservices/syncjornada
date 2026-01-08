@@ -19,6 +19,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        // Register observers
+        \App\Models\TimeEntry::observe(\App\Observers\TimeEntryObserver::class);
+
         // Trust all proxies for HTTPS detection
         $this->app['request']->setTrustedProxies(
             ['*'],

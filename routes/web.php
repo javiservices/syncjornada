@@ -7,6 +7,7 @@ use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\CompanyRequestController;
+use App\Http\Controllers\TimeEntryExportController;
 
 Route::get('/', function () {
     return view('landing');
@@ -21,6 +22,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('time-entries', TimeEntryController::class);
     Route::post('/check-in-out', [TimeEntryController::class, 'store'])->name('check-in-out');
+    
+    // Exportación de registros (conforme a normativa)
+    Route::post('/time-entries/export', [TimeEntryExportController::class, 'export'])->name('time-entries.export');
 
     Route::middleware('adminOrManager')->group(function () {
         Route::resource('companies', CompanyController::class);
