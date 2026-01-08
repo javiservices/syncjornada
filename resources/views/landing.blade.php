@@ -222,7 +222,7 @@
             <div class="text-center mb-16">
                 <h2 class="text-4xl font-bold text-gray-900 mb-4">¿Cómo Funciona?</h2>
                 <p class="text-xl text-gray-600 max-w-2xl mx-auto">
-                    Tres pasos simples para empezar a gestionar tu tiempo
+                    Proceso simple de fichaje conforme a la normativa española
                 </p>
             </div>
 
@@ -231,9 +231,9 @@
                     <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">
                         1
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Registra tu Tiempo</h3>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Fichaje con GPS</h3>
                     <p class="text-gray-600 text-lg">
-                        Inicia el cronómetro cuando comiences a trabajar. Añade una descripción y selecciona el proyecto.
+                        Los empleados registran entrada y salida con verificación automática de ubicación GPS para garantizar el cumplimiento normativo.
                     </p>
                 </div>
 
@@ -241,9 +241,9 @@
                     <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">
                         2
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Revisa y Analiza</h3>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Auditoría Automática</h3>
                     <p class="text-gray-600 text-lg">
-                        Consulta tus registros históricos, visualiza gráficos y analiza en qué inviertes tu tiempo.
+                        El sistema audita automáticamente todos los registros, modificaciones y accesos para cumplir con la trazabilidad exigida.
                     </p>
                 </div>
 
@@ -251,9 +251,9 @@
                     <div class="w-20 h-20 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-3xl font-bold">
                         3
                     </div>
-                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Exporta y Optimiza</h3>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Exportación Oficial</h3>
                     <p class="text-gray-600 text-lg">
-                        Genera reportes para facturación u optimiza tu productividad con base en los datos recopilados.
+                        Exporta los datos en formato CSV oficial listo para presentar a Inspección de Trabajo cuando sea requerido.
                     </p>
                 </div>
             </div>
