@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\TimeEntry;
+use App\Models\TimeEntryAudit;
 
 class TimeEntryObserver
 {
@@ -11,7 +12,15 @@ class TimeEntryObserver
      */
     public function created(TimeEntry $timeEntry): void
     {
-        //
+        TimeEntryAudit::create([
+            'time_entry_id' => $timeEntry->id,
+            'user_id' => auth()->id() ?? $timeEntry->user_id,
+            'action' => 'created',
+            'old_values' => null,
+            'new_values' => $timeEntry->getAttributes(),
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
     }
 
     /**
@@ -19,7 +28,20 @@ class TimeEntryObserver
      */
     public function updated(TimeEntry $timeEntry): void
     {
-        //
+        // No auditar si el registro está bloqueado (no debería llegar aquí, pero por seguridad)
+        if ($timeEntry->is_locked) {
+            return;
+        }
+
+        TimeEntryAudit::create([
+            'time_entry_id' => $timeEntry->id,
+            'user_id' => auth()->id() ?? $timeEntry->user_id,
+            'action' => 'updated',
+            'old_values' => $timeEntry->getOriginal(),
+            'new_values' => $timeEntry->getChanges(),
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
     }
 
     /**
@@ -27,7 +49,15 @@ class TimeEntryObserver
      */
     public function deleted(TimeEntry $timeEntry): void
     {
-        //
+        TimeEntryAudit::create([
+            'time_entry_id' => $timeEntry->id,
+            'user_id' => auth()->id() ?? $timeEntry->user_id,
+            'action' => 'deleted',
+            'old_values' => $timeEntry->getOriginal(),
+            'new_values' => null,
+            'ip_address' => request()->ip(),
+            'user_agent' => request()->userAgent(),
+        ]);
     }
 
     /**
