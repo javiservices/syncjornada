@@ -310,7 +310,7 @@
                     
                     <div class="text-center mb-6">
                         <div class="flex items-baseline justify-center">
-                            <span class="text-5xl font-bold text-gray-900">€9</span>
+                            <span class="text-5xl font-bold text-gray-900">€5</span>
                             <span class="text-gray-600 ml-2">/mes</span>
                         </div>
                         <p class="text-sm text-gray-500 mt-2">1-5 empleados</p>
@@ -355,16 +355,16 @@
                     
                     <div class="text-center mb-6">
                         <div class="flex items-baseline justify-center">
-                            <span class="text-5xl font-bold text-white">€19</span>
+                            <span class="text-5xl font-bold text-white">€10</span>
                             <span class="text-blue-100 ml-2">/mes</span>
                         </div>
-                        <p class="text-sm text-blue-200 mt-2">6-15 empleados</p>
+                        <p class="text-sm text-blue-200 mt-2">6-10 empleados</p>
                     </div>
 
                     <ul class="space-y-3 mb-8">
                         <li class="flex items-start">
                             <i class="fas fa-check text-green-300 mr-3 mt-1"></i>
-                            <span class="text-white">Hasta 15 usuarios</span>
+                            <span class="text-white">Hasta 10 usuarios</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check text-green-300 mr-3 mt-1"></i>
@@ -401,16 +401,16 @@
                     
                     <div class="text-center mb-6">
                         <div class="flex items-baseline justify-center">
-                            <span class="text-5xl font-bold text-gray-900">€39</span>
+                            <span class="text-5xl font-bold text-gray-900">€15</span>
                             <span class="text-gray-600 ml-2">/mes</span>
                         </div>
-                        <p class="text-sm text-gray-500 mt-2">16-50 empleados</p>
+                        <p class="text-sm text-gray-500 mt-2">11-15 empleados</p>
                     </div>
 
                     <ul class="space-y-3 mb-8">
                         <li class="flex items-start">
                             <i class="fas fa-check text-green-500 mr-3 mt-1"></i>
-                            <span class="text-gray-700">Hasta 50 usuarios</span>
+                            <span class="text-gray-700">Hasta 15 usuarios</span>
                         </li>
                         <li class="flex items-start">
                             <i class="fas fa-check text-green-500 mr-3 mt-1"></i>
@@ -447,9 +447,9 @@
                     
                     <div class="text-center mb-6">
                         <div class="flex items-baseline justify-center">
-                            <span class="text-4xl font-bold text-gray-900">Contactar</span>
+                            <span class="text-4xl font-bold text-gray-900">A partir de €20</span>
                         </div>
-                        <p class="text-sm text-gray-500 mt-2">+50 empleados</p>
+                        <p class="text-sm text-gray-500 mt-2">16+ empleados (€5 cada 5)</p>
                     </div>
 
                     <ul class="space-y-3 mb-8">
@@ -508,9 +508,20 @@
                 </div>
                 <div class="mt-8 text-center">
                     <p class="text-gray-700 mb-4">
-                        <i class="fas fa-tag text-blue-600 mr-2"></i>
-                        <strong>¿Necesitas más de un plan?</strong> Contacta con nosotros para descuentos por volumen
+                        <i class="fas fa-calculator text-blue-600 mr-2"></i>
+                        <strong>Sistema de tarifas progresivo:</strong> €5 cada 5 empleados
                     </p>
+                    <div class="bg-white rounded-lg p-4 mb-4 border border-blue-200">
+                        <p class="text-sm text-gray-700 mb-2 font-semibold">Ejemplos:</p>
+                        <ul class="text-sm text-gray-600 space-y-1">
+                            <li>• 1-5 empleados = €5/mes</li>
+                            <li>• 6-10 empleados = €10/mes</li>
+                            <li>• 11-15 empleados = €15/mes</li>
+                            <li>• 16-20 empleados = €20/mes</li>
+                            <li>• 21-25 empleados = €25/mes</li>
+                            <li>• Y así sucesivamente... Siempre €5 cada 5 empleados adicionales</li>
+                        </ul>
+                    </div>
                     <p class="text-sm text-gray-600">
                         * Los precios no incluyen IVA. Facturación mensual o anual (20% descuento en planes anuales)
                     </p>
