@@ -148,22 +148,43 @@
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                         >
                             <option value="">Selecciona un plan</option>
-                            <option value="micro" {{ old('plan') == 'micro' ? 'selected' : '' }}>
-                                Plan Micro - €9/mes (1-5 empleados)
+                            <option value="1-5" {{ old('plan') == '1-5' ? 'selected' : '' }}>
+                                1-5 empleados - €5/mes
                             </option>
-                            <option value="pequeña" {{ old('plan') == 'pequeña' ? 'selected' : '' }}>
-                                Plan Pequeña - €19/mes (6-15 empleados)
+                            <option value="6-10" {{ old('plan') == '6-10' ? 'selected' : '' }}>
+                                6-10 empleados - €10/mes
                             </option>
-                            <option value="mediana" {{ old('plan') == 'mediana' ? 'selected' : '' }}>
-                                Plan Mediana - €39/mes (16-50 empleados)
+                            <option value="11-15" {{ old('plan') == '11-15' ? 'selected' : '' }}>
+                                11-15 empleados - €15/mes
                             </option>
-                            <option value="empresa" {{ old('plan') == 'empresa' ? 'selected' : '' }}>
-                                Plan Empresa - Precio personalizado (+50 empleados)
+                            <option value="16-20" {{ old('plan') == '16-20' ? 'selected' : '' }}>
+                                16-20 empleados - €20/mes
+                            </option>
+                            <option value="21-25" {{ old('plan') == '21-25' ? 'selected' : '' }}>
+                                21-25 empleados - €25/mes
+                            </option>
+                            <option value="26-30" {{ old('plan') == '26-30' ? 'selected' : '' }}>
+                                26-30 empleados - €30/mes
+                            </option>
+                            <option value="31-35" {{ old('plan') == '31-35' ? 'selected' : '' }}>
+                                31-35 empleados - €35/mes
+                            </option>
+                            <option value="36-40" {{ old('plan') == '36-40' ? 'selected' : '' }}>
+                                36-40 empleados - €40/mes
+                            </option>
+                            <option value="41-45" {{ old('plan') == '41-45' ? 'selected' : '' }}>
+                                41-45 empleados - €45/mes
+                            </option>
+                            <option value="46-50" {{ old('plan') == '46-50' ? 'selected' : '' }}>
+                                46-50 empleados - €50/mes
+                            </option>
+                            <option value="51+" {{ old('plan') == '51+' ? 'selected' : '' }}>
+                                +50 empleados - Precio personalizado (€5 cada 5)
                             </option>
                         </select>
                         <p class="mt-2 text-sm text-gray-500">
                             <i class="fas fa-info-circle mr-1"></i>
-                            Puedes cambiar de plan en cualquier momento
+                            Sistema de tarifas: €5 cada 5 empleados (ej: 16-20 = €20, 21-25 = €25...)
                         </p>
                         @error('plan')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
