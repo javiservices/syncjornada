@@ -116,22 +116,23 @@ class DashboardController extends Controller
         if (in_array($user->role, ['manager', 'admin'])) {
             $companyId = $user->company_id;
             
-            // Empleados activos hoy
+            // Empleados activos hoy (han fichado hoy, independientemente de si han salido)
             $activeToday = TimeEntry::whereDate('date', $today)
                 ->whereNotNull('check_in')
-                ->whereNull('check_out')
                 ->whereHas('user', function($q) use ($companyId) {
                     $q->where('company_id', $companyId);
                 })
-                ->count();
+                ->distinct('user_id')
+                ->count('user_id');
             
-            // Total empleados
+            // Total empleados de la empresa
             $totalEmployees = \App\Models\User::where('company_id', $companyId)
-                ->where('role', 'employee')
+                ->whereIn('role', ['employee', 'manager'])
                 ->count();
             
-            // Fichajes pendientes hoy
+            // Fichajes pendientes hoy (sin check_out)
             $pendingToday = TimeEntry::whereDate('date', $today)
+                ->whereNotNull('check_in')
                 ->whereNull('check_out')
                 ->whereHas('user', function($q) use ($companyId) {
                     $q->where('company_id', $companyId);
