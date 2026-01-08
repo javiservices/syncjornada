@@ -21,8 +21,10 @@ class AppServiceProvider extends ServiceProvider
     {
         // Trust all proxies for HTTPS detection
         $this->app['request']->setTrustedProxies(
-            [$this->app['request']->getClientIp()],
-            \Illuminate\Http\Request::HEADER_X_FORWARDED_ALL
+            ['*'],
+            \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR |
+            \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO |
+            \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT
         );
 
         // Force HTTPS in production
