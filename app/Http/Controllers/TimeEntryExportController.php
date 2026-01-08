@@ -63,7 +63,7 @@ class TimeEntryExportController extends Controller
             fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
             
             fputcsv($file, [
-                'Fecha', 'Empleado', 'Empresa', 'Hora Entrada', 'Lat Entrada', 'Lon Entrada',
+                'Fecha', 'Empleado', 'NIF/NIE', 'Empresa', 'CIF', 'Hora Entrada', 'Lat Entrada', 'Lon Entrada',
                 'Hora Salida', 'Lat Salida', 'Lon Salida', 'Horas Totales', 'Remoto', 'IP', 'Confirmado', 'Notas', 'Modificaciones'
             ], ';');
 
@@ -84,7 +84,9 @@ class TimeEntryExportController extends Controller
                 fputcsv($file, [
                     Carbon::parse($entry->date)->format('d/m/Y'),
                     $entry->user->name,
+                    $entry->user->nif ?? '',
                     $entry->user->company->name ?? '',
+                    $entry->user->company->cif ?? '',
                     $checkIn,
                     $entry->check_in_latitude ?? '',
                     $entry->check_in_longitude ?? '',
