@@ -1,9 +1,9 @@
 {{-- Cookie Banner --}}
-<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white shadow-2xl z-50 transform translate-y-0 transition-transform duration-300" style="display: none;">
+<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white shadow-2xl transition-transform duration-300" style="display: none; z-index: 9999; transform: translateY(100%);">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div class="flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-start gap-3 flex-1">
-                <i class="fas fa-cookie-bite text-yellow-400 text-2xl mt-1"></i>
+                <i class="fas fa-cookie-bite text-yellow-400 text-2xl mt-1 flex-shrink-0"></i>
                 <div class="text-sm">
                     <p class="font-semibold mb-1">Utilizamos cookies</p>
                     <p class="text-gray-300">
@@ -13,11 +13,11 @@
                     </p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
-                <button onclick="acceptCookies()" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition shadow-lg">
-                    <i class="fas fa-check mr-2"></i>Aceptar
+            <div class="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+                <button onclick="acceptCookies()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 rounded-lg font-medium transition shadow-lg text-sm sm:text-base whitespace-nowrap">
+                    <i class="fas fa-check mr-1 sm:mr-2"></i>Aceptar
                 </button>
-                <button onclick="rejectCookies()" class="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2.5 rounded-lg font-medium transition">
+                <button onclick="rejectCookies()" class="bg-gray-700 hover:bg-gray-600 text-white px-4 sm:px-6 py-2.5 rounded-lg font-medium transition text-sm sm:text-base whitespace-nowrap">
                     Rechazar
                 </button>
             </div>
