@@ -116,9 +116,19 @@ class CompanyController extends Controller
             'email' => 'required|email|unique:companies,email,' . $id,
             'phone' => 'nullable|string|max:20',
             'address' => 'nullable|string|max:255',
+            'timezone' => 'nullable|string|max:50',
+            'enable_checkin_notifications' => 'nullable|boolean',
+            'enable_checkout_notifications' => 'nullable|boolean',
+            'checkin_notification_time' => 'nullable|date_format:H:i',
+            'checkout_notification_time' => 'nullable|date_format:H:i',
         ]);
 
-        $company->update($request->all());
+        $data = $request->all();
+        // Convert checkboxes to boolean
+        $data['enable_checkin_notifications'] = $request->has('enable_checkin_notifications');
+        $data['enable_checkout_notifications'] = $request->has('enable_checkout_notifications');
+
+        $company->update($data);
         return redirect()->route('companies.index')->with('success', 'Empresa actualizada.');
     }
 
