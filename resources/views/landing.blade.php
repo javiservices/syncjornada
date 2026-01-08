@@ -70,14 +70,18 @@
         </nav>
 
         @auth
-            <a href="{{ route('dashboard') }}" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">
+            <a href="{{ route('dashboard') }}"
+            class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">
                 Dashboard
             </a>
-        @else
-            <a href="{{ route('login') }}" class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">
+        @endauth
+
+        @guest
+            <a href="{{ route('login') }}"
+            class="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700">
                 Iniciar sesión
             </a>
-        @endauth
+        @endguest
     </div>
 </header>
 
