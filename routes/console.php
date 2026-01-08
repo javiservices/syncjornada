@@ -10,3 +10,9 @@ Artisan::command('inspire', function () {
 
 // Schedule automatic locking of old time entries (compliance with 4-year retention)
 Schedule::command('timeentries:lock-old')->monthly();
+
+// Schedule daily database backup at 2:00 AM
+Schedule::command('backup:database')->dailyAt('02:00');
+
+// Schedule cleanup of old backups (keep 30 days) - runs daily at 3:00 AM
+Schedule::command('backup:clean')->dailyAt('03:00');
