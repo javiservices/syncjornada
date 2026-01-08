@@ -24,10 +24,10 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('adminOrManager')->group(function () {
         Route::resource('companies', CompanyController::class);
+        Route::resource('users', UserController::class);
     });
 
     Route::middleware('admin')->group(function () {
-        Route::resource('users', UserController::class);
         Route::get('/solicitudes', [CompanyRequestController::class, 'index'])->name('company-requests.index');
         Route::patch('/solicitudes/{companyRequest}/status', [CompanyRequestController::class, 'updateStatus'])->name('company-requests.update-status');
     });
