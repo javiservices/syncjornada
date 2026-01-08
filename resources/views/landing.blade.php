@@ -65,11 +65,6 @@
           "billingDuration": "P1M"
         }
       },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "127"
-      },
       "description": "Software de registro de jornada laboral obligatorio conforme al Real Decreto-ley 8/2019. Sistema de control horario con geolocalización, fichaje digital y exportación para Inspección de Trabajo.",
       "url": "https://syncjornada.online",
       "screenshot": "https://syncjornada.online/screenshot.jpg",
@@ -169,22 +164,22 @@
                 <a href="#faq" class="text-gray-600 hover:text-blue-600 transition">FAQ</a>
             </nav>
 
-            <div class="flex items-center gap-3">
+            <div class="flex items-center gap-2 sm:gap-3">
                 @auth
                     <a href="{{ route('dashboard') }}"
-                       class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-6 py-2.5 rounded-lg hover:from-blue-700 hover:to-blue-800 transition font-medium shadow-sm">
-                        <i class="fas fa-tachometer-alt mr-2"></i>Dashboard
+                       class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 sm:px-6 py-2.5 rounded-lg hover:from-blue-700 hover:to-blue-800 transition font-medium shadow-sm">
+                        <i class="fas fa-tachometer-alt mr-2"></i><span class="hidden sm:inline">Dashboard</span><span class="sm:hidden">Panel</span>
                     </a>
                 @endauth
 
                 @guest
                     <a href="{{ route('login') }}"
-                       class="hidden sm:inline-block text-gray-600 hover:text-blue-600 font-medium transition">
-                        Iniciar sesión
+                       class="text-gray-600 hover:text-blue-600 font-medium transition px-3 sm:px-4 py-2">
+                        <i class="fas fa-sign-in-alt mr-1 sm:mr-2"></i><span class="hidden sm:inline">Iniciar sesión</span><span class="sm:hidden">Entrar</span>
                     </a>
                     <a href="{{ route('company-request.create') }}"
-                       class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2.5 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-medium shadow-lg shadow-blue-500/30">
-                        <i class="fas fa-rocket mr-2"></i>Prueba Gratis
+                       class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-3 sm:px-6 py-2.5 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-medium shadow-lg shadow-blue-500/30 text-sm sm:text-base">
+                        <i class="fas fa-rocket mr-1 sm:mr-2"></i><span class="hidden sm:inline">Prueba Gratis</span><span class="sm:hidden">Gratis</span>
                     </a>
                 @endguest
             </div>
@@ -295,14 +290,6 @@
             <div class="flex items-center gap-2">
                 <i class="fas fa-lock text-blue-600"></i>
                 <span><strong class="text-gray-900">RGPD</strong> Cumplido</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <i class="fas fa-check-double text-purple-600"></i>
-                <span><strong class="text-gray-900">127+</strong> Empresas confían</span>
-            </div>
-            <div class="flex items-center gap-2">
-                <i class="fas fa-star text-yellow-500"></i>
-                <span><strong class="text-gray-900">4.8/5</strong> Valoración</span>
             </div>
         </div>
     </div>
@@ -772,7 +759,7 @@
             ¿Listo para cumplir la normativa?
         </h2>
         <p class="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-            Únete a más de 127 empresas que ya confían en SyncJornada para el registro de jornada laboral
+            Empieza a registrar la jornada laboral de forma fácil, segura y conforme a la ley
         </p>
         <div class="flex flex-col sm:flex-row gap-4 justify-center">
             <a href="{{ route('company-request.create') }}"
