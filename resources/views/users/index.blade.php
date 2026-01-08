@@ -60,16 +60,24 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->company->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ ucfirst($user->role) }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                        <a href="{{ route('users.edit', $user->id) }}" class="text-indigo-600 hover:text-indigo-900 mr-2">Editar</a>
-                                        @if($user->id !== auth()->id())
-                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-red-600 hover:text-red-900" onclick="return confirm('¿Estás seguro?')">Eliminar</button>
-                                        </form>
-                                        @else
-                                        <span class="text-gray-400 text-xs">(Tú mismo)</span>
-                                        @endif
+                                        <div class="flex items-center gap-2">
+                                            <a href="{{ route('users.edit', $user->id) }}" class="inline-flex items-center px-3 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors" title="Editar">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                            @if($user->id !== auth()->id())
+                                                <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="inline-flex items-center px-3 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors" onclick="return confirm('¿Estás seguro de eliminar este usuario?')" title="Eliminar">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            @else
+                                                <span class="inline-flex items-center px-3 py-2 bg-gray-300 text-gray-600 rounded-lg cursor-not-allowed" title="No puedes eliminarte a ti mismo">
+                                                    <i class="fas fa-user-shield"></i>
+                                                </span>
+                                            @endif
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
