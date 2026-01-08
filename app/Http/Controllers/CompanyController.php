@@ -73,6 +73,12 @@ class CompanyController extends Controller
     public function show(string $id)
     {
         $company = Company::findOrFail($id);
+        $user = auth()->user();
+
+        if ($user->role === 'manager' && $company->id !== $user->company_id) {
+            abort(403, 'Solo puedes ver tu propia empresa.');
+        }
+
         return view('companies.show', compact('company'));
     }
 

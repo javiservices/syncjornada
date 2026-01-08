@@ -107,6 +107,12 @@ class UserController extends Controller
     public function show(string $id)
     {
         $user = User::with('company')->findOrFail($id);
+        $authUser = auth()->user();
+
+        if ($authUser->role === 'manager' && $user->company_id !== $authUser->company_id) {
+            abort(403, 'Solo puedes ver usuarios de tu empresa.');
+        }
+
         return view('users.show', compact('user'));
     }
 
