@@ -816,10 +816,9 @@
             <div>
                 <h3 class="font-bold text-white mb-4">Legal</h3>
                 <ul class="space-y-2 text-sm">
-                    <li><a href="#" class="hover:text-white transition">Términos y Condiciones</a></li>
-                    <li><a href="#" class="hover:text-white transition">Política de Privacidad</a></li>
-                    <li><a href="#" class="hover:text-white transition">RGPD</a></li>
-                    <li><a href="#" class="hover:text-white transition">Política de Cookies</a></li>
+                    <li><a href="{{ route('terms') }}" class="hover:text-white transition">Términos y Condiciones</a></li>
+                    <li><a href="{{ route('privacy') }}" class="hover:text-white transition">Política de Privacidad</a></li>
+                    <li><a href="{{ route('cookies') }}" class="hover:text-white transition">Política de Cookies</a></li>
                 </ul>
             </div>
 
@@ -829,11 +828,7 @@
                 <ul class="space-y-2 text-sm">
                     <li class="flex items-center gap-2">
                         <i class="fas fa-envelope text-blue-500"></i>
-                        <a href="mailto:info@syncjornada.online" class="hover:text-white transition">info@syncjornada.online</a>
-                    </li>
-                    <li class="flex items-center gap-2">
-                        <i class="fas fa-headset text-blue-500"></i>
-                        <span>Soporte 24/7</span>
+                        <a href="mailto:syncjornada@gmail.com" class="hover:text-white transition">syncjornada@gmail.com</a>
                     </li>
                     <li class="flex items-center gap-2">
                         <i class="fas fa-map-marker-alt text-blue-500"></i>
@@ -867,6 +862,8 @@
         </div>
     </div>
 </footer>
+
+@include('legal.cookie-banner')
 
 </body>
 </html>

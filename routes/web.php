@@ -15,6 +15,19 @@ Route::get('/', function () {
     return view('landing');
 });
 
+// Legal Pages (Public)
+Route::get('/terminos-y-condiciones', function () {
+    return view('legal.terms');
+})->name('terms');
+
+Route::get('/politica-de-privacidad', function () {
+    return view('legal.privacy');
+})->name('privacy');
+
+Route::get('/politica-de-cookies', function () {
+    return view('legal.cookies');
+})->name('cookies');
+
 // Company Request Routes (Public)
 Route::get('/solicitar-acceso', [CompanyRequestController::class, 'create'])->name('company-request.create');
 Route::post('/solicitar-acceso', [CompanyRequestController::class, 'store'])->name('company-request.store');
