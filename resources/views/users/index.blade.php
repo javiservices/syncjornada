@@ -63,6 +63,7 @@
                                         <div class="flex items-center gap-2">
                                             @php
                                                 $canManage = auth()->user()->role === 'admin' || 
+                                                           $user->id === auth()->id() ||
                                                            (auth()->user()->role === 'manager' && !in_array($user->role, ['admin', 'manager']));
                                             @endphp
                                             
@@ -129,6 +130,7 @@
                                 <!-- Actions -->
                                 @php
                                     $canManage = auth()->user()->role === 'admin' || 
+                                               $user->id === auth()->id() ||
                                                (auth()->user()->role === 'manager' && !in_array($user->role, ['admin', 'manager']));
                                 @endphp
                                 

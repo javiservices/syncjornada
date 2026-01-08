@@ -129,8 +129,8 @@ class UserController extends Controller
             abort(403);
         }
 
-        // Un manager no puede editar a un admin o a otro manager
-        if ($authUser->role === 'manager' && in_array($user->role, ['admin', 'manager'])) {
+        // Un manager no puede editar a un admin o a otro manager (excepto a sí mismo)
+        if ($authUser->role === 'manager' && $user->id !== $authUser->id && in_array($user->role, ['admin', 'manager'])) {
             abort(403, 'No tienes permisos para editar este usuario.');
         }
 
@@ -153,8 +153,8 @@ class UserController extends Controller
             abort(403);
         }
 
-        // Un manager no puede editar a un admin o a otro manager
-        if ($authUser->role === 'manager' && in_array($user->role, ['admin', 'manager'])) {
+        // Un manager no puede editar a un admin o a otro manager (excepto a sí mismo)
+        if ($authUser->role === 'manager' && $user->id !== $authUser->id && in_array($user->role, ['admin', 'manager'])) {
             abort(403, 'No tienes permisos para editar este usuario.');
         }
 
@@ -174,8 +174,8 @@ class UserController extends Controller
             abort(403);
         }
 
-        // Managers no pueden asignar el rol de manager
-        if ($authUser->role === 'manager' && $request->role === 'manager') {
+        // Managers no pueden asignar el rol de manager (excepto mantener el suyo propio)
+        if ($authUser->role === 'manager' && $request->role === 'manager' && $user->id !== $authUser->id) {
             abort(403);
         }
 
