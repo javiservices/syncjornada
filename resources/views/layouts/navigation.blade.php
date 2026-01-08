@@ -45,6 +45,10 @@
                             <i class="fas fa-building text-sm" aria-hidden="true"></i>
                             <span>{{ __('Mi Empresa') }}</span>
                         </x-nav-link>
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="flex items-center space-x-2">
+                            <i class="fas fa-users text-sm" aria-hidden="true"></i>
+                            <span>{{ __('Empleados') }}</span>
+                        </x-nav-link>
                         <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')" class="flex items-center space-x-2">
                             <i class="fas fa-chart-bar text-sm" aria-hidden="true"></i>
                             <span>{{ __('Reportes') }}</span>
@@ -146,6 +150,10 @@
                 <x-responsive-nav-link :href="route('companies.show', Auth::user()->company_id)" :active="request()->routeIs('companies.show')" class="flex items-center space-x-2">
                     <i class="fas fa-building text-sm" aria-hidden="true"></i>
                     <span>{{ __('Mi Empresa') }}</span>
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="flex items-center space-x-2">
+                    <i class="fas fa-users text-sm" aria-hidden="true"></i>
+                    <span>{{ __('Empleados') }}</span>
                 </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')" class="flex items-center space-x-2">
                     <i class="fas fa-chart-bar text-sm" aria-hidden="true"></i>
