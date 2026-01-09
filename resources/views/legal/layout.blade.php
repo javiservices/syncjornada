@@ -53,5 +53,6 @@
     </footer>
 
     @include('legal.cookie-banner')
+    @include('components.paypal-widget')
 </body>
 </html>

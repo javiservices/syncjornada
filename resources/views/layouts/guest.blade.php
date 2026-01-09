@@ -71,5 +71,7 @@
                 </div>
             </div>
         </div>
+
+        @include('components.paypal-widget')
     </body>
 </html>
