@@ -144,7 +144,13 @@
                                                 <option value="Otro">📝 Otro</option>
                                             </select>
                                         </div>
-                                        <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 shadow-sm">
+                                        <button 
+                                            type="submit" 
+                                            style="background-color: #ea580c;"
+                                            onmouseover="this.style.backgroundColor='#c2410c'" 
+                                            onmouseout="this.style.backgroundColor='#ea580c'"
+                                            class="w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 shadow-sm"
+                                        >
                                             <i class="fas fa-pause"></i>
                                             Iniciar Pausa
                                         </button>
