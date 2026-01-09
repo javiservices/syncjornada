@@ -104,6 +104,8 @@ class CompanyController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        \Log::info('Company update initiated', ['id' => $id, 'request' => $request->all()]);
+        
         $company = Company::findOrFail($id);
         $user = auth()->user();
 
@@ -111,7 +113,7 @@ class CompanyController extends Controller
             abort(403, 'Solo puedes editar tu propia empresa.');
         }
 
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'cif' => 'nullable|string|max:20',
             'email' => 'required|email|unique:companies,email,' . $id,
@@ -138,7 +140,10 @@ class CompanyController extends Controller
             'checkout_notification_time' => $request->checkout_notification_time,
         ];
 
+        \Log::info('Updating company', ['data' => $data]);
         $company->update($data);
+        \Log::info('Company updated successfully', ['id' => $company->id]);
+        
         return redirect()->route('companies.index')->with('success', 'Empresa actualizada.');
     }
 
