@@ -58,7 +58,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->email }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->company->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ ucfirst($user->role) }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ translate_role($user->role) }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex items-center gap-2">
                                             @php
@@ -110,7 +110,7 @@
                             <div class="bg-gray-50 px-3 py-2 border-b border-gray-200">
                                 <div class="flex justify-between items-center">
                                     <h3 class="text-xs font-semibold text-gray-900">{{ $user->name }}</h3>
-                                    <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">{{ ucfirst($user->role) }}</span>
+                                    <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">{{ translate_role($user->role) }}</span>
                                 </div>
                             </div>
 

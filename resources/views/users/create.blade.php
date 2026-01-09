@@ -54,10 +54,10 @@
                         <div class="mb-4">
                             <label for="role" class="block text-sm font-medium text-gray-700">Rol</label>
                             <select name="role" id="role" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
-                                <option value="employee" {{ old('role') == 'employee' ? 'selected' : '' }}>Employee</option>
+                                <option value="employee" {{ old('role') == 'employee' ? 'selected' : '' }}>Empleado</option>
                                 @if(auth()->user()->role === 'admin')
-                                    <option value="manager" {{ old('role') == 'manager' ? 'selected' : '' }}>Manager</option>
-                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                    <option value="manager" {{ old('role') == 'manager' ? 'selected' : '' }}>Gerente</option>
+                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Administrador</option>
                                 @endif
                             </select>
                             @error('role') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
