@@ -153,7 +153,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $entry->notes ?: '-' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <div class="flex gap-2">
+                                        <div class="flex items-center gap-2">
                                             <a href="{{ route('time-entries.edit', ['time_entry' => $entry->id, 'from' => 'reports']) }}" class="inline-flex items-center px-3 py-1 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition">
                                                 <i class="fas fa-edit mr-1"></i>
                                                 Editar
