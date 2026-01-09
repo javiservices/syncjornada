@@ -120,13 +120,13 @@
                             <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
                                 @php
                                     $days = [
-                                        0 => 'Domingo',
                                         1 => 'Lunes',
                                         2 => 'Martes',
                                         3 => 'Miércoles',
                                         4 => 'Jueves',
                                         5 => 'Viernes',
-                                        6 => 'Sábado'
+                                        6 => 'Sábado',
+                                        0 => 'Domingo'
                                     ];
                                     $workingDays = $company->working_days ?? [1,2,3,4,5];
                                 @endphp
@@ -157,14 +157,14 @@
                                 @foreach($company->holidays as $holiday)
                                     <div class="flex gap-2 items-start holiday-row">
                                         <input type="hidden" name="holidays[{{ $loop->index }}][id]" value="{{ $holiday->id }}">
-                                        <input type="date" 
-                                               name="holidays[{{ $loop->index }}][date]" 
-                                               value="{{ $holiday->date->format('Y-m-d') }}"
-                                               class="flex-1 rounded-md border-gray-300">
                                         <input type="text" 
                                                name="holidays[{{ $loop->index }}][name]" 
                                                value="{{ $holiday->name }}"
                                                placeholder="Nombre del festivo"
+                                               class="flex-1 rounded-md border-gray-300">
+                                        <input type="date" 
+                                               name="holidays[{{ $loop->index }}][date]" 
+                                               value="{{ $holiday->date->format('Y-m-d') }}"
                                                class="flex-1 rounded-md border-gray-300">
                                         <button type="button" onclick="removeHoliday(this)" class="px-3 py-2 text-red-600 hover:text-red-700">
                                             <i class="fas fa-trash"></i>
@@ -263,13 +263,13 @@
             const row = document.createElement('div');
             row.className = 'flex gap-2 items-start holiday-row';
             row.innerHTML = `
-                <input type="date" 
-                       name="holidays[${holidayIndex}][date]" 
-                       class="flex-1 rounded-md border-gray-300"
-                       required>
                 <input type="text" 
                        name="holidays[${holidayIndex}][name]" 
                        placeholder="Nombre del festivo"
+                       class="flex-1 rounded-md border-gray-300"
+                       required>
+                <input type="date" 
+                       name="holidays[${holidayIndex}][date]" 
                        class="flex-1 rounded-md border-gray-300"
                        required>
                 <button type="button" onclick="removeHoliday(this)" class="px-3 py-2 text-red-600 hover:text-red-700">
