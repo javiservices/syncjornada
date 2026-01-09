@@ -71,7 +71,7 @@
             <!-- Tabla de Auditorías -->
             <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
                 <div class="overflow-x-auto">
-                    <table class="min-w-full divide-y divide-gray-200">
+                    <table id="audits-table" class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
                             <tr>
                                 <th class="px-6 py-4 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
@@ -210,10 +210,22 @@
         </div>
     </div>
 
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
     <script>
         function toggleDetails(id) {
             const element = document.getElementById(id);
             element.classList.toggle('hidden');
         }
+        
+        $(document).ready(function() {
+            $('#audits-table').DataTable({
+                "language": {"url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"},
+                "pageLength": 20,
+                "order": [[0], "desc"],
+                "scrollX": true
+            });
+        });
     </script>
 </x-app-layout>

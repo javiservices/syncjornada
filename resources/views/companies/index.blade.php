@@ -29,8 +29,8 @@
                         </form>
                     @endif
                     <!-- Tabla para desktop -->
-                    <div class="hidden md:block">
-                        <table class="min-w-full divide-y divide-gray-200">
+                    <div class="hidden md:block overflow-x-auto">
+                        <table id="companies-table" class="min-w-full divide-y divide-gray-200">
                             <thead class="bg-gray-50">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nombre</th>
@@ -123,4 +123,19 @@
             </div>
         </div>
     </div>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#companies-table').DataTable({
+                "language": {"url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"},
+                "pageLength": 20,
+                "order": [[0], "asc"],
+                "columnDefs": [{"orderable": false, "targets": -1}],
+                "scrollX": true
+            });
+        });
+    </script>
 </x-app-layout>
