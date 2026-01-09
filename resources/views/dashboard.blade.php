@@ -118,7 +118,7 @@
                                 @if($activeBreak)
                                     <form method="POST" action="{{ route('breaks.end', $lastEntry) }}">
                                         @csrf
-                                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 shadow-sm">
                                             <i class="fas fa-play"></i>
                                             Reanudar Trabajo
                                             <span class="ml-2 text-xs bg-green-500 px-2 py-0.5 rounded">
@@ -127,15 +127,24 @@
                                         </button>
                                     </form>
                                 @else
-                                    <form method="POST" action="{{ route('breaks.start', $lastEntry) }}" class="space-y-2">
+                                    <form method="POST" action="{{ route('breaks.start', $lastEntry) }}" class="space-y-3">
                                         @csrf
-                                        <select name="reason" class="w-full border-gray-300 rounded-lg text-sm focus:ring-blue-500 focus:border-blue-500">
-                                            <option value="Descanso">Descanso</option>
-                                            <option value="Comida">Comida</option>
-                                            <option value="Personal">Asunto personal</option>
-                                            <option value="Otro">Otro</option>
-                                        </select>
-                                        <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                                        <div>
+                                            <label for="break-reason" class="block text-sm font-medium text-gray-700 mb-1">
+                                                Motivo de la pausa
+                                            </label>
+                                            <select 
+                                                id="break-reason"
+                                                name="reason" 
+                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white shadow-sm"
+                                            >
+                                                <option value="Descanso">☕ Descanso</option>
+                                                <option value="Comida">🍽️ Comida</option>
+                                                <option value="Personal">👤 Asunto personal</option>
+                                                <option value="Otro">📝 Otro</option>
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="w-full bg-orange-600 hover:bg-orange-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 shadow-sm">
                                             <i class="fas fa-pause"></i>
                                             Iniciar Pausa
                                         </button>
