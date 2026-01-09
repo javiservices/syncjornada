@@ -122,8 +122,8 @@ class CompanyController extends Controller
             'timezone' => 'nullable|string|max:50',
             'enable_checkin_notifications' => 'nullable|boolean',
             'enable_checkout_notifications' => 'nullable|boolean',
-            'checkin_notification_time' => 'nullable|date_format:H:i',
-            'checkout_notification_time' => 'nullable|date_format:H:i',
+            'checkin_notification_time' => 'nullable|string',
+            'checkout_notification_time' => 'nullable|string',
         ]);
 
         // Preparar datos solo con los campos permitidos
@@ -136,8 +136,8 @@ class CompanyController extends Controller
             'timezone' => $request->timezone,
             'enable_checkin_notifications' => $request->has('enable_checkin_notifications'),
             'enable_checkout_notifications' => $request->has('enable_checkout_notifications'),
-            'checkin_notification_time' => $request->checkin_notification_time,
-            'checkout_notification_time' => $request->checkout_notification_time,
+            'checkin_notification_time' => $request->checkin_notification_time ?: '08:00',
+            'checkout_notification_time' => $request->checkout_notification_time ?: '19:00',
         ];
 
         \Log::info('Updating company', ['data' => $data]);
