@@ -9,7 +9,7 @@
 
     <!-- SEO Optimizado -->
     <title>SyncJornada - Registro de Jornada Laboral Obligatorio RD-ley 8/2019 | Control Horario Digital</title>
-    <meta name="description" content="✓ Software de registro de jornada laboral obligatorio según RD-ley 8/2019. Control horario con geolocalización, fichaje digital y exportación para Inspección de Trabajo. Desde 5€/mes. Prueba GRATIS 30 días.">
+    <meta name="description" content="✓ Software de registro de jornada laboral obligatorio según RD-ley 8/2019. Control horario con geolocalización, fichaje digital y exportación para Inspección de Trabajo. Prueba GRATIS 30 días.">
     <meta name="keywords" content="registro jornada laboral obligatorio, control horario empresa, fichaje digital, RD-ley 8/2019, registro horario trabajadores, control jornada laboral, sistema fichaje empleados, cumplimiento inspección trabajo, geolocalización laboral, exportar jornada laboral, software RRHH España">
     <meta name="author" content="SyncJornada">
     <meta name="robots" content="index, follow, max-image-preview:large">
@@ -22,7 +22,7 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SyncJornada">
     <meta property="og:title" content="SyncJornada - Registro de Jornada Laboral Obligatorio | Control Horario Digital">
-    <meta property="og:description" content="✓ Cumple el RD-ley 8/2019. Control horario con geolocalización. Precios desde 5€/mes según empleados. 30 días gratis.">
+    <meta property="og:description" content="✓ Cumple el RD-ley 8/2019. Control horario con geolocalización.">
     <meta property="og:url" content="https://syncjornada.online">
     <meta property="og:image" content="https://syncjornada.online/og-image.jpg">
     <meta property="og:image:width" content="1200">
@@ -213,8 +213,7 @@
                 </p>
                 
                 <p class="text-lg mb-8 text-blue-50 max-w-xl mx-auto lg:mx-0">
-                    Sistema completo de fichaje con geolocalización, auditoría y exportación para Inspección de Trabajo. 
-                    <strong class="text-white">Desde 5€/mes</strong>
+                    Sistema completo de fichaje con geolocalización, auditoría y exportación para Inspección de Trabajo.
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
