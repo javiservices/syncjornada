@@ -10,6 +10,7 @@ use App\Http\Controllers\CompanyRequestController;
 use App\Http\Controllers\TimeEntryExportController;
 use App\Http\Controllers\BreakController;
 use App\Http\Controllers\AuditController;
+use App\Http\Controllers\VacationRequestController;
 
 Route::get('/', function () {
     return view('landing');
@@ -42,6 +43,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/time-entries/{timeEntry}/breaks/start', [BreakController::class, 'start'])->name('breaks.start');
     Route::post('/time-entries/{timeEntry}/breaks/end', [BreakController::class, 'end'])->name('breaks.end');
     Route::delete('/breaks/{break}', [BreakController::class, 'destroy'])->name('breaks.destroy');
+    
+    // Vacation requests routes
+    Route::resource('vacation-requests', VacationRequestController::class);
+    Route::post('/vacation-requests/{vacationRequest}/approve', [VacationRequestController::class, 'approve'])->name('vacation-requests.approve');
+    Route::post('/vacation-requests/{vacationRequest}/reject', [VacationRequestController::class, 'reject'])->name('vacation-requests.reject');
     
     // Exportación de registros (conforme a normativa)
     Route::post('/time-entries/export', [TimeEntryExportController::class, 'export'])->name('time-entries.export');

@@ -23,6 +23,11 @@
                         <span>{{ __('Jornadas') }}</span>
                     </x-nav-link>
 
+                    <x-nav-link :href="route('vacation-requests.index')" :active="request()->routeIs('vacation-requests.*')" class="flex items-center space-x-2">
+                        <i class="fas fa-umbrella-beach text-sm" aria-hidden="true"></i>
+                        <span>{{ __('Vacaciones') }}</span>
+                    </x-nav-link>
+
                     @if(Auth::user()->role === 'admin')
                         <x-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.*')" class="flex items-center space-x-2">
                             <i class="fas fa-building text-sm" aria-hidden="true"></i>
@@ -127,6 +132,11 @@
             <x-responsive-nav-link :href="route('time-entries.index')" :active="request()->routeIs('time-entries.*')" class="flex items-center space-x-2">
                 <i class="fas fa-clock text-sm" aria-hidden="true"></i>
                 <span>{{ __('Jornadas') }}</span>
+            </x-responsive-nav-link>
+
+            <x-responsive-nav-link :href="route('vacation-requests.index')" :active="request()->routeIs('vacation-requests.*')" class="flex items-center space-x-2">
+                <i class="fas fa-umbrella-beach text-sm" aria-hidden="true"></i>
+                <span>{{ __('Vacaciones') }}</span>
             </x-responsive-nav-link>
 
             @if(Auth::user()->role === 'admin')
