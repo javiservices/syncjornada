@@ -45,19 +45,27 @@ class TimeEntryObserver
     }
 
     /**
-     * Handle the TimeEntry "deleted" event.
+     * Handle the TimeEntry "deleting" event (before deletion).
      */
-    public function deleted(TimeEntry $timeEntry): void
+    public function deleting(TimeEntry $timeEntry): void
     {
         TimeEntryAudit::create([
             'time_entry_id' => $timeEntry->id,
             'user_id' => auth()->id() ?? $timeEntry->user_id,
             'action' => 'deleted',
-            'old_values' => $timeEntry->getOriginal(),
+            'old_values' => $timeEntry->getAttributes(),
             'new_values' => null,
             'ip_address' => request()->ip(),
             'user_agent' => request()->userAgent(),
         ]);
+    }
+
+    /**
+     * Handle the TimeEntry "deleted" event.
+     */
+    public function deleted(TimeEntry $timeEntry): void
+    {
+        // La auditoría ya se creó en deleting()
     }
 
     /**
