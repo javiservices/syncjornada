@@ -136,33 +136,27 @@
                         </div>
                     </div>
 
-                    <!-- Plan Selection -->
+                    <!-- Number of Employees -->
                     <div>
-                        <label for="plan" class="block text-sm font-semibold text-gray-700 mb-2">
-                            <i class="fas fa-tag mr-2 text-blue-600"></i>Plan Deseado *
+                        <label for="employees" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <i class="fas fa-users mr-2 text-blue-600"></i>Número aproximado de empleados *
                         </label>
-                        <select 
-                            id="plan" 
-                            name="plan"
+                        <input 
+                            type="number" 
+                            id="employees" 
+                            name="employees" 
+                            value="{{ old('employees') }}"
                             required
+                            min="1"
+                            max="15"
                             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                            placeholder="Ej: 5"
                         >
-                            <option value="">Selecciona un plan</option>
-                            <option value="1-5" {{ old('plan') == '1-5' ? 'selected' : '' }}>
-                                1-5 empleados - €5/mes
-                            </option>
-                            <option value="6-10" {{ old('plan') == '6-10' ? 'selected' : '' }}>
-                                6-10 empleados - €10/mes
-                            </option>
-                            <option value="11-15" {{ old('plan') == '11-15' ? 'selected' : '' }}>
-                                11-15 empleados - €15/mes
-                            </option>
-                        </select>
                         <p class="mt-2 text-sm text-gray-500">
                             <i class="fas fa-info-circle mr-1"></i>
-                            ¿Más de 15 empleados? <a href="mailto:syncjornada@gmail.com" class="text-blue-600 hover:underline">Contáctanos</a> para un plan personalizado
+                            Máximo 15 empleados. ¿Más de 15? <a href="mailto:syncjornada@gmail.com" class="text-blue-600 hover:underline">Contáctanos</a>
                         </p>
-                        @error('plan')
+                        @error('employees')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>

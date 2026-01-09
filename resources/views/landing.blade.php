@@ -159,7 +159,7 @@
 
             <nav class="hidden md:flex gap-8 text-sm font-medium">
                 <a href="#caracteristicas" class="text-gray-600 hover:text-blue-600 transition">Características</a>
-                <a href="#precios" class="text-gray-600 hover:text-blue-600 transition">Precios</a>
+                <a href="#precios" class="text-gray-600 hover:text-blue-600 transition">Gratis</a>
                 <a href="#como-funciona" class="text-gray-600 hover:text-blue-600 transition">Cómo funciona</a>
                 <a href="#faq" class="text-gray-600 hover:text-blue-600 transition">FAQ</a>
             </nav>
@@ -221,12 +221,12 @@
                     <a href="{{ route('company-request.create') }}"
                        class="group bg-white text-blue-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-50 transition shadow-2xl inline-flex items-center justify-center">
                         <i class="fas fa-rocket mr-3 group-hover:scale-110 transition"></i>
-                        Prueba GRATIS 30 días
+                        Solicitar Acceso GRATIS
                     </a>
                     <a href="#precios"
                        class="bg-white/10 backdrop-blur-sm border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition inline-flex items-center justify-center">
-                        <i class="fas fa-tag mr-3"></i>
-                        Ver Precios
+                        <i class="fas fa-gift mr-3"></i>
+                        100% Gratuito
                     </a>
                 </div>
 
@@ -500,75 +500,24 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                Precios <span class="gradient-text">justos y transparentes</span>
+                100% <span class="gradient-text">Gratuito</span>
             </h2>
-            <p class="text-xl text-gray-600 mb-4">
-                Paga solo por lo que necesitas. Todas las funcionalidades, sin importar el tamaño de tu empresa.
-            </p>
-            <p class="text-lg text-gray-500 mb-6">
-                <i class="fas fa-heart text-red-500 mr-2"></i>
-                Diseñado especialmente para pequeñas empresas
+            <p class="text-xl text-gray-600 mb-6">
+                SyncJornada es completamente gratis para todas las empresas, sin límites ni restricciones.
             </p>
             <div class="inline-block bg-green-100 border border-green-300 rounded-full px-6 py-2">
                 <span class="text-green-800 font-semibold">
-                    <i class="fas fa-gift mr-2"></i>30 días de prueba GRATIS en todos los planes
+                    <i class="fas fa-gift mr-2"></i>Gratis para siempre. Todas las funcionalidades incluidas.
                 </span>
             </div>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            {{-- Hasta 5 empleados --}}
-            <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
-                <div class="text-center">
-                    <div class="mb-6">
-                        <span class="text-5xl font-bold text-gray-900">5€</span>
-                        <span class="text-gray-600 text-lg">/mes</span>
-                    </div>
-                    <p class="text-base font-semibold text-gray-700 mb-6">Hasta 5 empleados</p>
-                    <a href="{{ route('company-request.create') }}"
-                       class="block w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                        Probar gratis
-                    </a>
-                </div>
-            </div>
-
-            {{-- Hasta 10 empleados --}}
-            <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
-                <div class="text-center">
-                    <div class="mb-6">
-                        <span class="text-5xl font-bold text-gray-900">10€</span>
-                        <span class="text-gray-600 text-lg">/mes</span>
-                    </div>
-                    <p class="text-base font-semibold text-gray-700 mb-6">Hasta 10 empleados</p>
-                    <a href="{{ route('company-request.create') }}"
-                       class="block w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                        Probar gratis
-                    </a>
-                </div>
-            </div>
-
-            {{-- Hasta 15 empleados --}}
-            <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
-                <div class="text-center">
-                    <div class="mb-6">
-                        <span class="text-5xl font-bold text-gray-900">15€</span>
-                        <span class="text-gray-600 text-lg">/mes</span>
-                    </div>
-                    <p class="text-base font-semibold text-gray-700 mb-6">Hasta 15 empleados</p>
-                    <a href="{{ route('company-request.create') }}"
-                       class="block w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
-                        Probar gratis
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        {{-- Funcionalidades comunes --}}
-        <div class="mt-16 max-w-4xl mx-auto">
+        {{-- Funcionalidades incluidas --}}
+        <div class="max-w-4xl mx-auto">
             <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-blue-200">
                 <h3 class="text-2xl font-bold text-center text-gray-900 mb-6">
                     <i class="fas fa-check-circle text-green-600 mr-2"></i>
-                    Todas las funcionalidades incluidas en todos los planes
+                    Todas las funcionalidades incluidas
                 </h3>
                 <div class="grid md:grid-cols-2 gap-6">
                     <ul class="space-y-3">
@@ -627,21 +576,28 @@
             </div>
         </div>
 
-        <div class="text-center mt-10">
-            <p class="text-gray-600 text-lg">
-                <i class="fas fa-users text-blue-600 mr-2"></i>
-                <strong>¿Más de 15 empleados?</strong> <a href="mailto:syncjornada@gmail.com" class="text-blue-600 hover:text-blue-700 underline">Contáctanos</a> para un plan personalizado
-            </p>
+        {{-- Apoyo opcional --}}
+        <div class="text-center mt-12 max-w-3xl mx-auto">
+            <div class="bg-blue-50 border-2 border-blue-200 rounded-xl p-6">
+                <div class="mb-3">
+                    <i class="fas fa-coffee text-blue-600 text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-gray-900 mb-3">¿Te resulta útil SyncJornada?</h3>
+                <p class="text-gray-700 mb-4">
+                    Esta aplicación es 100% gratuita y siempre lo será. Si quieres apoyar el proyecto y ayudar a mantener los servidores activos, puedes hacer una donación voluntaria. 
+                </p>
+                <p class="text-sm text-gray-600 italic">
+                    <i class="fas fa-heart text-red-500 mr-1"></i>
+                    Mira el icono de PayPal en la esquina inferior derecha para apoyar con un café ☕
+                </p>
+            </div>
         </div>
 
-        <div class="text-center mt-12">
-            <p class="text-gray-600 mb-4">
-                <i class="fas fa-shield-alt text-green-600 mr-2"></i>
-                Todos los planes incluyen SSL, backups diarios y cumplimiento RGPD
-            </p>
-            <p class="text-sm text-gray-500">
-                * Precios sin IVA. Sin permanencia. Cancela cuando quieras.
-            </p>
+        <div class="text-center mt-8">
+            <a href="{{ route('company-request.create') }}" 
+               class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-4 px-8 rounded-lg text-lg transition transform hover:scale-105 shadow-lg">
+                <i class="fas fa-rocket mr-2"></i>Solicitar Acceso Gratis
+            </a>
         </div>
     </div>
 </section>
@@ -796,7 +752,7 @@
                 <h3 class="font-bold text-white mb-4">Producto</h3>
                 <ul class="space-y-2 text-sm">
                     <li><a href="#caracteristicas" class="hover:text-white transition">Características</a></li>
-                    <li><a href="#precios" class="hover:text-white transition">Precios</a></li>
+                    <li><a href="#precios" class="hover:text-white transition">Gratis</a></li>
                     <li><a href="#como-funciona" class="hover:text-white transition">Cómo funciona</a></li>
                     <li><a href="#faq" class="hover:text-white transition">FAQ</a></li>
                 </ul>

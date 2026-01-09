@@ -20,7 +20,7 @@ class CompanyRequestController extends Controller
             'contact_name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'phone' => 'nullable|string|max:20',
-            'plan' => 'required|in:1-5,6-10,11-15',
+            'employees' => 'required|integer|min:1|max:15',
             'message' => 'nullable|string|max:1000',
         ]);
 

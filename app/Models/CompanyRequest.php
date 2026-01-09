@@ -11,7 +11,7 @@ class CompanyRequest extends Model
         'contact_name',
         'email',
         'phone',
-        'plan',
+        'employees',
         'message',
         'status',
         'admin_notes',
