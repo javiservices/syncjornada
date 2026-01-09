@@ -660,7 +660,7 @@
         <div class="text-center mt-10">
             <p class="text-gray-600 text-lg">
                 <i class="fas fa-users text-blue-600 mr-2"></i>
-                <strong>¿Más de 25 empleados?</strong> <a href="mailto:info@syncjornada.online" class="text-blue-600 hover:text-blue-700 underline">Contáctanos</a> para un plan personalizado
+                <strong>¿Más de 25 empleados?</strong> <a href="mailto:syncjornada@gmail.com" class="text-blue-600 hover:text-blue-700 underline">Contáctanos</a> para un plan personalizado
             </p>
         </div>
 
