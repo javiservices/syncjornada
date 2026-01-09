@@ -22,7 +22,7 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SyncJornada">
     <meta property="og:title" content="SyncJornada - Registro de Jornada Laboral Obligatorio | Control Horario Digital">
-    <meta property="og:description" content="✓ Cumple el RD-ley 8/2019. Control horario con geolocalización y auditoría. Desde 5€/mes. 30 días gratis.">
+    <meta property="og:description" content="✓ Cumple el RD-ley 8/2019. Control horario con geolocalización. Precios desde 5€/mes según empleados. 30 días gratis.">
     <meta property="og:url" content="https://syncjornada.online">
     <meta property="og:image" content="https://syncjornada.online/og-image.jpg">
     <meta property="og:image:width" content="1200">
@@ -32,7 +32,7 @@
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SyncJornada - Registro de Jornada Laboral RD 8/2019">
-    <meta name="twitter:description" content="Control horario obligatorio desde 5€/mes. Prueba gratis 30 días.">
+    <meta name="twitter:description" content="Control horario obligatorio desde 5€/mes según número de empleados. Prueba gratis 30 días.">
     <meta name="twitter:image" content="https://syncjornada.online/og-image.jpg">
 
     <!-- Favicon -->
@@ -56,7 +56,7 @@
       "offers": {
         "@type": "AggregateOffer",
         "lowPrice": "5.00",
-        "highPrice": "15.00",
+        "highPrice": "25.00",
         "priceCurrency": "EUR",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
@@ -102,7 +102,7 @@
           "name": "¿Cuánto cuesta SyncJornada?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "SyncJornada tiene planes desde 5€/mes para empresas de 1-5 empleados, 10€/mes para 6-10 empleados y desde 15€/mes para empresas de más de 11 empleados. Incluye 30 días de prueba gratuita."
+            "text": "SyncJornada tiene precios escalonados según el número de empleados: 5€/mes hasta 5 empleados, 10€/mes hasta 10 empleados, 15€/mes hasta 15 empleados, y así sucesivamente. Todos los planes incluyen las mismas funcionalidades completas y 30 días de prueba gratuita."
           }
         },
         {
@@ -500,10 +500,14 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="text-center mb-16">
             <h2 class="text-4xl lg:text-5xl font-bold text-gray-900 mb-4">
-                Precios <span class="gradient-text">transparentes</span>
+                Precios <span class="gradient-text">justos y transparentes</span>
             </h2>
-            <p class="text-xl text-gray-600 mb-6">
-                Planes adaptados al tamaño de tu empresa. Sin sorpresas.
+            <p class="text-xl text-gray-600 mb-4">
+                Paga solo por lo que necesitas. Todas las funcionalidades, sin importar el tamaño de tu empresa.
+            </p>
+            <p class="text-lg text-gray-500 mb-6">
+                <i class="fas fa-heart text-red-500 mr-2"></i>
+                Diseñado especialmente para pequeñas empresas
             </p>
             <div class="inline-block bg-green-100 border border-green-300 rounded-full px-6 py-2">
                 <span class="text-green-800 font-semibold">
@@ -512,136 +516,152 @@
             </div>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {{-- Plan Básico --}}
-            <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-blue-500 transition">
+        <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
+            {{-- Hasta 5 empleados --}}
+            <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
                 <div class="text-center">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Básico</h3>
-                    <p class="text-gray-600 mb-6">Para equipos pequeños</p>
-                    <div class="mb-6">
-                        <span class="text-5xl font-bold text-gray-900">5€</span>
+                    <div class="mb-4">
+                        <span class="text-4xl font-bold text-gray-900">5€</span>
                         <span class="text-gray-600">/mes</span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-6">1-5 empleados</p>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Hasta 5 empleados</p>
                     <a href="{{ route('company-request.create') }}"
-                       class="block w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition">
-                        Empezar gratis
+                       class="block w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        Probar gratis
                     </a>
                 </div>
-                <ul class="mt-8 space-y-4">
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-green-600 mt-1"></i>
-                        <span class="text-gray-700">Hasta 5 empleados</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-green-600 mt-1"></i>
-                        <span class="text-gray-700">Fichaje con geolocalización</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-green-600 mt-1"></i>
-                        <span class="text-gray-700">Exportación Excel/PDF</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-green-600 mt-1"></i>
-                        <span class="text-gray-700">Dashboard básico</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-green-600 mt-1"></i>
-                        <span class="text-gray-700">Soporte por email</span>
-                    </li>
-                </ul>
             </div>
 
-            {{-- Plan Profesional --}}
-            <div class="bg-gradient-to-br from-blue-600 to-purple-600 rounded-2xl shadow-2xl p-8 border-2 border-blue-500 transform scale-105 relative">
-                <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                    <span class="bg-yellow-400 text-gray-900 px-4 py-1 rounded-full text-sm font-bold shadow-lg">
-                        MÁS POPULAR
-                    </span>
-                </div>
+            {{-- Hasta 10 empleados --}}
+            <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
                 <div class="text-center">
-                    <h3 class="text-2xl font-bold text-white mb-2">Profesional</h3>
-                    <p class="text-blue-100 mb-6">Ideal para PYMEs</p>
-                    <div class="mb-6">
-                        <span class="text-5xl font-bold text-white">10€</span>
-                        <span class="text-blue-100">/mes</span>
-                    </div>
-                    <p class="text-sm text-blue-100 mb-6">6-10 empleados</p>
-                    <a href="{{ route('company-request.create') }}"
-                       class="block w-full bg-white text-blue-600 py-3 rounded-lg font-semibold hover:bg-blue-50 transition shadow-lg">
-                        Empezar gratis
-                    </a>
-                </div>
-                <ul class="mt-8 space-y-4 text-white">
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-yellow-300 mt-1"></i>
-                        <span>Hasta 10 empleados</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-yellow-300 mt-1"></i>
-                        <span><strong>Todo lo del plan Básico</strong></span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-yellow-300 mt-1"></i>
-                        <span>Dashboard avanzado</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-yellow-300 mt-1"></i>
-                        <span>Notificaciones automáticas</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-yellow-300 mt-1"></i>
-                        <span>Soporte prioritario</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-yellow-300 mt-1"></i>
-                        <span>Auditoría completa</span>
-                    </li>
-                </ul>
-            </div>
-
-            {{-- Plan Empresa --}}
-            <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-purple-500 transition">
-                <div class="text-center">
-                    <h3 class="text-2xl font-bold text-gray-900 mb-2">Empresa</h3>
-                    <p class="text-gray-600 mb-6">Para grandes equipos</p>
-                    <div class="mb-6">
-                        <span class="text-5xl font-bold text-gray-900">15€</span>
+                    <div class="mb-4">
+                        <span class="text-4xl font-bold text-gray-900">10€</span>
                         <span class="text-gray-600">/mes</span>
                     </div>
-                    <p class="text-sm text-gray-600 mb-6">11+ empleados</p>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Hasta 10 empleados</p>
                     <a href="{{ route('company-request.create') }}"
-                       class="block w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition">
-                        Empezar gratis
+                       class="block w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        Probar gratis
                     </a>
                 </div>
-                <ul class="mt-8 space-y-4">
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-green-600 mt-1"></i>
-                        <span class="text-gray-700">Empleados ilimitados</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-green-600 mt-1"></i>
-                        <span class="text-gray-700"><strong>Todo lo del plan Profesional</strong></span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-green-600 mt-1"></i>
-                        <span class="text-gray-700">API para integraciones</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-green-600 mt-1"></i>
-                        <span class="text-gray-700">Múltiples ubicaciones</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-green-600 mt-1"></i>
-                        <span class="text-gray-700">Soporte telefónico 24/7</span>
-                    </li>
-                    <li class="flex items-start gap-3">
-                        <i class="fas fa-check text-green-600 mt-1"></i>
-                        <span class="text-gray-700">Gestor de cuenta dedicado</span>
-                    </li>
-                </ul>
             </div>
+
+            {{-- Hasta 15 empleados --}}
+            <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
+                <div class="text-center">
+                    <div class="mb-4">
+                        <span class="text-4xl font-bold text-gray-900">15€</span>
+                        <span class="text-gray-600">/mes</span>
+                    </div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Hasta 15 empleados</p>
+                    <a href="{{ route('company-request.create') }}"
+                       class="block w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        Probar gratis
+                    </a>
+                </div>
+            </div>
+
+            {{-- Hasta 20 empleados --}}
+            <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
+                <div class="text-center">
+                    <div class="mb-4">
+                        <span class="text-4xl font-bold text-gray-900">20€</span>
+                        <span class="text-gray-600">/mes</span>
+                    </div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Hasta 20 empleados</p>
+                    <a href="{{ route('company-request.create') }}"
+                       class="block w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        Probar gratis
+                    </a>
+                </div>
+            </div>
+
+            {{-- Hasta 25 empleados --}}
+            <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
+                <div class="text-center">
+                    <div class="mb-4">
+                        <span class="text-4xl font-bold text-gray-900">25€</span>
+                        <span class="text-gray-600">/mes</span>
+                    </div>
+                    <p class="text-sm font-semibold text-gray-700 mb-4">Hasta 25 empleados</p>
+                    <a href="{{ route('company-request.create') }}"
+                       class="block w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">
+                        Probar gratis
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        {{-- Funcionalidades comunes --}}
+        <div class="mt-16 max-w-4xl mx-auto">
+            <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-blue-200">
+                <h3 class="text-2xl font-bold text-center text-gray-900 mb-6">
+                    <i class="fas fa-check-circle text-green-600 mr-2"></i>
+                    Todas las funcionalidades incluidas en todos los planes
+                </h3>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">Fichaje con geolocalización</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">Exportación Excel/PDF para Inspección</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">Dashboard completo</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">Notificaciones automáticas</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">Gestión de vacaciones</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">Informes y auditoría completa</span>
+                        </li>
+                    </ul>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">Multi-empresa</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">Configuración personalizada</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">Cumplimiento RGPD</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">SSL y backups diarios</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">Soporte técnico incluido</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check text-green-600 mt-1"></i>
+                            <span class="text-gray-700">Actualizaciones gratuitas</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-10">
+            <p class="text-gray-600 text-lg">
+                <i class="fas fa-users text-blue-600 mr-2"></i>
+                <strong>¿Más de 25 empleados?</strong> <a href="mailto:info@syncjornada.online" class="text-blue-600 hover:text-blue-700 underline">Contáctanos</a> para un plan personalizado
+            </p>
         </div>
 
         <div class="text-center mt-12">
