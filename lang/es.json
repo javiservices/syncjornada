@@ -1,0 +1,17 @@
+{
+    "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.": "¿Olvidaste tu contraseña? No hay problema. Simplemente déjanos saber tu correo electrónico y te enviaremos un enlace para restablecer tu contraseña que te permitirá elegir una nueva.",
+    "Email": "Correo Electrónico",
+    "Email Password Reset Link": "Enviar Enlace de Restablecimiento",
+    "Password": "Contraseña",
+    "Confirm Password": "Confirmar Contraseña",
+    "Reset Password": "Restablecer Contraseña",
+    "Remember me": "Recordarme",
+    "Forgot your password?": "¿Olvidaste tu contraseña?",
+    "Log in": "Iniciar Sesión",
+    "Register": "Registrarse",
+    "Name": "Nombre",
+    "Already registered?": "¿Ya tienes cuenta?",
+    "I agree to the :terms_of_service and :privacy_policy": "Acepto los :terms_of_service y la :privacy_policy",
+    "Terms of Service": "Términos de Servicio",
+    "Privacy Policy": "Política de Privacidad"
+}
