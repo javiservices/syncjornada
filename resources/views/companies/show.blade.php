@@ -103,6 +103,88 @@
                 </div>
             </div>
 
+            <!-- Vacation Settings -->
+            @if(auth()->user()->role === 'admin' || auth()->user()->role === 'manager')
+            <div class="bg-white border border-gray-200 rounded-xl overflow-hidden mb-6">
+                <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
+                    <h2 class="text-lg font-semibold text-gray-900">Configuración de Vacaciones</h2>
+                </div>
+                <div class="p-6">
+                    <form method="POST" action="{{ route('companies.update-vacation-settings', $company->id) }}">
+                        @csrf
+                        @method('PATCH')
+                        
+                        <!-- Días laborables -->
+                        <div class="mb-6">
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Días Laborables</label>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2">
+                                @php
+                                    $days = [
+                                        0 => 'Domingo',
+                                        1 => 'Lunes',
+                                        2 => 'Martes',
+                                        3 => 'Miércoles',
+                                        4 => 'Jueves',
+                                        5 => 'Viernes',
+                                        6 => 'Sábado'
+                                    ];
+                                    $workingDays = $company->working_days ?? [1,2,3,4,5];
+                                @endphp
+                                @foreach($days as $value => $label)
+                                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 {{ in_array($value, $workingDays) ? 'bg-blue-50 border-blue-300' : 'border-gray-300' }}">
+                                        <input type="checkbox" 
+                                               name="working_days[]" 
+                                               value="{{ $value }}"
+                                               {{ in_array($value, $workingDays) ? 'checked' : '' }}
+                                               class="rounded border-gray-300 text-blue-600 focus:ring-blue-500">
+                                        <span class="ml-2 text-sm font-medium text-gray-700">{{ $label }}</span>
+                                    </label>
+                                @endforeach
+                            </div>
+                            <p class="mt-2 text-xs text-gray-500">Selecciona los días que son laborables para tu empresa</p>
+                        </div>
+
+                        <!-- Festivos -->
+                        <div class="mb-6">
+                            <div class="flex justify-between items-center mb-3">
+                                <label class="block text-sm font-medium text-gray-700">Festivos de la Empresa</label>
+                                <button type="button" onclick="addHoliday()" class="text-sm text-blue-600 hover:text-blue-700">
+                                    <i class="fas fa-plus mr-1"></i>Agregar Festivo
+                                </button>
+                            </div>
+                            
+                            <div id="holidays-container" class="space-y-2">
+                                @foreach($company->holidays as $holiday)
+                                    <div class="flex gap-2 items-start holiday-row">
+                                        <input type="hidden" name="holidays[{{ $loop->index }}][id]" value="{{ $holiday->id }}">
+                                        <input type="date" 
+                                               name="holidays[{{ $loop->index }}][date]" 
+                                               value="{{ $holiday->date->format('Y-m-d') }}"
+                                               class="flex-1 rounded-md border-gray-300">
+                                        <input type="text" 
+                                               name="holidays[{{ $loop->index }}][name]" 
+                                               value="{{ $holiday->name }}"
+                                               placeholder="Nombre del festivo"
+                                               class="flex-1 rounded-md border-gray-300">
+                                        <button type="button" onclick="removeHoliday(this)" class="px-3 py-2 text-red-600 hover:text-red-700">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                @endforeach
+                            </div>
+                            <p class="mt-2 text-xs text-gray-500">Los festivos no se contarán como días laborables en las vacaciones</p>
+                        </div>
+
+                        <div class="flex justify-end">
+                            <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg">
+                                Guardar Configuración
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @endif
+
             <!-- Users List -->
             <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
                 <div class="px-6 py-4 border-b border-gray-200 bg-gray-50">
@@ -172,4 +254,34 @@
             </div>
         </div>
     </div>
+
+    <script>
+        let holidayIndex = {{ $company->holidays->count() }};
+        
+        function addHoliday() {
+            const container = document.getElementById('holidays-container');
+            const row = document.createElement('div');
+            row.className = 'flex gap-2 items-start holiday-row';
+            row.innerHTML = `
+                <input type="date" 
+                       name="holidays[${holidayIndex}][date]" 
+                       class="flex-1 rounded-md border-gray-300"
+                       required>
+                <input type="text" 
+                       name="holidays[${holidayIndex}][name]" 
+                       placeholder="Nombre del festivo"
+                       class="flex-1 rounded-md border-gray-300"
+                       required>
+                <button type="button" onclick="removeHoliday(this)" class="px-3 py-2 text-red-600 hover:text-red-700">
+                    <i class="fas fa-trash"></i>
+                </button>
+            `;
+            container.appendChild(row);
+            holidayIndex++;
+        }
+        
+        function removeHoliday(button) {
+            button.closest('.holiday-row').remove();
+        }
+    </script>
 </x-app-layout>

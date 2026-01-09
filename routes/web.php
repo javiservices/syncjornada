@@ -48,12 +48,14 @@ Route::middleware('auth')->group(function () {
     Route::resource('vacation-requests', VacationRequestController::class);
     Route::post('/vacation-requests/{vacationRequest}/approve', [VacationRequestController::class, 'approve'])->name('vacation-requests.approve');
     Route::post('/vacation-requests/{vacationRequest}/reject', [VacationRequestController::class, 'reject'])->name('vacation-requests.reject');
+    Route::post('/vacation-requests/calculate-days', [VacationRequestController::class, 'calculateDays'])->name('vacation-requests.calculate-days');
     
     // Exportación de registros (conforme a normativa)
     Route::post('/time-entries/export', [TimeEntryExportController::class, 'export'])->name('time-entries.export');
 
     Route::middleware('adminOrManager')->group(function () {
         Route::resource('companies', CompanyController::class);
+        Route::patch('/companies/{company}/vacation-settings', [CompanyController::class, 'updateVacationSettings'])->name('companies.update-vacation-settings');
         Route::resource('users', UserController::class);
         Route::get('/audits', [AuditController::class, 'index'])->name('audits.index');
     });

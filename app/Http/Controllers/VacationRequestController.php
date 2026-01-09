@@ -36,7 +36,8 @@ class VacationRequestController extends Controller
 
     public function create()
     {
-        return view('vacation-requests.create');
+        $company = Auth::user()->company;
+        return view('vacation-requests.create', compact('company'));
     }
 
     public function store(Request $request)
@@ -50,15 +51,9 @@ class VacationRequestController extends Controller
         $start = Carbon::parse($validated['start_date']);
         $end = Carbon::parse($validated['end_date']);
         
-        // Calcular días laborables
-        $days = 0;
-        $current = $start->copy();
-        while ($current->lte($end)) {
-            if ($current->isWeekday()) {
-                $days++;
-            }
-            $current->addDay();
-        }
+        // Calcular días laborables según configuración de la empresa
+        $company = Auth::user()->company;
+        $days = $company->calculateWorkingDays($start, $end);
 
         $vacationRequest = VacationRequest::create([
             'user_id' => Auth::id(),
@@ -106,7 +101,8 @@ class VacationRequestController extends Controller
             abort(403, 'No puedes editar esta solicitud.');
         }
 
-        return view('vacation-requests.edit', compact('vacationRequest'));
+        $company = Auth::user()->company;
+        return view('vacation-requests.edit', compact('vacationRequest', 'company'));
     }
 
     public function update(Request $request, VacationRequest $vacationRequest)
@@ -124,14 +120,9 @@ class VacationRequestController extends Controller
         $start = Carbon::parse($validated['start_date']);
         $end = Carbon::parse($validated['end_date']);
         
-        $days = 0;
-        $current = $start->copy();
-        while ($current->lte($end)) {
-            if ($current->isWeekday()) {
-                $days++;
-            }
-            $current->addDay();
-        }
+        // Calcular días laborables según configuración de la empresa
+        $company = Auth::user()->company;
+        $days = $company->calculateWorkingDays($start, $end);
 
         $vacationRequest->update([
             'start_date' => $start,
@@ -210,5 +201,24 @@ class VacationRequestController extends Controller
         Mail::to($vacationRequest->user->email)->send(new VacationRequestReviewed($vacationRequest));
 
         return back()->with('success', 'Solicitud rechazada correctamente.');
+    }
+
+    /**
+     * API endpoint para calcular días laborables
+     */
+    public function calculateDays(Request $request)
+    {
+        $validated = $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+        ]);
+
+        $company = Auth::user()->company;
+        $days = $company->calculateWorkingDays(
+            $validated['start_date'],
+            $validated['end_date']
+        );
+
+        return response()->json(['days' => $days]);
     }
 }

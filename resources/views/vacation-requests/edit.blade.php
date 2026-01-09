@@ -49,7 +49,7 @@
                                 <span id="working-days" class="text-indigo-600 font-bold">{{ $vacationRequest->days }}</span>
                             </p>
                             <p class="text-xs text-gray-500 mt-1">
-                                * Se excluyen sábados y domingos del cálculo
+                                * Se calculan según la configuración de tu empresa
                             </p>
                         </div>
 
@@ -82,8 +82,8 @@
     </div>
 
     <script>
-        // Calcular días laborables
-        function calculateWorkingDays() {
+        // Calcular días laborables usando la API
+        async function calculateWorkingDays() {
             const startDate = document.getElementById('start_date').value;
             const endDate = document.getElementById('end_date').value;
             
@@ -100,18 +100,25 @@
                 return;
             }
             
-            let count = 0;
-            let current = new Date(start);
-            
-            while (current <= end) {
-                const dayOfWeek = current.getDay();
-                if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-                    count++;
-                }
-                current.setDate(current.getDate() + 1);
+            try {
+                const response = await fetch('{{ route('vacation-requests.calculate-days') }}', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        start_date: startDate,
+                        end_date: endDate
+                    })
+                });
+                
+                const data = await response.json();
+                document.getElementById('working-days').textContent = data.days;
+            } catch (error) {
+                console.error('Error calculando días:', error);
+                document.getElementById('working-days').textContent = '?';
             }
-            
-            document.getElementById('working-days').textContent = count;
         }
         
         document.getElementById('start_date').addEventListener('change', calculateWorkingDays);

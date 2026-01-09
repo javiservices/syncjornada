@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Company;
+use App\Models\CompanyHoliday;
 use Illuminate\Http\Request;
 
 class CompanyController extends Controller
@@ -145,5 +146,64 @@ class CompanyController extends Controller
         $company = Company::findOrFail($id);
         $company->delete();
         return redirect()->route('companies.index')->with('success', 'Empresa eliminada.');
+    }
+
+    /**
+     * Update vacation settings for the company
+     */
+    public function updateVacationSettings(Request $request, Company $company)
+    {
+        $user = auth()->user();
+        
+        // Verificar permisos
+        if ($user->role !== 'admin' && $user->role !== 'manager') {
+            abort(403, 'No tienes permisos para modificar esta configuración.');
+        }
+        
+        if ($user->role === 'manager' && $user->company_id !== $company->id) {
+            abort(403, 'Solo puedes modificar la configuración de tu propia empresa.');
+        }
+
+        $validated = $request->validate([
+            'working_days' => 'nullable|array',
+            'working_days.*' => 'integer|between:0,6',
+            'holidays' => 'nullable|array',
+            'holidays.*.date' => 'required|date',
+            'holidays.*.name' => 'required|string|max:255',
+        ]);
+
+        // Actualizar días laborables
+        $company->working_days = $validated['working_days'] ?? [1, 2, 3, 4, 5];
+        $company->save();
+
+        // Eliminar festivos existentes que no están en la lista
+        $existingIds = collect($validated['holidays'] ?? [])
+            ->filter(fn($h) => isset($h['id']))
+            ->pluck('id')
+            ->toArray();
+        
+        $company->holidays()->whereNotIn('id', $existingIds)->delete();
+
+        // Actualizar o crear festivos
+        foreach ($validated['holidays'] ?? [] as $holidayData) {
+            if (isset($holidayData['id'])) {
+                // Actualizar existente
+                CompanyHoliday::where('id', $holidayData['id'])
+                    ->where('company_id', $company->id)
+                    ->update([
+                        'date' => $holidayData['date'],
+                        'name' => $holidayData['name'],
+                    ]);
+            } else {
+                // Crear nuevo
+                $company->holidays()->create([
+                    'date' => $holidayData['date'],
+                    'name' => $holidayData['name'],
+                ]);
+            }
+        }
+
+        return redirect()->route('companies.show', $company->id)
+            ->with('success', 'Configuración de vacaciones actualizada correctamente.');
     }
 }
