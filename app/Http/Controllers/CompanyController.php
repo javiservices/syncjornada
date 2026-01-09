@@ -144,7 +144,7 @@ class CompanyController extends Controller
         $company->update($data);
         \Log::info('Company updated successfully', ['id' => $company->id]);
         
-        return redirect()->route('companies.index')->with('success', 'Empresa actualizada.');
+        return redirect()->route('companies.show', $company->id)->with('success', 'Empresa actualizada.');
     }
 
     /**
