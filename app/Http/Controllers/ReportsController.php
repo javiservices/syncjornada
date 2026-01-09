@@ -53,4 +53,20 @@ class ReportsController extends Controller
 
         return view('reports.index', compact('timeEntries', 'users', 'companies'));
     }
+
+    public function destroy(TimeEntry $timeEntry)
+    {
+        // Solo admins pueden eliminar
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'No tienes permiso para realizar esta acción');
+        }
+
+        $userName = $timeEntry->user->name;
+        $date = $timeEntry->date;
+        
+        $timeEntry->delete();
+
+        return redirect()->route('reports.index')
+            ->with('success', "Registro de {$userName} del {$date} eliminado correctamente");
+    }
 }

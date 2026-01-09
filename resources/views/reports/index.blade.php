@@ -153,10 +153,22 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $entry->notes ?: '-' }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <a href="{{ route('time-entries.edit', ['time_entry' => $entry->id, 'from' => 'reports']) }}" class="inline-flex items-center px-3 py-1 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition">
-                                            <i class="fas fa-edit mr-1"></i>
-                                            Editar
-                                        </a>
+                                        <div class="flex gap-2">
+                                            <a href="{{ route('time-entries.edit', ['time_entry' => $entry->id, 'from' => 'reports']) }}" class="inline-flex items-center px-3 py-1 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition">
+                                                <i class="fas fa-edit mr-1"></i>
+                                                Editar
+                                            </a>
+                                            @if(Auth::user()->role === 'admin')
+                                                <form method="POST" action="{{ route('reports.destroy', $entry) }}" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este registro?\n\nUsuario: {{ $entry->user->name }}\nFecha: {{ $entry->date }}\n\nEsta acción no se puede deshacer.');" class="inline">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="inline-flex items-center px-3 py-1 bg-red-600 text-white text-xs font-medium rounded-lg hover:bg-red-700 transition">
+                                                        <i class="fas fa-trash mr-1"></i>
+                                                        Eliminar
+                                                    </button>
+                                                </form>
+                                            @endif
+                                        </div>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -249,10 +261,23 @@
 
                                 <!-- Actions -->
                                 <div class="mt-3 pt-3 border-t border-gray-200">
-                                    <a href="{{ route('time-entries.edit', ['time_entry' => $entry->id, 'from' => 'reports']) }}" class="inline-flex items-center justify-center w-full px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
-                                        <i class="fas fa-edit mr-2"></i>
-                                        Editar Registro
-                                    </a>
+                                    <div class="flex gap-2">
+                                        <a href="{{ route('time-entries.edit', ['time_entry' => $entry->id, 'from' => 'reports']) }}" class="inline-flex items-center justify-center flex-1 px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
+                                            <i class="fas fa-edit mr-2"></i>
+                                            Editar
+                                        </a>
+                                        @if(Auth::user()->role === 'admin')
+                                            <form method="POST" action="{{ route('reports.destroy', $entry) }}" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este registro?\n\nUsuario: {{ $entry->user->name }}\nFecha: {{ $entry->date }}\n\nEsta acción no se puede deshacer.');" class="flex-1">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="inline-flex items-center justify-center w-full px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition">
+                                                    <i class="fas fa-trash mr-2"></i>
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        @endif
+                                    </div>
+                                </div>
                                 </div>
                             </div>
                         </div>
