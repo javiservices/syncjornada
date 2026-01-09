@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::table('companies', function (Blueprint $table) {
             // JSON array con días laborables [0=domingo, 1=lunes, ..., 6=sábado]
-            // Por defecto: [1,2,3,4,5] (lunes a viernes)
-            $table->json('working_days')->default('[1,2,3,4,5]')->after('checkout_notification_time');
+            $table->json('working_days')->nullable()->after('checkout_notification_time');
         });
+        
+        // Establecer valor por defecto [1,2,3,4,5] (lunes a viernes) para registros existentes
+        \DB::table('companies')->update(['working_days' => json_encode([1,2,3,4,5])]);
     }
 
     /**
