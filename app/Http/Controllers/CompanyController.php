@@ -124,10 +124,19 @@ class CompanyController extends Controller
             'checkout_notification_time' => 'nullable|date_format:H:i',
         ]);
 
-        $data = $request->all();
-        // Convert checkboxes to boolean
-        $data['enable_checkin_notifications'] = $request->has('enable_checkin_notifications');
-        $data['enable_checkout_notifications'] = $request->has('enable_checkout_notifications');
+        // Preparar datos solo con los campos permitidos
+        $data = [
+            'name' => $request->name,
+            'cif' => $request->cif,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'timezone' => $request->timezone,
+            'enable_checkin_notifications' => $request->has('enable_checkin_notifications'),
+            'enable_checkout_notifications' => $request->has('enable_checkout_notifications'),
+            'checkin_notification_time' => $request->checkin_notification_time,
+            'checkout_notification_time' => $request->checkout_notification_time,
+        ];
 
         $company->update($data);
         return redirect()->route('companies.index')->with('success', 'Empresa actualizada.');
