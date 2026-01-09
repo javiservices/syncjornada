@@ -56,7 +56,7 @@
       "offers": {
         "@type": "AggregateOffer",
         "lowPrice": "5.00",
-        "highPrice": "25.00",
+        "highPrice": "15.00",
         "priceCurrency": "EUR",
         "priceSpecification": {
           "@type": "UnitPriceSpecification",
@@ -102,7 +102,7 @@
           "name": "¿Cuánto cuesta SyncJornada?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "SyncJornada tiene precios escalonados según el número de empleados: 5€/mes hasta 5 empleados, 10€/mes hasta 10 empleados, 15€/mes hasta 15 empleados, y así sucesivamente. Todos los planes incluyen las mismas funcionalidades completas y 30 días de prueba gratuita."
+            "text": "SyncJornada tiene precios simples: 5€/mes hasta 5 empleados, 10€/mes hasta 10 empleados y 15€/mes hasta 15 empleados. Todos los planes incluyen las mismas funcionalidades completas y 30 días de prueba gratuita. Para empresas mayores, contactar para plan personalizado."
           }
         },
         {
@@ -516,77 +516,47 @@
             </div>
         </div>
 
-        <div class="grid md:grid-cols-3 lg:grid-cols-5 gap-6 max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-3 gap-8 max-w-4xl mx-auto">
             {{-- Hasta 5 empleados --}}
-            <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
+            <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
                 <div class="text-center">
-                    <div class="mb-4">
-                        <span class="text-4xl font-bold text-gray-900">5€</span>
-                        <span class="text-gray-600">/mes</span>
+                    <div class="mb-6">
+                        <span class="text-5xl font-bold text-gray-900">5€</span>
+                        <span class="text-gray-600 text-lg">/mes</span>
                     </div>
-                    <p class="text-sm font-semibold text-gray-700 mb-4">Hasta 5 empleados</p>
+                    <p class="text-base font-semibold text-gray-700 mb-6">Hasta 5 empleados</p>
                     <a href="{{ route('company-request.create') }}"
-                       class="block w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">
+                       class="block w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
                         Probar gratis
                     </a>
                 </div>
             </div>
 
             {{-- Hasta 10 empleados --}}
-            <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
+            <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
                 <div class="text-center">
-                    <div class="mb-4">
-                        <span class="text-4xl font-bold text-gray-900">10€</span>
-                        <span class="text-gray-600">/mes</span>
+                    <div class="mb-6">
+                        <span class="text-5xl font-bold text-gray-900">10€</span>
+                        <span class="text-gray-600 text-lg">/mes</span>
                     </div>
-                    <p class="text-sm font-semibold text-gray-700 mb-4">Hasta 10 empleados</p>
+                    <p class="text-base font-semibold text-gray-700 mb-6">Hasta 10 empleados</p>
                     <a href="{{ route('company-request.create') }}"
-                       class="block w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">
+                       class="block w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
                         Probar gratis
                     </a>
                 </div>
             </div>
 
             {{-- Hasta 15 empleados --}}
-            <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
+            <div class="bg-white rounded-2xl shadow-lg p-8 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
                 <div class="text-center">
-                    <div class="mb-4">
-                        <span class="text-4xl font-bold text-gray-900">15€</span>
-                        <span class="text-gray-600">/mes</span>
+                    <div class="mb-6">
+                        <span class="text-5xl font-bold text-gray-900">15€</span>
+                        <span class="text-gray-600 text-lg">/mes</span>
                     </div>
-                    <p class="text-sm font-semibold text-gray-700 mb-4">Hasta 15 empleados</p>
+                    <p class="text-base font-semibold text-gray-700 mb-6">Hasta 15 empleados</p>
                     <a href="{{ route('company-request.create') }}"
-                       class="block w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">
-                        Probar gratis
-                    </a>
-                </div>
-            </div>
-
-            {{-- Hasta 20 empleados --}}
-            <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
-                <div class="text-center">
-                    <div class="mb-4">
-                        <span class="text-4xl font-bold text-gray-900">20€</span>
-                        <span class="text-gray-600">/mes</span>
-                    </div>
-                    <p class="text-sm font-semibold text-gray-700 mb-4">Hasta 20 empleados</p>
-                    <a href="{{ route('company-request.create') }}"
-                       class="block w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">
-                        Probar gratis
-                    </a>
-                </div>
-            </div>
-
-            {{-- Hasta 25 empleados --}}
-            <div class="bg-white rounded-2xl shadow-lg p-6 border-2 border-gray-200 hover:border-blue-500 transition hover:shadow-xl">
-                <div class="text-center">
-                    <div class="mb-4">
-                        <span class="text-4xl font-bold text-gray-900">25€</span>
-                        <span class="text-gray-600">/mes</span>
-                    </div>
-                    <p class="text-sm font-semibold text-gray-700 mb-4">Hasta 25 empleados</p>
-                    <a href="{{ route('company-request.create') }}"
-                       class="block w-full bg-blue-600 text-white py-2.5 rounded-lg font-semibold hover:bg-blue-700 transition">
+                       class="block w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition">
                         Probar gratis
                     </a>
                 </div>
@@ -660,7 +630,7 @@
         <div class="text-center mt-10">
             <p class="text-gray-600 text-lg">
                 <i class="fas fa-users text-blue-600 mr-2"></i>
-                <strong>¿Más de 25 empleados?</strong> <a href="mailto:syncjornada@gmail.com" class="text-blue-600 hover:text-blue-700 underline">Contáctanos</a> para un plan personalizado
+                <strong>¿Más de 15 empleados?</strong> <a href="mailto:syncjornada@gmail.com" class="text-blue-600 hover:text-blue-700 underline">Contáctanos</a> para un plan personalizado
             </p>
         </div>
 
@@ -884,6 +854,85 @@
 </footer>
 
 @include('legal.cookie-banner')
+
+<!-- PayPal Donation Widget -->
+<div id="donation-widget" class="fixed bottom-6 right-6 z-50">
+    <!-- Botón flotante -->
+    <button 
+        id="donation-btn"
+        onclick="toggleDonation()"
+        class="bg-blue-600 hover:bg-blue-700 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg transition-all duration-300 hover:scale-110"
+        title="Apoya el proyecto"
+    >
+        <i class="fab fa-paypal text-2xl"></i>
+    </button>
+    
+    <!-- Panel desplegable -->
+    <div 
+        id="donation-panel"
+        class="hidden absolute bottom-16 right-0 bg-white rounded-lg shadow-2xl p-4 w-72 border border-gray-200"
+    >
+        <div class="text-center">
+            <div class="mb-3">
+                <i class="fas fa-coffee text-blue-600 text-3xl"></i>
+            </div>
+            <h3 class="font-bold text-gray-900 mb-2">☕ Apoya SyncJornada</h3>
+            <p class="text-sm text-gray-600 mb-4">
+                Esta aplicación es 100% gratuita. Si te resulta útil, puedes invitarme a un café para ayudar a mantener los servidores activos.
+            </p>
+            <a 
+                href="https://paypal.me/javilabarumdj" 
+                target="_blank"
+                class="block w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition mb-2"
+            >
+                <i class="fab fa-paypal mr-2"></i>Donar con PayPal
+            </a>
+            <button 
+                onclick="toggleDonation()"
+                class="text-sm text-gray-500 hover:text-gray-700"
+            >
+                Cerrar
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+function toggleDonation() {
+    const panel = document.getElementById('donation-panel');
+    const btn = document.getElementById('donation-btn');
+    
+    if (panel.classList.contains('hidden')) {
+        panel.classList.remove('hidden');
+        panel.classList.add('animate-fadeIn');
+        btn.classList.add('ring-4', 'ring-blue-300');
+    } else {
+        panel.classList.add('hidden');
+        panel.classList.remove('animate-fadeIn');
+        btn.classList.remove('ring-4', 'ring-blue-300');
+    }
+}
+
+// Cerrar al hacer clic fuera
+document.addEventListener('click', function(event) {
+    const widget = document.getElementById('donation-widget');
+    const panel = document.getElementById('donation-panel');
+    
+    if (!widget.contains(event.target) && !panel.classList.contains('hidden')) {
+        toggleDonation();
+    }
+});
+</script>
+
+<style>
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+}
+</style>
 
 </body>
 </html>
