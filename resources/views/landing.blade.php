@@ -221,7 +221,7 @@
                     <a href="{{ route('company-request.create') }}"
                        class="group bg-white text-blue-600 px-8 py-4 rounded-xl font-bold text-lg hover:bg-blue-50 transition shadow-2xl inline-flex items-center justify-center">
                         <i class="fas fa-rocket mr-3 group-hover:scale-110 transition"></i>
-                        Solicitar Acceso GRATIS
+                        Solicitar Acceso
                     </a>
                     <a href="#precios"
                        class="bg-white/10 backdrop-blur-sm border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition inline-flex items-center justify-center">
@@ -507,7 +507,7 @@
             </p>
             <div class="inline-block bg-green-100 border border-green-300 rounded-full px-6 py-2">
                 <span class="text-green-800 font-semibold">
-                    <i class="fas fa-gift mr-2"></i>Gratis para siempre. Todas las funcionalidades incluidas.
+                    <i class="fas fa-gift mr-2"></i>Gratis (por ahora). Todas las funcionalidades incluidas.
                 </span>
             </div>
         </div>
