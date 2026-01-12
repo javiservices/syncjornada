@@ -63,9 +63,9 @@
                     <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
                         <p class="mb-2 sm:mb-0">&copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados.</p>
                         <div class="flex space-x-4">
-                            <a href="#" class="hover:text-blue-600 transition">Ayuda</a>
-                            <a href="#" class="hover:text-blue-600 transition">Privacidad</a>
-                            <a href="#" class="hover:text-blue-600 transition">Términos</a>
+                            <a href="mailto:syncjornada@gmail.com" class="hover:text-blue-600 transition">Ayuda</a>
+                            <a href="{{ url('/privacy') }}" class="hover:text-blue-600 transition">Privacidad</a>
+                            <a href="{{ url('/terms') }}" class="hover:text-blue-600 transition">Términos</a>
                         </div>
                     </div>
                 </div>

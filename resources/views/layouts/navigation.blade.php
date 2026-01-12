@@ -7,12 +7,12 @@
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 hover:opacity-80 transition" aria-label="Ir al Dashboard">
                         <i class="fas fa-clock text-blue-600 text-2xl" aria-hidden="true"></i>
-                        <span class="text-xl font-bold text-gray-900 hidden sm:block">SyncJornada</span>
+                        <span class="text-xl font-bold text-gray-900">SyncJornada</span>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-2 md:space-x-3 lg:space-x-4 sm:-my-px sm:ms-4 lg:ms-10 sm:flex items-center">
+                <div class="hidden space-x-2 md:space-x-3 lg:space-x-4 lg:-my-px lg:ms-4 xl:ms-10 lg:flex items-center">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="flex items-center space-x-2">
                         <i class="fas fa-home text-xs" aria-hidden="true"></i>
                         <span class="text-xs">{{ __('Dashboard') }}</span>
@@ -71,7 +71,7 @@
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-4 lg:ms-6">
+            <div class="hidden lg:flex lg:items-center lg:ms-4 xl:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-2.5 py-2 border border-gray-300 text-xs leading-4 font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150" aria-label="Menú de usuario" aria-haspopup="true">
@@ -118,7 +118,7 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
+            <div class="-me-2 flex items-center lg:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-700 transition duration-150 ease-in-out" aria-label="Abrir menú de navegación" aria-expanded="false" :aria-expanded="open.toString()">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -130,7 +130,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden border-t border-gray-200">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden lg:hidden border-t border-gray-200">
         <div class="pt-2 pb-3 space-y-1 bg-gray-50">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="flex items-center space-x-2">
                 <i class="fas fa-home text-sm" aria-hidden="true"></i>
