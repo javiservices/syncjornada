@@ -23,15 +23,17 @@ class DashboardController extends Controller
             ->take(10)
             ->get();
         
-        // Check if currently checked in
-        $today = now()->toDateString();
+        // Check if currently checked in (buscar última entrada abierta sin importar fecha)
+        // Esto permite turnos nocturnos que cruzan la medianoche
         $lastEntry = TimeEntry::where('user_id', $user->id)
-            ->where('date', $today)
-            ->latest()
+            ->whereNull('check_out')
+            ->latest('date')
+            ->latest('check_in')
             ->first();
-        $isCheckedIn = $lastEntry && !$lastEntry->check_out;
+        $isCheckedIn = $lastEntry !== null;
         
         // Statistics for today
+        $today = now()->toDateString();
         $todayEntries = TimeEntry::where('user_id', $user->id)
             ->where('date', $today)
             ->whereNotNull('check_out')

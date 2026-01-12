@@ -65,7 +65,13 @@ class TimeEntryController extends Controller
         
         $today = Carbon::today()->toDateString();
 
-        $lastEntry = TimeEntry::where('user_id', $user->id)->where('date', $today)->latest()->first();
+        // Buscar la última entrada abierta (sin check_out) del usuario, independientemente de la fecha
+        // Esto permite turnos nocturnos que cruzan la medianoche
+        $lastEntry = TimeEntry::where('user_id', $user->id)
+            ->whereNull('check_out')
+            ->latest('date')
+            ->latest('check_in')
+            ->first();
 
         if ($lastEntry && !$lastEntry->check_out) {
             // Verificar si está bloqueado
