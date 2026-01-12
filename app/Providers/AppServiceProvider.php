@@ -26,12 +26,14 @@ class AppServiceProvider extends ServiceProvider
         $this->app['request']->setTrustedProxies(
             ['*'],
             \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR |
-            \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO
+            \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO |
+            \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_HOST
         );
 
-        // Force HTTPS in production
+        // Force HTTPS and default ports in production
         if ($this->app->environment('production')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
+            \Illuminate\Support\Facades\URL::forceRootUrl(config('app.url'));
         }
     }
 }
