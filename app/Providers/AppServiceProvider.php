@@ -22,12 +22,11 @@ class AppServiceProvider extends ServiceProvider
         // Register observers
         \App\Models\TimeEntry::observe(\App\Observers\TimeEntryObserver::class);
 
-        // Trust all proxies for HTTPS detection
+        // Trust all proxies for HTTPS detection (sin incluir puerto)
         $this->app['request']->setTrustedProxies(
             ['*'],
             \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_FOR |
-            \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO |
-            \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PORT
+            \Symfony\Component\HttpFoundation\Request::HEADER_X_FORWARDED_PROTO
         );
 
         // Force HTTPS in production

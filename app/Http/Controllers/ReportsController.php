@@ -40,7 +40,7 @@ class ReportsController extends Controller
             $query->where('remote_work', $request->boolean('remote_work'));
         }
 
-        $timeEntries = $query->orderBy('date', 'desc')->paginate(20);
+        $timeEntries = $query->orderBy('date', 'desc')->paginate(20)->appends($request->except('page'));
 
         // Obtener listas para filtros
         if ($user->role === 'admin') {
