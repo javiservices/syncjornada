@@ -67,6 +67,8 @@ Route::middleware('auth')->group(function () {
 
     Route::middleware('role:manager')->group(function () {
         Route::get('/reports', [ReportsController::class, 'index'])->name('reports.index');
+        Route::get('/reports/create', [ReportsController::class, 'create'])->name('reports.create')->middleware('admin');
+        Route::post('/reports', [ReportsController::class, 'store'])->name('reports.store')->middleware('admin');
         Route::delete('/reports/{timeEntry}', [ReportsController::class, 'destroy'])->name('reports.destroy')->middleware('admin');
     });
 

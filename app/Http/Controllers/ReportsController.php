@@ -54,6 +54,58 @@ class ReportsController extends Controller
         return view('reports.index', compact('timeEntries', 'users', 'companies'));
     }
 
+    public function create()
+    {
+        // Solo admins pueden crear registros
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'No tienes permiso para realizar esta acción');
+        }
+
+        return view('reports.create');
+    }
+
+    public function store(Request $request)
+    {
+        // Solo admins pueden crear registros
+        if (auth()->user()->role !== 'admin') {
+            abort(403, 'No tienes permiso para realizar esta acción');
+        }
+
+        $validated = $request->validate([
+            'user_id' => 'required|exists:users,id',
+            'check_in_date' => 'required|date',
+            'check_in_time' => 'required|date_format:H:i',
+            'check_out_date' => 'nullable|date',
+            'check_out_time' => 'nullable|date_format:H:i',
+            'remote_work' => 'boolean',
+            'notes' => 'nullable|string|max:500',
+        ]);
+
+        // Construir datetime completo
+        $checkIn = $validated['check_in_date'] . ' ' . $validated['check_in_time'] . ':00';
+        
+        $data = [
+            'user_id' => $validated['user_id'],
+            'date' => $validated['check_in_date'],
+            'check_in' => $checkIn,
+            'remote_work' => $request->boolean('remote_work'),
+            'notes' => $validated['notes'] ?? null,
+            'ip_address' => $request->ip(),
+            'user_agent' => 'Admin manual entry',
+            'employee_confirmed' => true,
+        ];
+
+        // Si hay check_out, agregarlo
+        if ($request->filled('check_out_date') && $request->filled('check_out_time')) {
+            $data['check_out'] = $validated['check_out_date'] . ' ' . $validated['check_out_time'] . ':00';
+        }
+
+        TimeEntry::create($data);
+
+        return redirect()->route('reports.index')
+            ->with('success', 'Registro creado correctamente');
+    }
+
     public function destroy(TimeEntry $timeEntry)
     {
         // Solo admins pueden eliminar
