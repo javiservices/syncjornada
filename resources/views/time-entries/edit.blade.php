@@ -52,16 +52,32 @@
                             </div>
                         @else
                             <!-- Vista completa para managers y admins -->
-                            <div class="mb-4">
-                                <label for="check_in" class="block text-sm font-medium text-gray-700">Hora de Entrada</label>
-                                <input type="time" name="check_in" id="check_in" value="{{ old('check_in', $timeEntry->check_in ? $timeEntry->check_in->format('H:i') : '') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                @error('check_in') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="check_in_date" class="block text-sm font-medium text-gray-700">Fecha de Entrada</label>
+                                    <input type="date" name="check_in_date" id="check_in_date" value="{{ old('check_in_date', $timeEntry->check_in ? $timeEntry->check_in->format('Y-m-d') : '') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    @error('check_in_date') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
+
+                                <div>
+                                    <label for="check_in" class="block text-sm font-medium text-gray-700">Hora de Entrada</label>
+                                    <input type="time" name="check_in" id="check_in" value="{{ old('check_in', $timeEntry->check_in ? $timeEntry->check_in->format('H:i') : '') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    @error('check_in') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
                             </div>
 
-                            <div class="mb-4">
-                                <label for="check_out" class="block text-sm font-medium text-gray-700">Hora de Salida</label>
-                                <input type="time" name="check_out" id="check_out" value="{{ old('check_out', $timeEntry->check_out ? $timeEntry->check_out->format('H:i') : '') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                @error('check_out') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label for="check_out_date" class="block text-sm font-medium text-gray-700">Fecha de Salida</label>
+                                    <input type="date" name="check_out_date" id="check_out_date" value="{{ old('check_out_date', $timeEntry->check_out ? $timeEntry->check_out->format('Y-m-d') : '') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    @error('check_out_date') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
+
+                                <div>
+                                    <label for="check_out" class="block text-sm font-medium text-gray-700">Hora de Salida</label>
+                                    <input type="time" name="check_out" id="check_out" value="{{ old('check_out', $timeEntry->check_out ? $timeEntry->check_out->format('H:i') : '') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                    @error('check_out') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                                </div>
                             </div>
 
                             <div class="mb-4">

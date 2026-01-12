@@ -166,8 +166,10 @@ class TimeEntryController extends Controller
         } else {
             // Manager y Admin pueden editar todo
             $request->validate([
+                'check_in_date' => 'nullable|date',
                 'check_in' => 'nullable|date_format:H:i',
-                'check_out' => 'nullable|date_format:H:i|after:check_in',
+                'check_out_date' => 'nullable|date',
+                'check_out' => 'nullable|date_format:H:i',
                 'remote_work' => 'boolean',
                 'notes' => 'nullable|string|max:255',
             ]);
@@ -203,7 +205,31 @@ class TimeEntryController extends Controller
         if ($user->role === 'employee') {
             $timeEntry->update($request->only(['notes']));
         } else {
-            $timeEntry->update($request->only(['check_in', 'check_out', 'remote_work', 'notes']));
+            // Construir los datetime completos desde fecha + hora
+            $updateData = [];
+            
+            if ($request->filled('check_in_date') && $request->filled('check_in')) {
+                $updateData['check_in'] = $request->check_in_date . ' ' . $request->check_in . ':00';
+            }
+            
+            if ($request->filled('check_out_date') && $request->filled('check_out')) {
+                $updateData['check_out'] = $request->check_out_date . ' ' . $request->check_out . ':00';
+            }
+            
+            if ($request->has('remote_work')) {
+                $updateData['remote_work'] = $request->boolean('remote_work');
+            }
+            
+            if ($request->filled('notes')) {
+                $updateData['notes'] = $request->notes;
+            }
+            
+            // Actualizar el campo date con la fecha del check_in
+            if ($request->filled('check_in_date')) {
+                $updateData['date'] = $request->check_in_date;
+            }
+            
+            $timeEntry->update($updateData);
         }
 
         // Redirigir según el origen
