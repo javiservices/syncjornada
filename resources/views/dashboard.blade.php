@@ -21,44 +21,44 @@
 
                 <!-- Role-based Quick Info -->
                 @if(auth()->user()->role === 'admin')
-                    <div class="mt-6 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-4">
-                        <div class="flex items-start gap-3">
+                    <div class="mt-6 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-3 md:p-4">
+                        <div class="flex items-start gap-2 md:gap-3">
                             <div class="flex-shrink-0">
-                                <div class="w-10 h-10 bg-purple-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-crown text-white"></i>
+                                <div class="w-8 h-8 md:w-10 md:h-10 bg-purple-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-crown text-white text-sm"></i>
                                 </div>
                             </div>
                             <div class="flex-1">
-                                <h3 class="text-sm font-semibold text-gray-900 mb-1">Panel de Administrador</h3>
-                                <p class="text-sm text-gray-700">Acceso completo al sistema. Gestiona empresas, usuarios y solicitudes desde el menú superior.</p>
+                                <h3 class="text-xs md:text-sm font-semibold text-gray-900 mb-1">Panel de Administrador</h3>
+                                <p class="text-xs md:text-sm text-gray-700">Acceso completo al sistema. Gestiona empresas, usuarios y solicitudes desde el menú superior.</p>
                             </div>
                         </div>
                     </div>
                 @elseif(auth()->user()->role === 'manager')
-                    <div class="mt-6 bg-gradient-to-r from-green-50 to-teal-50 border border-green-200 rounded-lg p-4">
-                        <div class="flex items-start gap-3">
+                    <div class="mt-6 bg-gradient-to-r from-green-50 to-teal-50 border border-green-200 rounded-lg p-3 md:p-4">
+                        <div class="flex items-start gap-2 md:gap-3">
                             <div class="flex-shrink-0">
-                                <div class="w-10 h-10 bg-green-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-user-tie text-white"></i>
+                                <div class="w-8 h-8 md:w-10 md:h-10 bg-green-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-user-tie text-white text-sm"></i>
                                 </div>
                             </div>
                             <div class="flex-1">
-                                <h3 class="text-sm font-semibold text-gray-900 mb-1">Panel de Manager</h3>
-                                <p class="text-sm text-gray-700">Supervisa registros de tiempo y genera reportes del equipo desde el menú "Reportes".</p>
+                                <h3 class="text-xs md:text-sm font-semibold text-gray-900 mb-1">Panel de Manager</h3>
+                                <p class="text-xs md:text-sm text-gray-700">Supervisa registros de tiempo y genera reportes del equipo desde el menú "Reportes".</p>
                             </div>
                         </div>
                     </div>
                 @else
-                    <div class="mt-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-4">
-                        <div class="flex items-start gap-3">
+                    <div class="mt-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-3 md:p-4">
+                        <div class="flex items-start gap-2 md:gap-3">
                             <div class="flex-shrink-0">
-                                <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-user text-white"></i>
+                                <div class="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-user text-white text-sm"></i>
                                 </div>
                             </div>
                             <div class="flex-1">
-                                <h3 class="text-sm font-semibold text-gray-900 mb-1">Bienvenido a SyncJornada</h3>
-                                <p class="text-sm text-gray-700">Registra tu entrada/salida abajo y revisa tu historial en "Jornadas" del menú superior.</p>
+                                <h3 class="text-xs md:text-sm font-semibold text-gray-900 mb-1">Bienvenido a SyncJornada</h3>
+                                <p class="text-xs md:text-sm text-gray-700">Registra tu entrada/salida abajo y revisa tu historial en "Jornadas" del menú superior.</p>
                             </div>
                         </div>
                     </div>
@@ -68,13 +68,13 @@
            <!-- Check In/Out Card - Simplified and Modern -->
             <div class="mb-6">
                 <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-                    <div class="p-6">
+                    <div class="p-4 md:p-6">
                         <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-lg font-semibold text-gray-900">
+                            <h2 class="text-base md:text-lg font-semibold text-gray-900">
                                 {{ $isCheckedIn ? 'Registrar Salida' : 'Registrar Entrada' }}
                             </h2>
                             @if($isCheckedIn && $lastEntry)
-                                <span class="inline-flex items-center px-3 py-1 bg-green-50 text-green-700 text-sm font-medium rounded-full">
+                                <span class="inline-flex items-center px-2 md:px-3 py-1 bg-green-50 text-green-700 text-xs md:text-sm font-medium rounded-full">
                                     <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
                                     Activo desde {{ \Carbon\Carbon::parse($lastEntry->check_in)->format('H:i') }}
                                     <span class="text-xs ml-1">({{ \Carbon\Carbon::parse($lastEntry->check_in)->format('d/m') }})</span>

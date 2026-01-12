@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+            <h2 class="font-semibold text-lg md:text-xl text-gray-800 leading-tight">
                 {{ __('Mis Registros de Jornada') }}
             </h2>
-            <div class="text-sm text-gray-500">
+            <div class="text-xs md:text-sm text-gray-500">
                 {{ $timeEntries->total() }} registro{{ $timeEntries->total() !== 1 ? 's' : '' }}
             </div>
         </div>
@@ -14,47 +14,45 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
 
             <!-- Filtros mejorados -->
-
-            <!-- Filtros mejorados -->
             <div class="bg-gradient-to-r from-blue-50 to-indigo-50 overflow-hidden shadow-sm sm:rounded-xl border border-blue-100">
-                <div class="p-6">
-                    <div class="flex items-center mb-4">
-                        <svg class="w-5 h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="p-4 md:p-6">
+                    <div class="flex items-center mb-3 md:mb-4">
+                        <svg class="w-4 h-4 md:w-5 md:h-5 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path>
                         </svg>
-                        <h3 class="text-lg font-semibold text-gray-900">Filtros de búsqueda</h3>
+                        <h3 class="text-base md:text-lg font-semibold text-gray-900">Filtros de búsqueda</h3>
                     </div>
                     <form method="GET" class="space-y-4">
-                        <div class="grid grid-cols-1 md:grid-cols-{{ auth()->user()->role === 'manager' || auth()->user()->role === 'admin' ? '5' : '4' }} gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-{{ auth()->user()->role === 'manager' || auth()->user()->role === 'admin' ? '5' : '4' }} gap-3 md:gap-4">
                             <div class="space-y-2">
-                                <label for="date_from" class="block text-sm font-medium text-gray-700 flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <label for="date_from" class="block text-xs md:text-sm font-medium text-gray-700 flex items-center">
+                                    <svg class="w-3 h-3 md:w-4 md:h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
                                     Fecha Desde
                                 </label>
                                 <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}"
-                                       class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                       class="block w-full px-2 md:px-3 py-2 text-xs md:text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                             </div>
                             <div class="space-y-2">
-                                <label for="date_to" class="block text-sm font-medium text-gray-700 flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <label for="date_to" class="block text-xs md:text-sm font-medium text-gray-700 flex items-center">
+                                    <svg class="w-3 h-3 md:w-4 md:h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
                                     Fecha Hasta
                                 </label>
                                 <input type="date" name="date_to" id="date_to" value="{{ request('date_to') }}"
-                                       class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                       class="block w-full px-2 md:px-3 py-2 text-xs md:text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                             </div>
                             <div class="space-y-2">
-                                <label for="remote_work" class="block text-sm font-medium text-gray-700 flex items-center">
-                                    <svg class="w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <label for="remote_work" class="block text-xs md:text-sm font-medium text-gray-700 flex items-center">
+                                    <svg class="w-3 h-3 md:w-4 md:h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                     </svg>
                                     Modalidad
                                 </label>
                                 <select name="remote_work" id="remote_work"
-                                        class="block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                        class="block w-full px-2 md:px-3 py-2 text-xs md:text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                                     <option value="all" {{ request('remote_work') == 'all' ? 'selected' : '' }}>Todas las modalidades</option>
                                     <option value="1" {{ request('remote_work') === '1' ? 'selected' : '' }}>🏠 Trabajo remoto</option>
                                     <option value="0" {{ request('remote_work') === '0' ? 'selected' : '' }}>🏢 Presencial</option>

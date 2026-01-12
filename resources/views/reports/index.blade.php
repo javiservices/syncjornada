@@ -1,12 +1,12 @@
 <x-app-layout>
     <x-slot name="header">
-        <div class="flex items-center justify-between">
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
+            <h2 class="font-semibold text-lg md:text-xl text-gray-800 leading-tight">
                 {{ __('Reportes de Jornada') }}
             </h2>
             @if(Auth::user()->role === 'admin')
-            <a href="{{ route('reports.create') }}" class="inline-flex items-center px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm font-medium rounded-md transition">
-                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <a href="{{ route('reports.create') }}" class="inline-flex items-center px-3 md:px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs md:text-sm font-medium rounded-md transition">
+                <svg class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
                 </svg>
                 Crear Registro
@@ -19,12 +19,12 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <form method="GET" class="mb-6 bg-gray-50 p-4 rounded-lg">
-                        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                    <form method="GET" class="mb-6 bg-gray-50 p-3 md:p-4 rounded-lg">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4">
                             @if(Auth::user()->role === 'admin')
                             <div>
-                                <label for="company_id" class="block text-sm font-medium text-gray-700">Empresa</label>
-                                <select name="company_id" id="company_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <label for="company_id" class="block text-xs md:text-sm font-medium text-gray-700 mb-1">Empresa</label>
+                                <select name="company_id" id="company_id" class="mt-1 block w-full text-xs md:text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     <option value="">Todas</option>
                                     @foreach($companies as $company)
                                         <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
@@ -33,8 +33,8 @@
                             </div>
                             @endif
                             <div>
-                                <label for="user_id" class="block text-sm font-medium text-gray-700">Usuario</label>
-                                <select name="user_id" id="user_id" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <label for="user_id" class="block text-xs md:text-sm font-medium text-gray-700 mb-1">Usuario</label>
+                                <select name="user_id" id="user_id" class="mt-1 block w-full text-xs md:text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     <option value="">Todos</option>
                                     @foreach($users as $u)
                                         <option value="{{ $u->id }}" {{ request('user_id') == $u->id ? 'selected' : '' }}>{{ $u->name }}</option>
@@ -42,33 +42,33 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="date_from" class="block text-sm font-medium text-gray-700">Fecha Desde</label>
-                                <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <label for="date_from" class="block text-xs md:text-sm font-medium text-gray-700 mb-1">Fecha Desde</label>
+                                <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}" class="mt-1 block w-full text-xs md:text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             </div>
                             <div>
-                                <label for="date_to" class="block text-sm font-medium text-gray-700">Fecha Hasta</label>
-                                <input type="date" name="date_to" id="date_to" value="{{ request('date_to') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <label for="date_to" class="block text-xs md:text-sm font-medium text-gray-700 mb-1">Fecha Hasta</label>
+                                <input type="date" name="date_to" id="date_to" value="{{ request('date_to') }}" class="mt-1 block w-full text-xs md:text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             </div>
                             <div>
-                                <label for="remote_work" class="block text-sm font-medium text-gray-700">Remoto</label>
-                                <select name="remote_work" id="remote_work" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <label for="remote_work" class="block text-xs md:text-sm font-medium text-gray-700 mb-1">Remoto</label>
+                                <select name="remote_work" id="remote_work" class="mt-1 block w-full text-xs md:text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     <option value="all" {{ request('remote_work') == 'all' ? 'selected' : '' }}>Todos</option>
                                     <option value="1" {{ request('remote_work') === '1' ? 'selected' : '' }}>Sí</option>
                                     <option value="0" {{ request('remote_work') === '0' ? 'selected' : '' }}>No</option>
                                 </select>
                             </div>
-                            <div class="flex items-end">
-                                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Filtrar</button>
-                                <a href="{{ route('reports.index') }}" class="ml-2 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Limpiar</a>
+                            <div class="flex items-end gap-2 sm:col-span-2 lg:col-span-1">
+                                <button type="submit" class="flex-1 sm:flex-none bg-blue-500 text-white px-3 md:px-4 py-2 rounded text-xs md:text-sm hover:bg-blue-600">Filtrar</button>
+                                <a href="{{ route('reports.index') }}" class="flex-1 sm:flex-none bg-gray-500 text-white px-3 md:px-4 py-2 rounded text-xs md:text-sm hover:bg-gray-600">Limpiar</a>
                             </div>
                         </div>
                     </form>
 
                     <!-- Botón de exportación oficial (normativa española) -->
-                    <div class="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                        <div class="flex items-center justify-between">
+                    <div class="mb-6 p-3 md:p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
                             <div>
-                                <h3 class="text-sm font-medium text-blue-900">Exportación Oficial (Normativa RD-ley 8/2019)</h3>
+                                <h3 class="text-xs md:text-sm font-medium text-blue-900">Exportación Oficial (Normativa RD-ley 8/2019)</h3>
                                 <p class="text-xs text-blue-700 mt-1">Exporta los registros con auditoría completa para inspección de trabajo</p>
                             </div>
                             <div class="flex gap-2">

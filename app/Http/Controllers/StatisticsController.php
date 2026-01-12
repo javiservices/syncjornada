@@ -143,23 +143,26 @@ class StatisticsController extends Controller
         }
 
         // Entrada más temprana y salida más tardía
-        $earliestCheckIn = null;
-        $latestCheckOut = null;
+        $earliestCheckInCarbon = null;
+        $latestCheckOutCarbon = null;
 
         foreach ($completedEntries as $entry) {
             if ($entry->check_in) {
-                $time = Carbon::parse($entry->check_in)->format('H:i');
-                if (!$earliestCheckIn || $time < $earliestCheckIn) {
-                    $earliestCheckIn = $time;
+                $checkInCarbon = Carbon::parse($entry->check_in);
+                if (!$earliestCheckInCarbon || $checkInCarbon < $earliestCheckInCarbon) {
+                    $earliestCheckInCarbon = $checkInCarbon;
                 }
             }
             if ($entry->check_out) {
-                $time = Carbon::parse($entry->check_out)->format('H:i');
-                if (!$latestCheckOut || $time > $latestCheckOut) {
-                    $latestCheckOut = $time;
+                $checkOutCarbon = Carbon::parse($entry->check_out);
+                if (!$latestCheckOutCarbon || $checkOutCarbon > $latestCheckOutCarbon) {
+                    $latestCheckOutCarbon = $checkOutCarbon;
                 }
             }
         }
+
+        $earliestCheckIn = $earliestCheckInCarbon ? $earliestCheckInCarbon->format('H:i') : null;
+        $latestCheckOut = $latestCheckOutCarbon ? $latestCheckOutCarbon->format('H:i') : null;
 
         return [
             'total_hours' => $totalHours,
