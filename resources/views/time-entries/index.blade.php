@@ -145,17 +145,25 @@
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="space-y-1">
                                             <div class="flex items-center text-sm">
-                                                <svg class="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-4 h-4 text-green-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
                                                 </svg>
-                                                <span class="font-medium">{{ $entry->check_in ? $entry->check_in->format('H:i') : '—' }}</span>
+                                                <div class="flex flex-col">
+                                                    <span class="font-medium">{{ $entry->check_in ? $entry->check_in->format('H:i') : '—' }}</span>
+                                                    @if($entry->check_in)
+                                                    <span class="text-xs text-gray-500">{{ $entry->check_in->format('d/m/Y') }}</span>
+                                                    @endif
+                                                </div>
                                             </div>
                                             @if($entry->check_out)
                                             <div class="flex items-center text-sm">
-                                                <svg class="w-4 h-4 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <svg class="w-4 h-4 text-red-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
                                                 </svg>
-                                                <span class="font-medium">{{ $entry->check_out->format('H:i') }}</span>
+                                                <div class="flex flex-col">
+                                                    <span class="font-medium">{{ $entry->check_out->format('H:i') }}</span>
+                                                    <span class="text-xs text-gray-500">{{ $entry->check_out->format('d/m/Y') }}</span>
+                                                </div>
                                             </div>
                                             @endif
                                         </div>

@@ -121,8 +121,26 @@
                                     @endif
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $entry->user->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $entry->date }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $entry->check_in ? \Carbon\Carbon::parse($entry->check_in)->format('H:i') : '-' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $entry->check_out ? \Carbon\Carbon::parse($entry->check_out)->format('H:i') : '-' }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if($entry->check_in)
+                                        <div class="flex flex-col">
+                                            <span class="text-sm text-gray-900">{{ \Carbon\Carbon::parse($entry->check_in)->format('H:i') }}</span>
+                                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($entry->check_in)->format('d/m/Y') }}</span>
+                                        </div>
+                                        @else
+                                        <span class="text-sm text-gray-500">-</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        @if($entry->check_out)
+                                        <div class="flex flex-col">
+                                            <span class="text-sm text-gray-900">{{ \Carbon\Carbon::parse($entry->check_out)->format('H:i') }}</span>
+                                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($entry->check_out)->format('d/m/Y') }}</span>
+                                        </div>
+                                        @else
+                                        <span class="text-sm text-gray-500">-</span>
+                                        @endif
+                                    </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                                         @if($entry->check_in && $entry->check_out)
                                             @php
@@ -198,13 +216,23 @@
                                 <div class="grid grid-cols-2 gap-2">
                                     <!-- Columna izquierda -->
                                     <div class="space-y-1">
-                                        <div class="flex justify-between">
+                                        <div class="flex justify-between items-start">
                                             <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Entrada</span>
-                                            <span class="text-xs text-gray-900">{{ $entry->check_in ? \Carbon\Carbon::parse($entry->check_in)->format('H:i') : '-' }}</span>
+                                            <div class="text-right">
+                                                <span class="text-xs text-gray-900 block">{{ $entry->check_in ? \Carbon\Carbon::parse($entry->check_in)->format('H:i') : '-' }}</span>
+                                                @if($entry->check_in)
+                                                <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($entry->check_in)->format('d/m') }}</span>
+                                                @endif
+                                            </div>
                                         </div>
-                                        <div class="flex justify-between">
+                                        <div class="flex justify-between items-start">
                                             <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Salida</span>
-                                            <span class="text-xs text-gray-900">{{ $entry->check_out ? \Carbon\Carbon::parse($entry->check_out)->format('H:i') : '-' }}</span>
+                                            <div class="text-right">
+                                                <span class="text-xs text-gray-900 block">{{ $entry->check_out ? \Carbon\Carbon::parse($entry->check_out)->format('H:i') : '-' }}</span>
+                                                @if($entry->check_out)
+                                                <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($entry->check_out)->format('d/m') }}</span>
+                                                @endif
+                                            </div>
                                         </div>
                                     </div>
 
