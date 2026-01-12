@@ -23,8 +23,8 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4">
                             @if(Auth::user()->role === 'admin')
                             <div>
-                                <label for="company_id" class="block text-xs md:text-sm font-medium text-gray-700 mb-1">Empresa</label>
-                                <select name="company_id" id="company_id" class="mt-1 block w-full text-xs md:text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <label for="company_id" class="block text-sm font-medium text-gray-700 mb-1">Empresa</label>
+                                <select name="company_id" id="company_id" class="mt-1 block w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     <option value="">Todas</option>
                                     @foreach($companies as $company)
                                         <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
@@ -33,8 +33,8 @@
                             </div>
                             @endif
                             <div>
-                                <label for="user_id" class="block text-xs md:text-sm font-medium text-gray-700 mb-1">Usuario</label>
-                                <select name="user_id" id="user_id" class="mt-1 block w-full text-xs md:text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <label for="user_id" class="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
+                                <select name="user_id" id="user_id" class="mt-1 block w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     <option value="">Todos</option>
                                     @foreach($users as $u)
                                         <option value="{{ $u->id }}" {{ request('user_id') == $u->id ? 'selected' : '' }}>{{ $u->name }}</option>
@@ -42,24 +42,24 @@
                                 </select>
                             </div>
                             <div>
-                                <label for="date_from" class="block text-xs md:text-sm font-medium text-gray-700 mb-1">Fecha Desde</label>
-                                <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}" class="mt-1 block w-full text-xs md:text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">Fecha Desde</label>
+                                <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}" class="mt-1 block w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             </div>
                             <div>
-                                <label for="date_to" class="block text-xs md:text-sm font-medium text-gray-700 mb-1">Fecha Hasta</label>
-                                <input type="date" name="date_to" id="date_to" value="{{ request('date_to') }}" class="mt-1 block w-full text-xs md:text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">Fecha Hasta</label>
+                                <input type="date" name="date_to" id="date_to" value="{{ request('date_to') }}" class="mt-1 block w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                             </div>
                             <div>
-                                <label for="remote_work" class="block text-xs md:text-sm font-medium text-gray-700 mb-1">Remoto</label>
-                                <select name="remote_work" id="remote_work" class="mt-1 block w-full text-xs md:text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <label for="remote_work" class="block text-sm font-medium text-gray-700 mb-1">Remoto</label>
+                                <select name="remote_work" id="remote_work" class="mt-1 block w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     <option value="all" {{ request('remote_work') == 'all' ? 'selected' : '' }}>Todos</option>
                                     <option value="1" {{ request('remote_work') === '1' ? 'selected' : '' }}>Sí</option>
                                     <option value="0" {{ request('remote_work') === '0' ? 'selected' : '' }}>No</option>
                                 </select>
                             </div>
                             <div class="flex items-end gap-2 sm:col-span-2 lg:col-span-1">
-                                <button type="submit" class="flex-1 sm:flex-none bg-blue-500 text-white px-3 md:px-4 py-2 rounded text-xs md:text-sm hover:bg-blue-600">Filtrar</button>
-                                <a href="{{ route('reports.index') }}" class="flex-1 sm:flex-none bg-gray-500 text-white px-3 md:px-4 py-2 rounded text-xs md:text-sm hover:bg-gray-600">Limpiar</a>
+                                <button type="submit" class="flex-1 sm:flex-none bg-blue-500 text-white px-4 py-2 rounded text-sm hover:bg-blue-600">Filtrar</button>
+                                <a href="{{ route('reports.index') }}" class="flex-1 sm:flex-none bg-gray-500 text-white px-4 py-2 rounded text-sm hover:bg-gray-600">Limpiar</a>
                             </div>
                         </div>
                     </form>

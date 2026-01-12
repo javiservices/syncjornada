@@ -25,34 +25,34 @@
                     <form method="GET" class="space-y-4">
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-{{ auth()->user()->role === 'manager' || auth()->user()->role === 'admin' ? '5' : '4' }} gap-3 md:gap-4">
                             <div class="space-y-2">
-                                <label for="date_from" class="block text-xs md:text-sm font-medium text-gray-700 flex items-center">
-                                    <svg class="w-3 h-3 md:w-4 md:h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <label for="date_from" class="block text-sm font-medium text-gray-700 flex items-center">
+                                    <svg class="w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
                                     Fecha Desde
                                 </label>
                                 <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}"
-                                       class="block w-full px-2 md:px-3 py-2 text-xs md:text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                       class="block w-full px-3 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                             </div>
                             <div class="space-y-2">
-                                <label for="date_to" class="block text-xs md:text-sm font-medium text-gray-700 flex items-center">
-                                    <svg class="w-3 h-3 md:w-4 md:h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <label for="date_to" class="block text-sm font-medium text-gray-700 flex items-center">
+                                    <svg class="w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                                     </svg>
                                     Fecha Hasta
                                 </label>
                                 <input type="date" name="date_to" id="date_to" value="{{ request('date_to') }}"
-                                       class="block w-full px-2 md:px-3 py-2 text-xs md:text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                       class="block w-full px-3 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                             </div>
                             <div class="space-y-2">
-                                <label for="remote_work" class="block text-xs md:text-sm font-medium text-gray-700 flex items-center">
-                                    <svg class="w-3 h-3 md:w-4 md:h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <label for="remote_work" class="block text-sm font-medium text-gray-700 flex items-center">
+                                    <svg class="w-4 h-4 mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
                                     </svg>
                                     Modalidad
                                 </label>
                                 <select name="remote_work" id="remote_work"
-                                        class="block w-full px-2 md:px-3 py-2 text-xs md:text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
+                                        class="block w-full px-3 py-2 text-sm border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors">
                                     <option value="all" {{ request('remote_work') == 'all' ? 'selected' : '' }}>Todas las modalidades</option>
                                     <option value="1" {{ request('remote_work') === '1' ? 'selected' : '' }}>🏠 Trabajo remoto</option>
                                     <option value="0" {{ request('remote_work') === '0' ? 'selected' : '' }}>🏢 Presencial</option>
