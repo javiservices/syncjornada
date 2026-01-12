@@ -22,7 +22,7 @@
 
             <!-- Main Content with Sidebar spacing -->
             <div x-data="{ sidebarOpen: localStorage.getItem('sidebarOpen') !== 'false' }" class="pt-16">
-                <div :class="sidebarOpen ? 'ml-64' : 'ml-0'" class="transition-all duration-200">
+                <div :class="sidebarOpen ? 'lg:ml-72' : 'lg:ml-0'" class="transition-all duration-300 ease-in-out">
                     <!-- Page Heading -->
                     @isset($header)
                         <header class="bg-white shadow-sm border-b border-gray-200">
