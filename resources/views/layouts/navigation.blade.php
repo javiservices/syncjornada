@@ -32,27 +32,31 @@
      x-transition:leave-end="opacity-0"
      class="fixed inset-0 bg-gray-900/50 z-30 lg:hidden"></div>
 
-<div class="fixed left-4 bottom-6 z-40 flex flex-col items-start space-y-3" aria-label="Menu flotante">
-    <button @click="navOpen = !navOpen"
-            :aria-expanded="navOpen"
-            class="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-2xl shadow-blue-500/30 flex items-center justify-center hover:scale-105 transition" aria-label="Abrir menu">
+<div class="fixed left-4 top-24 lg:top-1/2 lg:-translate-y-1/2 z-50 flex flex-col items-start space-y-3 pointer-events-none" aria-label="Menu flotante">
+    <div class="flex items-center space-x-2 pointer-events-auto">
+        <button @click="navOpen = !navOpen"
+                :aria-expanded="navOpen"
+                class="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-2xl shadow-blue-500/30 flex items-center justify-center hover:scale-105 transition"
+                aria-label="Abrir menu">
         <span x-show="!navOpen" x-transition.opacity>
             <i class="fas fa-bars text-lg" aria-hidden="true"></i>
         </span>
         <span x-show="navOpen" x-transition.opacity>
             <i class="fas fa-times text-lg" aria-hidden="true"></i>
         </span>
-    </button>
+        </button>
+        <span x-show="!navOpen" x-transition.opacity class="px-3 py-2 rounded-xl bg-white/90 backdrop-blur border border-gray-200 text-sm font-medium text-gray-700 shadow-lg">Menú</span>
+    </div>
 
     <div x-cloak
          x-show="navOpen"
          x-transition:enter="transform transition ease-out duration-200"
-         x-transition:enter-start="translate-y-2 opacity-0"
-         x-transition:enter-end="translate-y-0 opacity-100"
+         x-transition:enter-start="-translate-x-2 opacity-0"
+         x-transition:enter-end="translate-x-0 opacity-100"
          x-transition:leave="transform transition ease-in duration-150"
-         x-transition:leave-start="translate-y-0 opacity-100"
-         x-transition:leave-end="translate-y-2 opacity-0"
-         class="w-72 max-w-[82vw] rounded-2xl border border-gray-200 bg-white/95 backdrop-blur shadow-2xl p-3 space-y-4">
+         x-transition:leave-start="translate-x-0 opacity-100"
+         x-transition:leave-end="-translate-x-2 opacity-0"
+         class="pointer-events-auto w-72 max-w-[82vw] rounded-2xl border border-gray-200 bg-white/95 backdrop-blur shadow-2xl p-3 space-y-4">
         <div class="flex items-center justify-between px-2">
             <div class="flex items-center space-x-2">
                 <span class="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-sm">
