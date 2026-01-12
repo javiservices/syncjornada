@@ -30,22 +30,22 @@
      x-transition:leave="transition-opacity ease-in duration-200"
      x-transition:leave-start="opacity-100"
      x-transition:leave-end="opacity-0"
-     class="fixed inset-0 bg-gray-900/50 z-30 lg:hidden"></div>
+     class="fixed inset-0 bg-gray-900/60 z-40 lg:hidden"></div>
 
-<div class="fixed left-4 top-24 lg:top-1/2 lg:-translate-y-1/2 z-50 flex flex-col items-start space-y-3 pointer-events-none" aria-label="Menu flotante">
+<div class="fixed left-3 top-1/2 -translate-y-1/2 z-50 flex flex-col items-start space-y-3 pointer-events-none" aria-label="Menu flotante">
     <div class="flex items-center space-x-2 pointer-events-auto">
         <button @click="navOpen = !navOpen"
                 :aria-expanded="navOpen"
-                class="h-12 w-12 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-2xl shadow-blue-500/30 flex items-center justify-center hover:scale-105 transition"
+                class="h-14 w-14 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white shadow-2xl shadow-blue-500/40 ring-4 ring-blue-500/20 flex items-center justify-center hover:scale-105 transition"
                 aria-label="Abrir menu">
         <span x-show="!navOpen" x-transition.opacity>
-            <i class="fas fa-bars text-lg" aria-hidden="true"></i>
+                <i class="fas fa-bars text-xl" aria-hidden="true"></i>
         </span>
         <span x-show="navOpen" x-transition.opacity>
-            <i class="fas fa-times text-lg" aria-hidden="true"></i>
+                <i class="fas fa-times text-xl" aria-hidden="true"></i>
         </span>
         </button>
-        <span x-show="!navOpen" x-transition.opacity class="px-3 py-2 rounded-xl bg-white/90 backdrop-blur border border-gray-200 text-sm font-medium text-gray-700 shadow-lg">Menú</span>
+        <span x-show="!navOpen" x-transition.opacity class="px-3 py-2 rounded-xl bg-white/95 backdrop-blur border border-gray-200 text-sm font-medium text-gray-700 shadow-lg">Menú</span>
     </div>
 
     <div x-cloak
@@ -121,9 +121,9 @@
             @endif
         </div>
 
-        <div class="flex items-center justify-between rounded-xl border border-dashed border-gray-200 bg-gray-50 px-3 py-2.5 text-xs text-gray-600">
+        <div class="space-y-2 rounded-xl border border-dashed border-gray-200 bg-gray-50 px-3 py-3 text-xs text-gray-600">
             <div class="flex items-center space-x-2">
-                <span class="h-8 w-8 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-500">
+                <span class="h-9 w-9 rounded-lg bg-white border border-gray-200 flex items-center justify-center text-gray-500">
                     <i class="fas fa-user" aria-hidden="true"></i>
                 </span>
                 <div class="leading-tight">
@@ -131,10 +131,13 @@
                     <p class="text-gray-500">{{ ucfirst(Auth::user()->role) }}</p>
                 </div>
             </div>
-            <form method="POST" action="{{ route('logout') }}">
-                @csrf
-                <button type="submit" class="text-red-600 hover:text-red-700 font-semibold">Salir</button>
-            </form>
+            <div class="flex items-center justify-between gap-2 text-sm">
+                <a href="{{ route('profile.edit') }}" class="flex-1 inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-3 py-2 font-semibold text-gray-700 hover:text-blue-700 hover:border-blue-200">Perfil</a>
+                <form method="POST" action="{{ route('logout') }}" class="flex-1">
+                    @csrf
+                    <button type="submit" class="w-full inline-flex items-center justify-center rounded-lg bg-red-50 text-red-600 font-semibold px-3 py-2 hover:bg-red-100">Salir</button>
+                </form>
+            </div>
         </div>
     </div>
 </div>
