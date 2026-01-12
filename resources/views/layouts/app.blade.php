@@ -13,6 +13,9 @@
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
         <meta name="apple-mobile-web-app-title" content="SyncJornada">
         
+        <!-- Google AdSense Verification -->
+        <meta name="google-adsense-account" content="ca-pub-7518861337365197">
+        
         <!-- Icons -->
         <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
         <link rel="apple-touch-icon" href="{{ asset('images/icons/icon-192x192.png') }}">

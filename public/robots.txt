@@ -3,6 +3,9 @@
 
 User-agent: *
 Allow: /
+Allow: /terminos-y-condiciones
+Allow: /politica-de-privacidad
+Allow: /politica-de-cookies
 Disallow: /admin
 Disallow: /dashboard
 Disallow: /profile
@@ -11,6 +14,10 @@ Disallow: /storage/
 Disallow: /login
 Disallow: /register
 Disallow: /password/
+
+# Google AdSense
+User-agent: Mediapartners-Google
+Allow: /
 
 # Sitemap
 Sitemap: https://syncjornada.online/sitemap.xml
