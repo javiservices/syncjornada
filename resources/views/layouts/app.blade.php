@@ -41,7 +41,7 @@
                     </div>
                 @endif
 
-                <main class="min-h-screen">
+                <main class="min-h-screen pb-24">
                     {{ $slot }}
                 </main>
 
