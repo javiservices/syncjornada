@@ -2,76 +2,76 @@
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
-            <div class="flex">
+            <div class="flex items-center">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-1.5 hover:opacity-80 transition" aria-label="Ir al Dashboard">
-                        <i class="fas fa-clock text-blue-600 text-xl lg:text-2xl" aria-hidden="true"></i>
-                        <span class="text-lg lg:text-xl font-bold text-gray-900">SyncJornada</span>
+                    <a href="{{ route('dashboard') }}" class="flex items-center space-x-2 hover:opacity-80 transition" aria-label="Ir al Dashboard">
+                        <i class="fas fa-clock text-blue-600 text-2xl" aria-hidden="true"></i>
+                        <span class="text-xl font-bold text-gray-900">SyncJornada</span>
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-1 xl:space-x-2 lg:-my-px lg:ms-2 xl:ms-6 lg:flex items-center">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="flex items-center space-x-1.5">
-                        <i class="fas fa-home text-xs" aria-hidden="true"></i>
-                        <span class="text-xs">{{ __('Dashboard') }}</span>
+                <div class="hidden xl:flex xl:items-center xl:space-x-1 xl:ms-8">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="flex items-center gap-2">
+                        <i class="fas fa-home text-sm" aria-hidden="true"></i>
+                        <span class="text-sm font-medium">{{ __('Dashboard') }}</span>
                     </x-nav-link>
                     
-                    <x-nav-link :href="route('time-entries.index')" :active="request()->routeIs('time-entries.*')" class="flex items-center space-x-1.5">
-                        <i class="fas fa-clock text-xs" aria-hidden="true"></i>
-                        <span class="text-xs">{{ __('Jornadas') }}</span>
+                    <x-nav-link :href="route('time-entries.index')" :active="request()->routeIs('time-entries.*')" class="flex items-center gap-2">
+                        <i class="fas fa-clock text-sm" aria-hidden="true"></i>
+                        <span class="text-sm font-medium">{{ __('Jornadas') }}</span>
                     </x-nav-link>
 
-                    <x-nav-link :href="route('vacation-requests.index')" :active="request()->routeIs('vacation-requests.*')" class="flex items-center space-x-1.5">
-                        <i class="fas fa-umbrella-beach text-xs" aria-hidden="true"></i>
-                        <span class="text-xs">{{ __('Vacaciones') }}</span>
+                    <x-nav-link :href="route('vacation-requests.index')" :active="request()->routeIs('vacation-requests.*')" class="flex items-center gap-2">
+                        <i class="fas fa-umbrella-beach text-sm" aria-hidden="true"></i>
+                        <span class="text-sm font-medium">{{ __('Vacaciones') }}</span>
                     </x-nav-link>
 
                     @if(Auth::user()->role === 'admin')
-                        <x-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.*')" class="flex items-center space-x-1.5">
-                            <i class="fas fa-building text-xs" aria-hidden="true"></i>
-                            <span class="text-xs">{{ __('Empresas') }}</span>
+                        <x-nav-link :href="route('companies.index')" :active="request()->routeIs('companies.*')" class="flex items-center gap-2">
+                            <i class="fas fa-building text-sm" aria-hidden="true"></i>
+                            <span class="text-sm font-medium">{{ __('Empresas') }}</span>
                         </x-nav-link>
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="flex items-center space-x-1.5">
-                            <i class="fas fa-users text-xs" aria-hidden="true"></i>
-                            <span class="text-xs">{{ __('Usuarios') }}</span>
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="flex items-center gap-2">
+                            <i class="fas fa-users text-sm" aria-hidden="true"></i>
+                            <span class="text-sm font-medium">{{ __('Usuarios') }}</span>
                         </x-nav-link>
-                        <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')" class="flex items-center space-x-1.5">
-                            <i class="fas fa-chart-bar text-xs" aria-hidden="true"></i>
-                            <span class="text-xs">{{ __('Reportes') }}</span>
+                        <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')" class="flex items-center gap-2">
+                            <i class="fas fa-chart-bar text-sm" aria-hidden="true"></i>
+                            <span class="text-sm font-medium">{{ __('Reportes') }}</span>
                         </x-nav-link>
-                        <x-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.*')" class="flex items-center space-x-1.5">
-                            <i class="fas fa-chart-line text-xs" aria-hidden="true"></i>
-                            <span class="text-xs">{{ __('Estadísticas') }}</span>
+                        <x-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.*')" class="flex items-center gap-2">
+                            <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+                            <span class="text-sm font-medium">{{ __('Estadísticas') }}</span>
                         </x-nav-link>
-                        <x-nav-link :href="route('company-requests.index')" :active="request()->routeIs('company-requests.*')" class="flex items-center space-x-1.5">
-                            <i class="fas fa-inbox text-xs" aria-hidden="true"></i>
-                            <span class="text-xs">{{ __('Solicitudes') }}</span>
+                        <x-nav-link :href="route('company-requests.index')" :active="request()->routeIs('company-requests.*')" class="flex items-center gap-2">
+                            <i class="fas fa-inbox text-sm" aria-hidden="true"></i>
+                            <span class="text-sm font-medium">{{ __('Solicitudes') }}</span>
                         </x-nav-link>
                     @elseif(Auth::user()->role === 'manager')
-                        <x-nav-link :href="route('companies.show', Auth::user()->company_id)" :active="request()->routeIs('companies.show')" class="flex items-center space-x-1.5">
-                            <i class="fas fa-building text-xs" aria-hidden="true"></i>
-                            <span class="text-xs">{{ __('Mi Empresa') }}</span>
+                        <x-nav-link :href="route('companies.show', Auth::user()->company_id)" :active="request()->routeIs('companies.show')" class="flex items-center gap-2">
+                            <i class="fas fa-building text-sm" aria-hidden="true"></i>
+                            <span class="text-sm font-medium">{{ __('Mi Empresa') }}</span>
                         </x-nav-link>
-                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="flex items-center space-x-1.5">
-                            <i class="fas fa-users text-xs" aria-hidden="true"></i>
-                            <span class="text-xs">{{ __('Empleados') }}</span>
+                        <x-nav-link :href="route('users.index')" :active="request()->routeIs('users.*')" class="flex items-center gap-2">
+                            <i class="fas fa-users text-sm" aria-hidden="true"></i>
+                            <span class="text-sm font-medium">{{ __('Empleados') }}</span>
                         </x-nav-link>
-                        <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')" class="flex items-center space-x-1.5">
-                            <i class="fas fa-chart-bar text-xs" aria-hidden="true"></i>
-                            <span class="text-xs">{{ __('Reportes') }}</span>
+                        <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')" class="flex items-center gap-2">
+                            <i class="fas fa-chart-bar text-sm" aria-hidden="true"></i>
+                            <span class="text-sm font-medium">{{ __('Reportes') }}</span>
                         </x-nav-link>
-                        <x-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.*')" class="flex items-center space-x-1.5">
-                            <i class="fas fa-chart-line text-xs" aria-hidden="true"></i>
-                            <span class="text-xs">{{ __('Estadísticas') }}</span>
+                        <x-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.*')" class="flex items-center gap-2">
+                            <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+                            <span class="text-sm font-medium">{{ __('Estadísticas') }}</span>
                         </x-nav-link>
                     @endif
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
-            <div class="hidden lg:flex lg:items-center lg:ms-2 xl:ms-4">
+            <div class="hidden xl:flex xl:items-center xl:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-2.5 py-2 border border-gray-300 text-xs leading-4 font-medium rounded-lg text-gray-700 bg-white hover:bg-gray-50 hover:border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition ease-in-out duration-150" aria-label="Menú de usuario" aria-haspopup="true">
@@ -118,7 +118,7 @@
             </div>
 
             <!-- Hamburger -->
-            <div class="-me-2 flex items-center lg:hidden">
+            <div class="-me-2 flex items-center xl:hidden">
                 <button @click="open = ! open" class="inline-flex items-center justify-center p-2 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-700 transition duration-150 ease-in-out" aria-label="Abrir menú de navegación" aria-expanded="false" :aria-expanded="open.toString()">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24" aria-hidden="true">
                         <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -130,7 +130,7 @@
     </div>
 
     <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden lg:hidden border-t border-gray-200">
+    <div :class="{'block': open, 'hidden': ! open}" class="hidden xl:hidden border-t border-gray-200">
         <div class="pt-2 pb-3 space-y-1 bg-gray-50">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="flex items-center space-x-2">
                 <i class="fas fa-home text-sm" aria-hidden="true"></i>
