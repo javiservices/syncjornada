@@ -34,6 +34,10 @@ class AppServiceProvider extends ServiceProvider
         if ($this->app->environment('production')) {
             \Illuminate\Support\Facades\URL::forceScheme('https');
             \Illuminate\Support\Facades\URL::forceRootUrl(config('app.url'));
+            
+            // Prevenir que Laravel incluya el puerto en las URLs
+            $this->app['url']->forceScheme('https');
+            $_SERVER['SERVER_PORT'] = 443;
         }
     }
 }
