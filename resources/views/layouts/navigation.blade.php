@@ -20,7 +20,18 @@
         ['label' => 'Estadisticas', 'route' => 'statistics.index', 'icon' => 'fa-chart-line', 'match' => 'statistics.*'],
     ];
 
-    $pageTitle = $pageTitle ?? 'Dashboard';
+    $routeName = request()->route() ? request()->route()->getName() : null;
+    $pageTitle = match (true) {
+        $routeName === 'dashboard' => 'Dashboard',
+        request()->routeIs('time-entries.*') => 'Jornadas',
+        request()->routeIs('vacation-requests.*') => 'Vacaciones',
+        request()->routeIs('companies.*') => 'Empresas',
+        request()->routeIs('users.*') => 'Usuarios',
+        request()->routeIs('reports.*') => 'Reportes',
+        request()->routeIs('statistics.*') => 'Estadisticas',
+        request()->routeIs('company-requests.*') => 'Solicitudes',
+        true => 'Dashboard',
+    };
 @endphp
 
 <header class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 shadow-sm z-40">
@@ -72,15 +83,14 @@
 </header>
 
 <aside x-cloak
-       x-show="sidebarOpen"
-       @click.away="if (window.innerWidth < 1024) sidebarOpen = false"
+    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'"
        x-transition:enter="transform transition ease-out duration-200"
        x-transition:enter-start="-translate-x-full"
        x-transition:enter-end="translate-x-0"
        x-transition:leave="transform transition ease-in duration-200"
        x-transition:leave-start="translate-x-0"
        x-transition:leave-end="-translate-x-full"
-       class="fixed top-16 left-0 bottom-0 w-64 bg-white border-r border-gray-200 shadow-lg z-30 overflow-y-auto">
+    class="fixed top-16 left-0 bottom-0 w-64 bg-white border-r border-gray-200 shadow-lg z-30 overflow-y-auto transform lg:translate-x-0">
     <div class="p-4 space-y-6">
         <div class="space-y-1">
             <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">General</p>
