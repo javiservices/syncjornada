@@ -64,8 +64,8 @@
                         <p class="mb-2 sm:mb-0">&copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados.</p>
                         <div class="flex space-x-4">
                             <a href="mailto:syncjornada@gmail.com" class="hover:text-blue-600 transition">Ayuda</a>
-                            <a href="{{ url('/privacy') }}" class="hover:text-blue-600 transition">Privacidad</a>
-                            <a href="{{ url('/terms') }}" class="hover:text-blue-600 transition">Términos</a>
+                            <a href="{{ url('/politica-de-privacidad') }}" class="hover:text-blue-600 transition">Política de privacidad</a>
+                            <a href="{{ url('/terminos-y-condiciones') }}" class="hover:text-blue-600 transition">Términos y Condiciones</a>
                         </div>
                     </div>
                 </div>
