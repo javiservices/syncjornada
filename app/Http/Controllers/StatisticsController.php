@@ -88,7 +88,7 @@ class StatisticsController extends Controller
         $pendingCheckouts = $entries->whereNull('check_out')->count();
 
         // Total de descansos
-        $totalBreaks = DB::table('time_entry_breaks')
+        $totalBreaks = DB::table('breaks')
             ->whereIn('time_entry_id', $entries->pluck('id'))
             ->whereNotNull('break_end')
             ->count();
