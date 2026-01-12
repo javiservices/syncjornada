@@ -11,6 +11,7 @@ use App\Http\Controllers\TimeEntryExportController;
 use App\Http\Controllers\BreakController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\VacationRequestController;
+use App\Http\Controllers\StatisticsController;
 
 Route::get('/', function () {
     return view('landing');
@@ -70,6 +71,8 @@ Route::middleware('auth')->group(function () {
         Route::get('/reports/create', [ReportsController::class, 'create'])->name('reports.create')->middleware('admin');
         Route::post('/reports', [ReportsController::class, 'store'])->name('reports.store')->middleware('admin');
         Route::delete('/reports/{timeEntry}', [ReportsController::class, 'destroy'])->name('reports.destroy')->middleware('admin');
+        
+        Route::get('/statistics', [StatisticsController::class, 'index'])->name('statistics.index');
     });
 
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

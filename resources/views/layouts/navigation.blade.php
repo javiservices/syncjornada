@@ -41,6 +41,10 @@
                             <i class="fas fa-chart-bar text-sm" aria-hidden="true"></i>
                             <span>{{ __('Reportes') }}</span>
                         </x-nav-link>
+                        <x-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.*')" class="flex items-center space-x-2">
+                            <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+                            <span>{{ __('Estadísticas') }}</span>
+                        </x-nav-link>
                         <x-nav-link :href="route('company-requests.index')" :active="request()->routeIs('company-requests.*')" class="flex items-center space-x-2">
                             <i class="fas fa-inbox text-sm" aria-hidden="true"></i>
                             <span>{{ __('Solicitudes') }}</span>
@@ -57,6 +61,10 @@
                         <x-nav-link :href="route('reports.index')" :active="request()->routeIs('reports.*')" class="flex items-center space-x-2">
                             <i class="fas fa-chart-bar text-sm" aria-hidden="true"></i>
                             <span>{{ __('Reportes') }}</span>
+                        </x-nav-link>
+                        <x-nav-link :href="route('statistics.index')" :active="request()->routeIs('statistics.*')" class="flex items-center space-x-2">
+                            <i class="fas fa-chart-line text-sm" aria-hidden="true"></i>
+                            <span>{{ __('Estadísticas') }}</span>
                         </x-nav-link>
                     @endif
                 </div>
