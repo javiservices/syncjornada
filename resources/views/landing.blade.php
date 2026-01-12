@@ -712,16 +712,7 @@
                 <i class="fas fa-rocket mr-3"></i>
                 Empieza gratis ahora
             </a>
-            <a href="#precios"
-               class="inline-flex items-center justify-center bg-white/10 backdrop-blur-sm border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-white/20 transition">
-                <i class="fas fa-tag mr-3"></i>
-                Ver precios
-            </a>
         </div>
-        <p class="text-sm text-blue-200 mt-6">
-            <i class="fas fa-check-circle mr-2"></i>
-            30 días gratis • Sin tarjeta • Sin permanencia
-        </p>
     </div>
 </section>
 
