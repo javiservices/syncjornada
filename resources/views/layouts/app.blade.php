@@ -2,10 +2,21 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta name="description" content="SyncJornada - Gestión inteligente del tiempo laboral">
+        
+        <!-- PWA Meta Tags -->
+        <meta name="theme-color" content="#2563eb">
+        <meta name="mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="default">
+        <meta name="apple-mobile-web-app-title" content="SyncJornada">
+        
+        <!-- Icons -->
         <link rel="icon" type="image/svg+xml" href="{{ asset('images/favicon.svg') }}">
+        <link rel="apple-touch-icon" href="{{ asset('images/icons/icon-192x192.png') }}">
+        <link rel="manifest" href="{{ asset('manifest.json') }}">
 
         <title>{{ config('app.name', 'SyncJornada') }} - @yield('title', 'Dashboard')</title>
 
@@ -15,6 +26,28 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        
+        <!-- Service Worker Registration -->
+        <script>
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/service-worker.js')
+                        .then(registration => {
+                            console.log('✅ Service Worker registrado:', registration.scope);
+                            
+                            // Solicitar permiso para notificaciones
+                            if ('Notification' in window && Notification.permission === 'default') {
+                                Notification.requestPermission().then(permission => {
+                                    console.log('Permiso de notificaciones:', permission);
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            console.error('❌ Error al registrar Service Worker:', error);
+                        });
+                });
+            }
+        </script>
     </head>
     <body 
         x-data="{ page: 'dashboard', 'loaded': true, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
@@ -78,5 +111,6 @@
 
         @include('components.donation-modal')
         @include('components.paypal-widget')
+        @include('components.pwa-install')
     </body>
 </html>
