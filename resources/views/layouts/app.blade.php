@@ -77,5 +77,6 @@
         <!-- ===== Page Wrapper End ===== -->
 
         @include('components.donation-modal')
+        @include('components.paypal-widget')
     </body>
 </html>

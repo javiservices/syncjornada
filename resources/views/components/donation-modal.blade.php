@@ -4,13 +4,16 @@
     x-data="{ 
         showDonationModal: (() => {
             const lastShown = localStorage.getItem('donation_modal_last_shown_{{ auth()->id() }}');
-            const today = new Date().toDateString();
-            return lastShown !== today;
+            if (!lastShown) return true;
+            const lastDate = new Date(lastShown);
+            const today = new Date();
+            const diffTime = Math.abs(today - lastDate);
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+            return diffDays >= 3;
         })(),
         closeDonationModal() {
             this.showDonationModal = false;
-            const today = new Date().toDateString();
-            localStorage.setItem('donation_modal_last_shown_{{ auth()->id() }}', today);
+            localStorage.setItem('donation_modal_last_shown_{{ auth()->id() }}', new Date().toISOString());
         }
     }"
     x-show="showDonationModal"
