@@ -84,10 +84,10 @@
        style="scrollbar-width: thin; scrollbar-color: #cbd5e1 #f8fafc;"
        @click.away="if(window.innerWidth < 1024) sidebarOpen = false">
     
-    <nav class="px-4 py-6 space-y-2">
+    <nav class="px-4 py-4 space-y-1">
         <!-- Dashboard -->
         <a href="{{ route('dashboard') }}" 
-           class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('dashboard') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+           class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('dashboard') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
             <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('dashboard') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                 <i class="fas fa-home {{ request()->routeIs('dashboard') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
             </div>
@@ -96,7 +96,7 @@
         
         <!-- Jornadas -->
         <a href="{{ route('time-entries.index') }}" 
-           class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('time-entries.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+           class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('time-entries.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
             <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('time-entries.*') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                 <i class="fas fa-clock {{ request()->routeIs('time-entries.*') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
             </div>
@@ -105,7 +105,7 @@
 
         <!-- Vacaciones -->
         <a href="{{ route('vacation-requests.index') }}" 
-           class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('vacation-requests.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+           class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('vacation-requests.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
             <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('vacation-requests.*') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                 <i class="fas fa-umbrella-beach {{ request()->routeIs('vacation-requests.*') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
             </div>
@@ -113,7 +113,7 @@
         </a>
 
         @if(Auth::user()->role === 'admin')
-            <div class="pt-6 pb-3">
+            <div class="pt-4 pb-2">
                 <div class="px-4 flex items-center space-x-2">
                     <div class="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
                     <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">{{ __('Administración') }}</p>
@@ -123,7 +123,7 @@
 
             <!-- Empresas -->
             <a href="{{ route('companies.index') }}" 
-               class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('companies.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+               class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('companies.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
                 <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('companies.*') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                     <i class="fas fa-building {{ request()->routeIs('companies.*') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
                 </div>
@@ -132,7 +132,7 @@
 
             <!-- Usuarios -->
             <a href="{{ route('users.index') }}" 
-               class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('users.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+               class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('users.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
                 <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('users.*') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                     <i class="fas fa-users {{ request()->routeIs('users.*') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
                 </div>
@@ -141,7 +141,7 @@
 
             <!-- Reportes -->
             <a href="{{ route('reports.index') }}" 
-               class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('reports.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+               class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('reports.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
                 <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('reports.*') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                     <i class="fas fa-chart-bar {{ request()->routeIs('reports.*') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
                 </div>
@@ -150,7 +150,7 @@
 
             <!-- Estadísticas -->
             <a href="{{ route('statistics.index') }}" 
-               class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('statistics.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+               class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('statistics.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
                 <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('statistics.*') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                     <i class="fas fa-chart-line {{ request()->routeIs('statistics.*') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
                 </div>
@@ -159,7 +159,7 @@
 
             <!-- Solicitudes -->
             <a href="{{ route('company-requests.index') }}" 
-               class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('company-requests.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+               class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('company-requests.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
                 <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('company-requests.*') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                     <i class="fas fa-inbox {{ request()->routeIs('company-requests.*') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
                 </div>
@@ -167,7 +167,7 @@
             </a>
 
         @elseif(Auth::user()->role === 'manager')
-            <div class="pt-6 pb-3">
+            <div class="pt-4 pb-2">
                 <div class="px-4 flex items-center space-x-2">
                     <div class="flex-1 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent"></div>
                     <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">{{ __('Gestión') }}</p>
@@ -177,7 +177,7 @@
 
             <!-- Mi Empresa -->
             <a href="{{ route('companies.show', Auth::user()->company_id) }}" 
-               class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('companies.show') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+               class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('companies.show') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
                 <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('companies.show') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                     <i class="fas fa-building {{ request()->routeIs('companies.show') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
                 </div>
@@ -186,7 +186,7 @@
 
             <!-- Empleados -->
             <a href="{{ route('users.index') }}" 
-               class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('users.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+               class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('users.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
                 <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('users.*') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                     <i class="fas fa-users {{ request()->routeIs('users.*') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
                 </div>
@@ -195,7 +195,7 @@
 
             <!-- Reportes -->
             <a href="{{ route('reports.index') }}" 
-               class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('reports.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+               class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('reports.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
                 <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('reports.*') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                     <i class="fas fa-chart-bar {{ request()->routeIs('reports.*') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
                 </div>
@@ -204,7 +204,7 @@
 
             <!-- Estadísticas -->
             <a href="{{ route('statistics.index') }}" 
-               class="group flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-200 {{ request()->routeIs('statistics.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
+               class="group flex items-center space-x-3 px-4 py-2.5 rounded-xl transition-all duration-200 {{ request()->routeIs('statistics.*') ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md shadow-blue-200' : 'text-gray-700 hover:bg-white hover:shadow-sm' }}">
                 <div class="flex items-center justify-center w-8 h-8 rounded-lg {{ request()->routeIs('statistics.*') ? 'bg-white/20' : 'bg-gray-100 group-hover:bg-blue-50' }} transition-colors">
                     <i class="fas fa-chart-line {{ request()->routeIs('statistics.*') ? 'text-white' : 'text-gray-600 group-hover:text-blue-600' }}" aria-hidden="true"></i>
                 </div>
