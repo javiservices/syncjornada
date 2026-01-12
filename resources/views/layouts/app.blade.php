@@ -15,48 +15,54 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-gray-50">
-        <div x-data="{ navOpen: false }" class="min-h-screen relative">
+        <div x-data="{ sidebarOpen: false }" class="min-h-screen bg-gray-50">
             @include('layouts.navigation')
 
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4">
-                @isset($header)
-                    <header class="bg-white shadow-sm border border-gray-200 rounded-2xl">
-                        <div class="py-4 px-4 sm:py-5 sm:px-6 lg:px-8">
-                            {{ $header }}
-                        </div>
-                    </header>
-                @endisset
+            <div class="pt-16 flex">
+                <div class="hidden lg:block w-64 shrink-0"></div>
 
-                @if(session('success'))
-                    <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 shadow-sm flex items-start" role="alert" aria-live="polite">
-                        <i class="fas fa-check-circle text-green-500 text-lg mr-3" aria-hidden="true"></i>
-                        <p class="text-green-800 font-medium">{{ session('success') }}</p>
-                    </div>
-                @endif
+                <div class="flex-1 min-w-0">
+                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4">
+                        @isset($header)
+                            <header class="bg-white shadow-sm border border-gray-200 rounded-2xl">
+                                <div class="py-4 px-4 sm:py-5 sm:px-6 lg:px-8">
+                                    {{ $header }}
+                                </div>
+                            </header>
+                        @endisset
 
-                @if(session('error'))
-                    <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 shadow-sm flex items-start" role="alert" aria-live="assertive">
-                        <i class="fas fa-exclamation-circle text-red-500 text-lg mr-3" aria-hidden="true"></i>
-                        <p class="text-red-800 font-medium">{{ session('error') }}</p>
-                    </div>
-                @endif
-
-                <main class="min-h-screen pb-40">
-                    {{ $slot }}
-                </main>
-
-                <footer class="bg-white border border-gray-200 rounded-2xl">
-                    <div class="py-4 px-4 sm:px-6 lg:px-8">
-                        <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
-                            <p class="mb-2 sm:mb-0">&copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados.</p>
-                            <div class="flex space-x-4">
-                                <a href="mailto:syncjornada@gmail.com" class="hover:text-blue-600 transition">Ayuda</a>
-                                <a href="{{ url('/politica-de-privacidad') }}" class="hover:text-blue-600 transition">Política de privacidad</a>
-                                <a href="{{ url('/terminos-y-condiciones') }}" class="hover:text-blue-600 transition">Términos y Condiciones</a>
+                        @if(session('success'))
+                            <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 shadow-sm flex items-start" role="alert" aria-live="polite">
+                                <i class="fas fa-check-circle text-green-500 text-lg mr-3" aria-hidden="true"></i>
+                                <p class="text-green-800 font-medium">{{ session('success') }}</p>
                             </div>
-                        </div>
+                        @endif
+
+                        @if(session('error'))
+                            <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 shadow-sm flex items-start" role="alert" aria-live="assertive">
+                                <i class="fas fa-exclamation-circle text-red-500 text-lg mr-3" aria-hidden="true"></i>
+                                <p class="text-red-800 font-medium">{{ session('error') }}</p>
+                            </div>
+                        @endif
+
+                        <main class="min-h-screen pb-12">
+                            {{ $slot }}
+                        </main>
+
+                        <footer class="bg-white border border-gray-200 rounded-2xl">
+                            <div class="py-4 px-4 sm:px-6 lg:px-8">
+                                <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
+                                    <p class="mb-2 sm:mb-0">&copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados.</p>
+                                    <div class="flex space-x-4">
+                                        <a href="mailto:syncjornada@gmail.com" class="hover:text-blue-600 transition">Ayuda</a>
+                                        <a href="{{ url('/politica-de-privacidad') }}" class="hover:text-blue-600 transition">Política de privacidad</a>
+                                        <a href="{{ url('/terminos-y-condiciones') }}" class="hover:text-blue-600 transition">Términos y Condiciones</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </footer>
                     </div>
-                </footer>
+                </div>
             </div>
         </div>
 
