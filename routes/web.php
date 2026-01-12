@@ -19,12 +19,12 @@ Route::get('/', function () {
 
 // Legal Pages (Public)
 Route::get('/terminos-y-condiciones', function () {
-    return view('legal.terms');
+    return view('terms');
 })->name('terms');
 
 Route::get('/politica-de-privacidad', function () {
-    return view('legal.privacy');
-})->name('privacy');
+    return view('privacy-policy');
+})->name('privacy-policy');
 
 Route::get('/politica-de-cookies', function () {
     return view('legal.cookies');

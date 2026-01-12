@@ -25,6 +25,10 @@
         <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+        <!-- Google AdSense -->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7518861337365197"
+                crossorigin="anonymous"></script>
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         
         <!-- Service Worker Registration -->
@@ -101,6 +105,18 @@
                         @endif
 
                         {{ $slot }}
+
+                        <!-- Footer Simple -->
+                        <footer class="mt-12 pt-6 border-t border-gray-200">
+                            <div class="text-center text-sm text-gray-500">
+                                <p class="mb-2">
+                                    <a href="{{ route('privacy-policy') }}" class="hover:text-gray-700 transition">Política de Privacidad</a>
+                                    <span class="mx-2">·</span>
+                                    <a href="{{ route('terms') }}" class="hover:text-gray-700 transition">Términos y Condiciones</a>
+                                </p>
+                                <p>&copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados.</p>
+                            </div>
+                        </footer>
                     </div>
                 </main>
                 <!-- ===== Main Content End ===== -->

@@ -753,7 +753,7 @@
                 <h3 class="font-bold text-white mb-4">Legal</h3>
                 <ul class="space-y-2 text-sm">
                     <li><a href="{{ route('terms') }}" class="hover:text-white transition">Términos y Condiciones</a></li>
-                    <li><a href="{{ route('privacy') }}" class="hover:text-white transition">Política de Privacidad</a></li>
+                    <li><a href="{{ route('privacy-policy') }}" class="hover:text-white transition">Política de Privacidad</a></li>
                     <li><a href="{{ route('cookies') }}" class="hover:text-white transition">Política de Cookies</a></li>
                 </ul>
             </div>

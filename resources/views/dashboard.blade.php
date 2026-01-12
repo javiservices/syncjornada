@@ -478,6 +478,10 @@
         </div>
     </div>
 
+    {{-- Anuncio entre el contenido principal y el footer (no intrusivo) --}}
+    {{-- Solo se mostrará cuando tengas un Ad Slot activo en AdSense --}}
+    {{-- <x-adsense-ad slot="TU_AD_SLOT_AQUI" format="auto" /> --}}
+
     <script>
         // Get user's location when form loads
         if (navigator.geolocation) {
