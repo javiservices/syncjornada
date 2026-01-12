@@ -65,7 +65,12 @@ class CompanyController extends Controller
             'address' => 'nullable|string|max:255',
         ]);
 
-        Company::create($request->all());
+        $data = $request->all();
+        // Desactivar notificaciones por defecto hasta que se configuren
+        $data['enable_checkin_notifications'] = false;
+        $data['enable_checkout_notifications'] = false;
+
+        Company::create($data);
         return redirect()->route('companies.index')->with('success', 'Empresa creada.');
     }
 

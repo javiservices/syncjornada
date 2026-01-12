@@ -26,6 +26,11 @@ class Company extends Model
         'working_days' => 'array',
     ];
 
+    protected $attributes = [
+        'enable_checkin_notifications' => false,
+        'enable_checkout_notifications' => false,
+    ];
+
     public function users()
     {
         return $this->hasMany(User::class);
