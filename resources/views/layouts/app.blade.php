@@ -10,59 +10,73 @@
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet" />
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-gray-50">
-        <div x-data="{ sidebarOpen: window.innerWidth >= 1024 }" class="min-h-screen bg-gray-50">
-            @include('layouts.navigation')
+    <body 
+        x-data="{ page: 'dashboard', 'loaded': true, 'darkMode': false, 'stickyMenu': false, 'sidebarToggle': false, 'scrollTop': false }"
+        x-init="
+            darkMode = JSON.parse(localStorage.getItem('darkMode'));
+            $watch('darkMode', value => localStorage.setItem('darkMode', JSON.stringify(value)))"
+        :class="{'dark bg-gray-900': darkMode === true}"
+        class="font-sans antialiased"
+    >
+        @include('layouts.partials.preloader')
 
-            <div class="pt-16 lg:pl-64">
-                <div class="flex-1 min-w-0">
-                    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4">
+        <!-- ===== Page Wrapper Start ===== -->
+        <div class="flex h-screen overflow-hidden">
+            <!-- ===== Sidebar Start ===== -->
+            @include('layouts.partials.sidebar')
+            <!-- ===== Sidebar End ===== -->
+
+            <!-- ===== Content Area Start ===== -->
+            <div class="relative flex flex-col flex-1 overflow-x-hidden overflow-y-auto">
+                <!-- Small Device Overlay Start -->
+                @include('layouts.partials.overlay')
+                <!-- Small Device Overlay End -->
+
+                <!-- ===== Header Start ===== -->
+                @include('layouts.partials.header')
+                <!-- ===== Header End ===== -->
+
+                <!-- ===== Main Content Start ===== -->
+                <main>
+                    <div class="p-4 mx-auto max-w-(--breakpoint-2xl) md:p-6">
                         @isset($header)
-                            <header class="bg-white shadow-sm border border-gray-200 rounded-2xl">
-                                <div class="py-4 px-4 sm:py-5 sm:px-6 lg:px-8">
+                            <header class="mb-6">
+                                <div class="bg-white dark:bg-gray-800 shadow-sm border border-gray-200 dark:border-gray-700 rounded-lg px-6 py-4">
                                     {{ $header }}
                                 </div>
                             </header>
                         @endisset
 
                         @if(session('success'))
-                            <div class="rounded-xl border border-green-200 bg-green-50 px-4 py-3 shadow-sm flex items-start" role="alert" aria-live="polite">
-                                <i class="fas fa-check-circle text-green-500 text-lg mr-3" aria-hidden="true"></i>
-                                <p class="text-green-800 font-medium">{{ session('success') }}</p>
+                            <div class="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3 shadow-sm flex items-start dark:bg-green-900/20 dark:border-green-800" role="alert" aria-live="polite">
+                                <svg class="h-5 w-5 text-green-500 mr-3 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-green-800 dark:text-green-200 font-medium">{{ session('success') }}</p>
                             </div>
                         @endif
 
                         @if(session('error'))
-                            <div class="rounded-xl border border-red-200 bg-red-50 px-4 py-3 shadow-sm flex items-start" role="alert" aria-live="assertive">
-                                <i class="fas fa-exclamation-circle text-red-500 text-lg mr-3" aria-hidden="true"></i>
-                                <p class="text-red-800 font-medium">{{ session('error') }}</p>
+                            <div class="mb-6 rounded-lg border border-red-200 bg-red-50 px-4 py-3 shadow-sm flex items-start dark:bg-red-900/20 dark:border-red-800" role="alert" aria-live="assertive">
+                                <svg class="h-5 w-5 text-red-500 mr-3 mt-0.5" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd" />
+                                </svg>
+                                <p class="text-red-800 dark:text-red-200 font-medium">{{ session('error') }}</p>
                             </div>
                         @endif
 
-                        <main class="min-h-screen pb-12">
-                            {{ $slot }}
-                        </main>
-
-                        <footer class="bg-white border border-gray-200 rounded-2xl">
-                            <div class="py-4 px-4 sm:px-6 lg:px-8">
-                                <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
-                                    <p class="mb-2 sm:mb-0">&copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados.</p>
-                                    <div class="flex space-x-4">
-                                        <a href="mailto:syncjornada@gmail.com" class="hover:text-blue-600 transition">Ayuda</a>
-                                        <a href="{{ url('/politica-de-privacidad') }}" class="hover:text-blue-600 transition">Política de privacidad</a>
-                                        <a href="{{ url('/terminos-y-condiciones') }}" class="hover:text-blue-600 transition">Términos y Condiciones</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </footer>
+                        {{ $slot }}
                     </div>
-                </div>
+                </main>
+                <!-- ===== Main Content End ===== -->
             </div>
+            <!-- ===== Content Area End ===== -->
         </div>
+        <!-- ===== Page Wrapper End ===== -->
 
         @include('components.paypal-widget')
     </body>
