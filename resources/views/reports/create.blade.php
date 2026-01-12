@@ -14,22 +14,42 @@
 
                         <!-- Selección de usuario -->
                         <div class="mb-6">
-                            <label for="user_id" class="block text-sm font-medium text-gray-700 mb-2">
+                            <label for="user_search" class="block text-sm font-medium text-gray-700 mb-2">
                                 <svg class="w-4 h-4 inline mr-1 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
                                 </svg>
                                 Trabajador <span class="text-red-500">*</span>
                             </label>
-                            <select name="user_id" id="user_id" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                <option value="">-- Selecciona un trabajador --</option>
-                                @foreach(\App\Models\User::orderBy('name')->get() as $user)
-                                    <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
-                                        {{ $user->name }} - {{ $user->company->name ?? 'Sin empresa' }}
-                                    </option>
+                            <input 
+                                type="text" 
+                                id="user_search" 
+                                list="users_list" 
+                                placeholder="Escribe para buscar un trabajador..."
+                                class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                                autocomplete="off"
+                            >
+                            <input type="hidden" name="user_id" id="user_id" value="{{ old('user_id') }}">
+                            <datalist id="users_list">
+                                @foreach(\App\Models\User::with('company')->orderBy('name')->get() as $user)
+                                    <option value="{{ $user->name }} - {{ $user->company->name ?? 'Sin empresa' }}" data-id="{{ $user->id }}">
                                 @endforeach
-                            </select>
+                            </datalist>
                             @error('user_id') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
+
+                        <script>
+                            document.getElementById('user_search').addEventListener('input', function(e) {
+                                const datalist = document.getElementById('users_list');
+                                const options = Array.from(datalist.options);
+                                const selectedOption = options.find(opt => opt.value === e.target.value);
+                                
+                                if (selectedOption) {
+                                    document.getElementById('user_id').value = selectedOption.getAttribute('data-id');
+                                } else {
+                                    document.getElementById('user_id').value = '';
+                                }
+                            });
+                        </script>
 
                         <!-- Fecha y hora de entrada -->
                         <div class="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
