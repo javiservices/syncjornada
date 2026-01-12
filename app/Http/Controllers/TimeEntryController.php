@@ -196,8 +196,8 @@ class TimeEntryController extends Controller
             return redirect()->back()->with('error', 'Este registro está bloqueado y no puede modificarse por normativa legal (retención 4 años).');
         }
 
-        // Optional: Prevent editing if more than 24 hours old
-        if ($timeEntry->created_at->diffInHours(now()) > 24) {
+        // Prevenir edición después de 24 horas solo para empleados
+        if ($user->role === 'employee' && $timeEntry->created_at->diffInHours(now()) > 24) {
             return redirect()->back()->with('error', 'No puedes editar entradas de más de 24 horas.');
         }
 
