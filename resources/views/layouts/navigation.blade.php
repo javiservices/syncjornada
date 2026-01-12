@@ -32,7 +32,8 @@
      x-transition:leave-end="opacity-0"
      class="fixed inset-0 bg-gray-900/40 z-40"></div>
 
-<div class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur border-t border-gray-200 shadow-[0_-6px_24px_-12px_rgba(0,0,0,0.25)] z-50">
+<div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-6px_24px_-12px_rgba(0,0,0,0.25)] z-50"
+     style="padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 10px);">
     <div class="max-w-5xl mx-auto px-3 py-2 space-y-2">
         <div class="flex items-center justify-between">
             <div class="flex items-center space-x-2">
