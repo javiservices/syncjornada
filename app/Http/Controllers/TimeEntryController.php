@@ -274,10 +274,21 @@ class TimeEntryController extends Controller
      */
     private function checkAndNotifyDailyHoursCompleted($user, $date)
     {
-        // Solo enviar notificación si el usuario tiene horas esperadas configuradas
-        if (!$user->expected_daily_hours || $user->expected_daily_hours <= 0) {
+        // Solo enviar notificación si está habilitada y hay horas/minutos configurados
+        if (!$user->notify_on_daily_hours_completion) {
             return;
         }
+        
+        $expectedHours = $user->expected_daily_hours ?? 0;
+        $expectedMinutes = $user->expected_daily_minutes ?? 0;
+        
+        // Si no hay horas/minutos configurados, no hacer nada
+        if ($expectedHours <= 0 && $expectedMinutes <= 0) {
+            return;
+        }
+        
+        // Convertir las horas y minutos esperados a minutos totales
+        $expectedTotalMinutes = ($expectedHours * 60) + $expectedMinutes;
         
         // Obtener todas las entradas del día con check_out completado
         $todayEntries = TimeEntry::where('user_id', $user->id)
@@ -285,7 +296,7 @@ class TimeEntryController extends Controller
             ->whereNotNull('check_out')
             ->get();
         
-        // Calcular total de horas trabajadas (incluyendo todas las pausas y reanudaciones)
+        // Calcular total de minutos trabajados (incluyendo todas las pausas y reanudaciones)
         $totalMinutes = 0;
         foreach ($todayEntries as $entry) {
             $checkIn = Carbon::parse($entry->check_in);
@@ -293,17 +304,19 @@ class TimeEntryController extends Controller
             $totalMinutes += $checkIn->diffInMinutes($checkOut);
         }
         
-        $totalHours = $totalMinutes / 60;
-        
-        // Si alcanzó o superó las horas esperadas, enviar correo (solo una vez)
-        if ($totalHours >= $user->expected_daily_hours) {
+        // Si alcanzó o superó los minutos esperados, enviar correo (solo una vez)
+        if ($totalMinutes >= $expectedTotalMinutes) {
             // Verificar si ya se envió notificación hoy usando cache
             $cacheKey = "daily_hours_notified_{$user->id}_{$date}";
             
             if (!\Cache::has($cacheKey)) {
                 try {
+                    // Convertir minutos totales a horas para el email
+                    $totalHours = $totalMinutes / 60;
+                    $expectedHoursDecimal = $expectedTotalMinutes / 60;
+                    
                     Mail::to($user->email)->send(
-                        new DailyHoursCompleted($user, $totalHours, $user->expected_daily_hours)
+                        new DailyHoursCompleted($user, $totalHours, $expectedHoursDecimal)
                     );
                     
                     // Marcar como notificado por 24 horas

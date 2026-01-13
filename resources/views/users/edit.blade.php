@@ -56,25 +56,64 @@
                         </div>
                         
                         @if(auth()->user()->role === 'manager' || auth()->user()->role === 'admin')
-                        <div class="mb-4">
-                            <label for="expected_daily_hours" class="block text-sm font-medium text-gray-700">
-                                Horas Diarias Esperadas
-                                <span class="text-gray-500 text-xs">(opcional - para notificación automática)</span>
-                            </label>
-                            <input type="number" 
-                                   name="expected_daily_hours" 
-                                   id="expected_daily_hours" 
-                                   value="{{ old('expected_daily_hours', $user->expected_daily_hours ?? 8.00) }}" 
-                                   step="0.25"
-                                   min="0"
-                                   max="24"
-                                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
-                                   placeholder="8.00">
-                            <p class="mt-1 text-sm text-gray-500">
-                                <i class="fas fa-info-circle"></i>
-                                Cuando el empleado alcance estas horas trabajadas en el día, recibirá un correo automático notificándole que ha completado su jornada.
-                            </p>
-                            @error('expected_daily_hours') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        <div class="mb-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                            <h3 class="text-md font-semibold text-gray-700 mb-3">
+                                <i class="fas fa-bell mr-2"></i>Configuración de Notificaciones
+                            </h3>
+                            
+                            <div class="mb-4">
+                                <label class="flex items-center">
+                                    <input type="checkbox" 
+                                           name="notify_on_daily_hours_completion" 
+                                           id="notify_on_daily_hours_completion" 
+                                           value="1"
+                                           {{ old('notify_on_daily_hours_completion', $user->notify_on_daily_hours_completion) ? 'checked' : '' }}
+                                           class="rounded border-gray-300 text-blue-600 shadow-sm focus:ring-blue-500">
+                                    <span class="ml-2 text-sm font-medium text-gray-700">
+                                        Enviar correo al completar jornada diaria
+                                    </span>
+                                </label>
+                                <p class="mt-2 ml-6 text-sm text-gray-500">
+                                    <i class="fas fa-info-circle"></i>
+                                    Cuando esté activado, el empleado recibirá un correo automático al alcanzar las horas esperadas.
+                                </p>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Horas Diarias Esperadas
+                                </label>
+                                <div class="flex items-center gap-3">
+                                    <div class="flex-1">
+                                        <label for="expected_daily_hours" class="block text-xs text-gray-600 mb-1">Horas</label>
+                                        <input type="number" 
+                                               name="expected_daily_hours" 
+                                               id="expected_daily_hours" 
+                                               value="{{ old('expected_daily_hours', $user->expected_daily_hours ?? 8) }}" 
+                                               min="0"
+                                               max="23"
+                                               class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                                               placeholder="8">
+                                        @error('expected_daily_hours') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                                    </div>
+                                    <span class="text-gray-400 mt-6">:</span>
+                                    <div class="flex-1">
+                                        <label for="expected_daily_minutes" class="block text-xs text-gray-600 mb-1">Minutos</label>
+                                        <input type="number" 
+                                               name="expected_daily_minutes" 
+                                               id="expected_daily_minutes" 
+                                               value="{{ old('expected_daily_minutes', $user->expected_daily_minutes ?? 0) }}" 
+                                               min="0"
+                                               max="59"
+                                               class="block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                                               placeholder="0">
+                                        @error('expected_daily_minutes') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                                    </div>
+                                </div>
+                                <p class="mt-2 text-xs text-gray-500">
+                                    Ejemplos: 8h 0m = jornada completa | 6h 30m = media jornada
+                                </p>
+                            </div>
                         </div>
                         @endif
                         

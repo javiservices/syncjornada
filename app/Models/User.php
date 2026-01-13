@@ -26,6 +26,8 @@ class User extends Authenticatable
         'role',
         'nif',
         'expected_daily_hours',
+        'expected_daily_minutes',
+        'notify_on_daily_hours_completion',
     ];
 
     /**
@@ -48,6 +50,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'notify_on_daily_hours_completion' => 'boolean',
         ];
     }
 
