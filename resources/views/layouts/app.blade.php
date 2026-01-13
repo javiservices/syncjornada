@@ -14,13 +14,13 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-gray-100">
+    <body class="font-sans antialiased bg-gray-100 pt-12">
         <div x-data="{ sidebarOpen: window.innerWidth >= 1024 }"
              x-init="window.addEventListener('resize', () => { if (window.innerWidth >= 1024) sidebarOpen = true })"
              class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
 
-            <div class="pt-20 lg:pl-64">
+            <div class="lg:pl-64">
                 <div class="flex-1 min-w-0">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4">
                         @isset($header)
