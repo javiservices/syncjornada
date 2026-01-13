@@ -14,10 +14,10 @@
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased bg-gray-100 pt-12">
+    <body class="font-sans antialiased bg-gray-100">
         <div x-data="{ sidebarOpen: window.innerWidth >= 1024 }"
              x-init="window.addEventListener('resize', () => { if (window.innerWidth >= 1024) sidebarOpen = true })"
-             class="min-h-screen bg-gray-100">
+             class="min-h-screen bg-gray-100 pt-12">
             @include('layouts.navigation')
 
             <div class="lg:pl-64">
