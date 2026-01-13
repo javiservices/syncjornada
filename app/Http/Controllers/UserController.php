@@ -164,6 +164,7 @@ class UserController extends Controller
             'nif' => 'nullable|string|max:20',
             'company_id' => 'required|exists:companies,id',
             'role' => 'required|in:admin,manager,employee',
+            'expected_daily_hours' => 'nullable|numeric|min:0|max:24',
         ]);
 
         if ($authUser->role !== 'admin' && $request->company_id != $authUser->company_id) {

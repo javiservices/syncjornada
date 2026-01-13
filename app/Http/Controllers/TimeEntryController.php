@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\TimeEntry;
+use App\Mail\DailyHoursCompleted;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 
 class TimeEntryController extends Controller
 {
@@ -93,6 +95,10 @@ class TimeEntryController extends Controller
                 $updateData['notes'] = $request->notes;
             }
             $lastEntry->update($updateData);
+            
+            // Calcular horas totales trabajadas hoy y verificar si se cumplió la jornada
+            $this->checkAndNotifyDailyHoursCompleted($user, $today);
+            
             return redirect()->back()->with('success', 'Check out registrado.');
         } else {
             // Crear nueva entrada con ubicación, IP y user agent
@@ -261,5 +267,52 @@ class TimeEntryController extends Controller
 
         $timeEntry->delete();
         return redirect()->route('time-entries.index')->with('success', 'Entrada eliminada.');
+    }
+    
+    /**
+     * Calculate total hours worked today and send notification if daily hours are completed
+     */
+    private function checkAndNotifyDailyHoursCompleted($user, $date)
+    {
+        // Solo enviar notificación si el usuario tiene horas esperadas configuradas
+        if (!$user->expected_daily_hours || $user->expected_daily_hours <= 0) {
+            return;
+        }
+        
+        // Obtener todas las entradas del día con check_out completado
+        $todayEntries = TimeEntry::where('user_id', $user->id)
+            ->whereDate('date', $date)
+            ->whereNotNull('check_out')
+            ->get();
+        
+        // Calcular total de horas trabajadas (incluyendo todas las pausas y reanudaciones)
+        $totalMinutes = 0;
+        foreach ($todayEntries as $entry) {
+            $checkIn = Carbon::parse($entry->check_in);
+            $checkOut = Carbon::parse($entry->check_out);
+            $totalMinutes += $checkIn->diffInMinutes($checkOut);
+        }
+        
+        $totalHours = $totalMinutes / 60;
+        
+        // Si alcanzó o superó las horas esperadas, enviar correo (solo una vez)
+        if ($totalHours >= $user->expected_daily_hours) {
+            // Verificar si ya se envió notificación hoy usando cache
+            $cacheKey = "daily_hours_notified_{$user->id}_{$date}";
+            
+            if (!\Cache::has($cacheKey)) {
+                try {
+                    Mail::to($user->email)->send(
+                        new DailyHoursCompleted($user, $totalHours, $user->expected_daily_hours)
+                    );
+                    
+                    // Marcar como notificado por 24 horas
+                    \Cache::put($cacheKey, true, now()->addDay());
+                } catch (\Exception $e) {
+                    // Log error silently, no interrumpir el flujo
+                    \Log::error("Error sending daily hours notification: " . $e->getMessage());
+                }
+            }
+        }
     }
 }

@@ -54,6 +54,30 @@
                             </select>
                             @error('role') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
                         </div>
+                        
+                        @if(auth()->user()->role === 'manager' || auth()->user()->role === 'admin')
+                        <div class="mb-4">
+                            <label for="expected_daily_hours" class="block text-sm font-medium text-gray-700">
+                                Horas Diarias Esperadas
+                                <span class="text-gray-500 text-xs">(opcional - para notificación automática)</span>
+                            </label>
+                            <input type="number" 
+                                   name="expected_daily_hours" 
+                                   id="expected_daily_hours" 
+                                   value="{{ old('expected_daily_hours', $user->expected_daily_hours ?? 8.00) }}" 
+                                   step="0.25"
+                                   min="0"
+                                   max="24"
+                                   class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" 
+                                   placeholder="8.00">
+                            <p class="mt-1 text-sm text-gray-500">
+                                <i class="fas fa-info-circle"></i>
+                                Cuando el empleado alcance estas horas trabajadas en el día, recibirá un correo automático notificándole que ha completado su jornada.
+                            </p>
+                            @error('expected_daily_hours') <span class="text-red-500 text-sm">{{ $message }}</span> @enderror
+                        </div>
+                        @endif
+                        
                         <div class="flex justify-end">
                             <a href="{{ route('users.index') }}" class="mr-4 bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</a>
                             <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Actualizar</button>

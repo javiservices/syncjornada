@@ -25,6 +25,7 @@ class User extends Authenticatable
         'company_id',
         'role',
         'nif',
+        'expected_daily_hours',
     ];
 
     /**
