@@ -153,13 +153,27 @@
                     después de dichos cambios constituye tu aceptación de los nuevos términos.
                 </p>
 
-                <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">14. Ley Aplicable y Jurisdicción</h2>
+                <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">13.1 Limitación de Responsabilidad</h2>
+                <p class="text-gray-700 mb-6">
+                    SyncJornada se proporciona "tal cual" y "según disponibilidad", sin garantías de ningún tipo, ya sean expresas o implícitas. El desarrollador no garantiza que el servicio sea ininterrumpido, libre de errores, seguro o adecuado para un propósito particular. El uso del servicio es bajo tu propio riesgo y responsabilidad.
+                </p>
+                <p class="text-gray-700 mb-6">
+                    En ningún caso el desarrollador será responsable de daños directos, indirectos, incidentales, especiales, punitivos o consecuentes, incluyendo pero no limitado a pérdida de beneficios, datos, uso del servicio o cualquier otro daño intangible, derivados del uso o incapacidad de usar SyncJornada, incluso si se ha advertido de la posibilidad de tales daños.
+                </p>
+                <p class="text-gray-700 mb-6">
+                    El desarrollador no se hace responsable de problemas legales que puedan surgir del uso de la aplicación, incluyendo cumplimiento normativo laboral, fiscal, de protección de datos o de cualquier otra índole. El usuario es el único responsable de asegurar que el uso de SyncJornada cumpla con todas las leyes y regulaciones aplicables en España y en cualquier otra jurisdicción relevante.
+                </p>
+                <p class="text-gray-700 mb-6">
+                    Dado que el servicio se ofrece de forma gratuita (con posibilidad de donaciones voluntarias), no existe obligación alguna por parte del desarrollador de mantener, actualizar o proporcionar soporte continuo al servicio.
+                </p>
+
+                <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">15. Ley Aplicable y Jurisdicción</h2>
                 <p class="text-gray-700 mb-6">
                     Estos términos se rigen por las leyes de España. Cualquier disputa relacionada con estos términos 
                     será sometida a la jurisdicción exclusiva de los tribunales de España.
                 </p>
 
-                <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">15. Contacto</h2>
+                <h2 class="text-2xl font-semibold text-gray-900 mt-8 mb-4">16. Contacto</h2>
                 <p class="text-gray-700 mb-4">
                     Si tienes preguntas sobre estos términos, puedes contactarnos en:
                 </p>

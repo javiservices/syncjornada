@@ -43,7 +43,7 @@
     {{-- Footer --}}
     <footer class="bg-gray-900 text-gray-400 py-8 mt-12">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm">
-            <p>&copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados.</p>
+            <p>&copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados. Sin responsabilidad alguna por problemas legales.</p>
             <div class="flex justify-center gap-6 mt-4">
                 <a href="{{ route('terms') }}" class="hover:text-white transition">Términos</a>
                 <a href="{{ route('privacy') }}" class="hover:text-white transition">Privacidad</a>

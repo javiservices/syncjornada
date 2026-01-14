@@ -52,7 +52,7 @@
                         <footer class="bg-white border border-gray-200 rounded-2xl">
                             <div class="py-4 px-4 sm:px-6 lg:px-8">
                                 <div class="flex flex-col sm:flex-row justify-between items-center text-sm text-gray-600">
-                                    <p class="mb-2 sm:mb-0">&copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados.</p>
+                                    <p class="mb-2 sm:mb-0">&copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados. Sin responsabilidad alguna por problemas legales.</p>
                                     <div class="flex space-x-4">
                                         <a href="mailto:syncjornada@gmail.com" class="hover:text-blue-600 transition">Ayuda</a>
                                         <a href="{{ url('/politica-de-privacidad') }}" class="hover:text-blue-600 transition">Política de privacidad</a>

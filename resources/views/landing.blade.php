@@ -779,7 +779,7 @@
         <div class="border-t border-gray-800 pt-8 mt-8">
             <div class="flex flex-col md:flex-row justify-between items-center gap-4">
                 <p class="text-sm text-gray-500 text-center md:text-left">
-                    &copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados.
+                    &copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados. Sin responsabilidad alguna por problemas legales.
                 </p>
                 <div class="flex items-center gap-6 text-sm text-gray-500">
                     <span class="flex items-center gap-2">
