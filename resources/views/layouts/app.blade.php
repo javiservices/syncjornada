@@ -24,7 +24,7 @@
                 <div class="flex-1 min-w-0">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4">
                         @isset($header)
-                            <header class="bg-white shadow-sm border border-gray-200 rounded-lg">
+                            <header class="bg-white shadow-sm border border-gray-200 rounded-lg mt-12">
                                 <div class="py-4 px-4 sm:py-5 sm:px-6 lg:px-8">
                                     {{ $header }}
                                 </div>
