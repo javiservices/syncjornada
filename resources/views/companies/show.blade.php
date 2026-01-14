@@ -2,7 +2,7 @@
     <div class="py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Header -->
-            <div class="mb-6">
+            <div class="mb-6 mt-4">
                 <div class="flex items-center justify-between">
                     <div>
                         <h1 class="text-3xl font-bold text-gray-900">{{ $company->name }}</h1>
