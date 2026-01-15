@@ -15,14 +15,14 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans antialiased bg-gray-100">
-        <div x-data="{ sidebarOpen: window.innerWidth >= 1024 }"
-             x-init="window.addEventListener('resize', () => { if (window.innerWidth < 768) sidebarOpen = false })"
+        <div x-data="{ sidebarOpen: window.innerWidth >= 1024, sidebarCollapsed: false }"
+             x-init="window.addEventListener('resize', () => { if (window.innerWidth < 768) { sidebarOpen = false; sidebarCollapsed = false } else if (window.innerWidth >= 1024 && !sidebarCollapsed) sidebarOpen = true })"
              class="min-h-screen bg-gray-100 pt-12">
             @include('layouts.navigation')
 
             <div class="transition-all duration-200">
                 <div class="flex-1 min-w-0">
-                    <div x-bind:class="sidebarOpen ? 'lg:ml-80' : ''" class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4 transition-all duration-200">
+                    <div x-bind:class="sidebarOpen && !sidebarCollapsed ? 'lg:ml-80' : sidebarOpen && sidebarCollapsed ? 'lg:ml-20' : ''" class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4 transition-all duration-200">
                         @isset($header)
                             <header class="bg-white shadow-sm border border-gray-200 rounded-lg mt-12">
                                 <div class="py-4 px-4 sm:py-5 sm:px-6 lg:px-8">
