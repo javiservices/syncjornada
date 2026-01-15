@@ -6,6 +6,7 @@ use App\Models\TimeEntry;
 use App\Models\Company;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 
 class TimeEntryExportController extends Controller
 {
@@ -45,36 +46,42 @@ class TimeEntryExportController extends Controller
             $query->where('user_id', $request->user_id);
         }
 
-        $entries = $query->orderBy('date', 'desc')->get();
-
+        // For CSV we stream results to avoid memory spikes on large exports.
         if ($request->format === 'pdf') {
+            $entries = $query->orderBy('date', 'desc')->get();
             return $this->exportPdf($entries, $request);
         }
 
-        return $this->exportCsv($entries);
+        return $this->exportCsv($query);
     }
 
-    private function exportCsv($entries)
+    private function exportCsv($query)
     {
-        $filename = 'registro_jornada_' . now()->format('Y-m-d_His') . '.csv';
+        $base = 'registro_jornada_' . now()->format('Y-m-d_His');
+        $filename = Str::slug($base) . '.csv';
+
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
+            'Cache-Control' => 'no-store, no-cache',
+            'Pragma' => 'no-cache',
+            'Expires' => '0',
         ];
 
-        $callback = function() use ($entries) {
+        $callback = function() use ($query) {
             $file = fopen('php://output', 'w');
+            // UTF-8 BOM for Excel compatibility
             fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
-            
+
             fputcsv($file, [
                 'Fecha', 'Empleado', 'NIF/NIE', 'Empresa', 'CIF', 'Hora Entrada', 'Lat Entrada', 'Lon Entrada',
                 'Hora Salida', 'Lat Salida', 'Lon Salida', 'Horas Totales', 'Remoto', 'IP', 'Confirmado', 'Notas', 'Modificaciones'
             ], ';');
 
-            foreach ($entries as $entry) {
+            // Use cursor to stream rows and keep memory usage low
+            foreach ($query->orderBy('date', 'desc')->cursor() as $entry) {
                 $checkIn = $entry->check_in ? Carbon::parse($entry->check_in)->format('H:i:s') : '';
                 $checkOut = $entry->check_out ? Carbon::parse($entry->check_out)->format('H:i:s') : '';
-                
+
                 $hoursWorked = '';
                 if ($entry->check_in && $entry->check_out) {
                     $diff = Carbon::parse($entry->check_in)->diffInMinutes(Carbon::parse($entry->check_out));
@@ -104,12 +111,15 @@ class TimeEntryExportController extends Controller
                     $entry->notes ?? '',
                     $modifications
                 ], ';');
+                // flush each row to the client
+                if (function_exists('ob_flush')) { ob_flush(); }
+                if (function_exists('flush')) { flush(); }
             }
 
             fclose($file);
         };
 
-        return response()->stream($callback, 200, $headers);
+        return response()->streamDownload($callback, $filename, $headers);
     }
 
     private function exportPdf($entries, $request)
@@ -122,7 +132,12 @@ class TimeEntryExportController extends Controller
             'generatedBy' => auth()->user(),
         ]);
 
-        $filename = 'registro_jornada_' . now()->format('Y-m-d_His') . '.pdf';
+        // Set paper and orientation for wide tables
+        $pdf->setPaper('a4', 'landscape');
+
+        $base = 'registro_jornada_' . now()->format('Y-m-d_His');
+        $filename = Str::slug($base) . '.pdf';
+
         return $pdf->download($filename);
     }
 }
