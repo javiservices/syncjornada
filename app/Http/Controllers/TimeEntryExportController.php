@@ -94,11 +94,15 @@ class TimeEntryExportController extends Controller
                         $hoursWorked = "{$hours}h {$minutes}min";
                     }
 
-                    // Información de modificaciones
+                    // Información de modificaciones - solo contar ediciones por managers/admins
                     $modifications = 'No';
                     if ($entry->audits->count() > 1) {
-                        $modificationAudits = $entry->audits->filter(function($audit) {
-                            return $audit->event !== 'created';
+                        // Filtrar audits que representen modificaciones reales (no por el propio empleado)
+                        $modificationAudits = $entry->audits->filter(function($audit) use ($entry) {
+                            // Solo contar como modificación si:
+                            // 1. No es el evento 'created'
+                            // 2. El usuario que hizo el cambio NO es el propietario del registro
+                            return $audit->action !== 'created' && $audit->user_id !== $entry->user_id;
                         });
                         
                         if ($modificationAudits->count() > 0) {
