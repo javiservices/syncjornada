@@ -94,7 +94,18 @@ class TimeEntryExportController extends Controller
                         $hoursWorked = "{$hours}h {$minutes}min";
                     }
 
-                    $modifications = $entry->audits->count() > 1 ? 'Sí (' . ($entry->audits->count() - 1) . ')' : 'No';
+                    // Información de modificaciones
+                    $modifications = 'No';
+                    if ($entry->audits->count() > 1) {
+                        $modificationAudits = $entry->audits->filter(function($audit) {
+                            return $audit->event !== 'created';
+                        });
+                        
+                        if ($modificationAudits->count() > 0) {
+                            $lastModification = $modificationAudits->sortByDesc('created_at')->first();
+                            $modifications = 'Sí - ' . $lastModification->created_at->format('d/m/Y H:i');
+                        }
+                    }
 
                     // Clean fields to avoid embedded HTML/newlines breaking the CSV
                     $date = Carbon::parse($entry->date)->format('d/m/Y');
