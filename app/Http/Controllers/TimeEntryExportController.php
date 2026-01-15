@@ -62,6 +62,7 @@ class TimeEntryExportController extends Controller
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
+            'Content-Disposition' => "attachment; filename=\"{$filename}\"",
             'Cache-Control' => 'no-store, no-cache',
             'Pragma' => 'no-cache',
             'Expires' => '0',
@@ -92,23 +93,40 @@ class TimeEntryExportController extends Controller
 
                 $modifications = $entry->audits->count() > 1 ? 'Sí (' . ($entry->audits->count() - 1) . ')' : 'No';
 
+                // Clean fields to avoid embedded HTML/newlines breaking the CSV
+                $date = Carbon::parse($entry->date)->format('d/m/Y');
+                $employee = strip_tags($entry->user->name ?? '');
+                $nif = strip_tags($entry->user->nif ?? '');
+                $companyName = strip_tags($entry->user->company->name ?? '');
+                $cif = strip_tags($entry->user->company->cif ?? '');
+                $latIn = $entry->check_in_latitude ?? '';
+                $lonIn = $entry->check_in_longitude ?? '';
+                $latOut = $entry->check_out_latitude ?? '';
+                $lonOut = $entry->check_out_longitude ?? '';
+                $ip = strip_tags($entry->ip_address ?? '');
+                $confirmed = $entry->employee_confirmed ? 'Sí' : 'No';
+                $notes = strip_tags($entry->notes ?? '');
+                // Remove newlines to keep each record in one CSV row
+                $notes = preg_replace("/\r\n|\r|\n/u", ' ', $notes);
+                $modifications = strip_tags($modifications);
+
                 fputcsv($file, [
-                    Carbon::parse($entry->date)->format('d/m/Y'),
-                    $entry->user->name,
-                    $entry->user->nif ?? '',
-                    $entry->user->company->name ?? '',
-                    $entry->user->company->cif ?? '',
+                    $date,
+                    $employee,
+                    $nif,
+                    $companyName,
+                    $cif,
                     $checkIn,
-                    $entry->check_in_latitude ?? '',
-                    $entry->check_in_longitude ?? '',
+                    $latIn,
+                    $lonIn,
                     $checkOut,
-                    $entry->check_out_latitude ?? '',
-                    $entry->check_out_longitude ?? '',
+                    $latOut,
+                    $lonOut,
                     $hoursWorked,
                     $entry->remote_work ? 'Sí' : 'No',
-                    $entry->ip_address ?? '',
-                    $entry->employee_confirmed ? 'Sí' : 'No',
-                    $entry->notes ?? '',
+                    $ip,
+                    $confirmed,
+                    $notes,
                     $modifications
                 ], ';');
                 // flush each row to the client
