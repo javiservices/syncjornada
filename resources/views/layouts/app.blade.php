@@ -16,11 +16,11 @@
     </head>
     <body class="font-sans antialiased bg-gray-100">
         <div x-data="{ sidebarOpen: window.innerWidth >= 1024 }"
-             x-init="window.addEventListener('resize', () => { if (window.innerWidth >= 1024) sidebarOpen = true })"
+             x-init="window.addEventListener('resize', () => { if (window.innerWidth >= 1024) sidebarOpen = true; else if (window.innerWidth < 768) sidebarOpen = false })"
              class="min-h-screen bg-gray-100 pt-12">
             @include('layouts.navigation')
 
-            <div class="lg:pl-64">
+            <div x-bind:class="sidebarOpen ? 'lg:pl-64 pl-64' : 'lg:pl-64'" class="transition-all duration-200">
                 <div class="flex-1 min-w-0">
                     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4">
                         @isset($header)

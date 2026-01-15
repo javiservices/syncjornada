@@ -90,7 +90,7 @@
        x-transition:leave="transform transition ease-in duration-200"
        x-transition:leave-start="translate-x-0"
        x-transition:leave-end="-translate-x-full"
-    class="fixed top-16 left-0 bottom-0 w-64 bg-white border-r border-gray-200 shadow-lg z-30 overflow-y-auto transform lg:translate-x-0">
+    class="fixed top-16 left-0 bottom-0 w-64 bg-white border-r border-gray-200 shadow-lg z-40 overflow-y-auto transform lg:translate-x-0">
     <div class="p-4 space-y-6">
         <div class="space-y-1">
             <p class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">General</p>

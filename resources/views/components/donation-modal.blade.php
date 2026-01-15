@@ -18,7 +18,7 @@
     }"
     x-show="showDonationModal"
     x-cloak
-    class="fixed inset-0 z-[99999] flex items-center justify-center px-4 py-6 sm:px-6"
+    class="fixed inset-0 z-[9999999] flex items-center justify-center px-4 py-6 sm:px-6"
     style="display: none;"
 >
     <!-- Overlay -->
@@ -43,7 +43,7 @@
         x-transition:leave="transition ease-in duration-200"
         x-transition:leave-start="opacity-100 scale-100"
         x-transition:leave-end="opacity-0 scale-95"
-        class="relative bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden"
+        class="relative bg-white rounded-2xl shadow-2xl max-w-sm sm:max-w-md lg:max-w-lg w-full overflow-hidden"
         @click.stop
     >
         <!-- Decorative header gradient -->
