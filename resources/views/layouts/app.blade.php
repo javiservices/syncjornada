@@ -20,9 +20,9 @@
              class="min-h-screen bg-gray-100 pt-12">
             @include('layouts.navigation')
 
-            <div x-bind:class="sidebarOpen ? 'lg:pl-64 pl-64' : 'lg:pl-64'" class="transition-all duration-200">
+            <div class="transition-all duration-200">
                 <div class="flex-1 min-w-0">
-                    <div class="w-full max-w-7xl px-4 sm:px-6 lg:px-8 xl:max-w-6xl 2xl:max-w-7xl lg:mx-0 mx-auto py-6 space-y-4">
+                    <div x-bind:class="sidebarOpen ? 'lg:ml-64' : ''" class="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-4 transition-all duration-200">
                         @isset($header)
                             <header class="bg-white shadow-sm border border-gray-200 rounded-lg mt-12">
                                 <div class="py-4 px-4 sm:py-5 sm:px-6 lg:px-8">
