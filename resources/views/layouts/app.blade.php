@@ -16,7 +16,7 @@
     </head>
     <body class="font-sans antialiased bg-gray-100">
         <div x-data="{ sidebarOpen: window.innerWidth >= 1024 }"
-             x-init="window.addEventListener('resize', () => { if (window.innerWidth >= 1024) sidebarOpen = true; else if (window.innerWidth < 768) sidebarOpen = false })"
+             x-init="window.addEventListener('resize', () => { if (window.innerWidth < 768) sidebarOpen = false })"
              class="min-h-screen bg-gray-100 pt-12">
             @include('layouts.navigation')
 

@@ -37,7 +37,7 @@
 <header class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 shadow-sm z-40">
     <div class="h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <div class="flex items-center space-x-3">
-            <button @click="sidebarOpen = !sidebarOpen" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 text-gray-700" aria-label="Alternar menu">
+            <button @click="sidebarOpen = !sidebarOpen" class="p-2 rounded-lg hover:bg-gray-100 text-gray-700" aria-label="Alternar menu">
                 <i class="fas fa-bars"></i>
             </button>
             <div>
