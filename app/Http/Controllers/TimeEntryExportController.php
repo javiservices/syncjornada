@@ -69,72 +69,80 @@ class TimeEntryExportController extends Controller
         ];
 
         $callback = function() use ($query) {
-            $file = fopen('php://output', 'w');
-            // UTF-8 BOM for Excel compatibility
-            fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
-
-            fputcsv($file, [
-                'Fecha', 'Empleado', 'NIF/NIE', 'Empresa', 'CIF', 'Hora Entrada', 'Lat Entrada', 'Lon Entrada',
-                'Hora Salida', 'Lat Salida', 'Lon Salida', 'Horas Totales', 'Remoto', 'IP', 'Confirmado', 'Notas', 'Modificaciones'
-            ], ';');
-
-            // Use cursor to stream rows and keep memory usage low
-            foreach ($query->orderBy('date', 'desc')->cursor() as $entry) {
-                $checkIn = $entry->check_in ? Carbon::parse($entry->check_in)->format('H:i:s') : '';
-                $checkOut = $entry->check_out ? Carbon::parse($entry->check_out)->format('H:i:s') : '';
-
-                $hoursWorked = '';
-                if ($entry->check_in && $entry->check_out) {
-                    $diff = Carbon::parse($entry->check_in)->diffInMinutes(Carbon::parse($entry->check_out));
-                    $hours = floor($diff / 60);
-                    $minutes = $diff % 60;
-                    $hoursWorked = "{$hours}h {$minutes}min";
-                }
-
-                $modifications = $entry->audits->count() > 1 ? 'Sí (' . ($entry->audits->count() - 1) . ')' : 'No';
-
-                // Clean fields to avoid embedded HTML/newlines breaking the CSV
-                $date = Carbon::parse($entry->date)->format('d/m/Y');
-                $employee = strip_tags($entry->user->name ?? '');
-                $nif = strip_tags($entry->user->nif ?? '');
-                $companyName = strip_tags($entry->user->company->name ?? '');
-                $cif = strip_tags($entry->user->company->cif ?? '');
-                $latIn = $entry->check_in_latitude ?? '';
-                $lonIn = $entry->check_in_longitude ?? '';
-                $latOut = $entry->check_out_latitude ?? '';
-                $lonOut = $entry->check_out_longitude ?? '';
-                $ip = strip_tags($entry->ip_address ?? '');
-                $confirmed = $entry->employee_confirmed ? 'Sí' : 'No';
-                $notes = strip_tags($entry->notes ?? '');
-                // Remove newlines to keep each record in one CSV row
-                $notes = preg_replace("/\r\n|\r|\n/u", ' ', $notes);
-                $modifications = strip_tags($modifications);
+            try {
+                $file = fopen('php://output', 'w');
+                // UTF-8 BOM for Excel compatibility
+                fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
 
                 fputcsv($file, [
-                    $date,
-                    $employee,
-                    $nif,
-                    $companyName,
-                    $cif,
-                    $checkIn,
-                    $latIn,
-                    $lonIn,
-                    $checkOut,
-                    $latOut,
-                    $lonOut,
-                    $hoursWorked,
-                    $entry->remote_work ? 'Sí' : 'No',
-                    $ip,
-                    $confirmed,
-                    $notes,
-                    $modifications
+                    'Fecha', 'Empleado', 'NIF/NIE', 'Empresa', 'CIF', 'Hora Entrada', 'Lat Entrada', 'Lon Entrada',
+                    'Hora Salida', 'Lat Salida', 'Lon Salida', 'Horas Totales', 'Remoto', 'IP', 'Confirmado', 'Notas', 'Modificaciones'
                 ], ';');
-                // flush each row to the client
-                if (function_exists('ob_flush')) { ob_flush(); }
-                if (function_exists('flush')) { flush(); }
-            }
 
-            fclose($file);
+                // Use get() instead of cursor() to avoid potential issues with lazy loading
+                $entries = $query->orderBy('date', 'desc')->get();
+
+                foreach ($entries as $entry) {
+                    $checkIn = $entry->check_in ? Carbon::parse($entry->check_in)->format('H:i:s') : '';
+                    $checkOut = $entry->check_out ? Carbon::parse($entry->check_out)->format('H:i:s') : '';
+
+                    $hoursWorked = '';
+                    if ($entry->check_in && $entry->check_out) {
+                        $diff = Carbon::parse($entry->check_in)->diffInMinutes(Carbon::parse($entry->check_out));
+                        $hours = floor($diff / 60);
+                        $minutes = $diff % 60;
+                        $hoursWorked = "{$hours}h {$minutes}min";
+                    }
+
+                    $modifications = $entry->audits->count() > 1 ? 'Sí (' . ($entry->audits->count() - 1) . ')' : 'No';
+
+                    // Clean fields to avoid embedded HTML/newlines breaking the CSV
+                    $date = Carbon::parse($entry->date)->format('d/m/Y');
+                    $employee = strip_tags($entry->user->name ?? '');
+                    $nif = strip_tags($entry->user->nif ?? '');
+                    $companyName = strip_tags($entry->user->company->name ?? '');
+                    $cif = strip_tags($entry->user->company->cif ?? '');
+                    $latIn = $entry->check_in_latitude ?? '';
+                    $lonIn = $entry->check_in_longitude ?? '';
+                    $latOut = $entry->check_out_latitude ?? '';
+                    $lonOut = $entry->check_out_longitude ?? '';
+                    $ip = strip_tags($entry->ip_address ?? '');
+                    $confirmed = $entry->employee_confirmed ? 'Sí' : 'No';
+                    $notes = strip_tags($entry->notes ?? '');
+                    // Remove newlines to keep each record in one CSV row
+                    $notes = preg_replace("/\r\n|\r|\n/u", ' ', $notes);
+                    $modifications = strip_tags($modifications);
+
+                    fputcsv($file, [
+                        $date,
+                        $employee,
+                        $nif,
+                        $companyName,
+                        $cif,
+                        $checkIn,
+                        $latIn,
+                        $lonIn,
+                        $checkOut,
+                        $latOut,
+                        $lonOut,
+                        $hoursWorked,
+                        $entry->remote_work ? 'Sí' : 'No',
+                        $ip,
+                        $confirmed,
+                        $notes,
+                        $modifications
+                    ], ';');
+                }
+
+                fclose($file);
+            } catch (\Exception $e) {
+                // Log the error and output a simple error message in CSV
+                \Log::error('CSV Export Error: ' . $e->getMessage());
+                $file = fopen('php://output', 'w');
+                fprintf($file, chr(0xEF).chr(0xBB).chr(0xBF));
+                fputcsv($file, ['Error generating CSV: ' . $e->getMessage()], ';');
+                fclose($file);
+            }
         };
 
         return response()->streamDownload($callback, $filename, $headers);
