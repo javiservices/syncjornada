@@ -42,7 +42,7 @@
             </button>
             <div>
                 <p class="text-xs uppercase tracking-wide text-gray-500">SyncJornada</p>
-                <p x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="text-lg font-bold text-gray-900 transition-all duration-200">{{ $pageTitle }}</p>
+                <p class="text-lg font-bold text-gray-900">{{ $pageTitle }}</p>
             </div>
         </div>
 
@@ -83,7 +83,7 @@
 </header>
 
 <aside x-cloak
-    :class="sidebarOpen ? (sidebarCollapsed ? 'lg:w-20' : 'lg:w-64') : '-translate-x-full lg:translate-x-0'"
+    :class="sidebarOpen ? (sidebarCollapsed ? 'lg:w-14' : 'lg:w-64') : '-translate-x-full lg:translate-x-0'"
        x-transition:enter="transform transition ease-out duration-200"
        x-transition:enter-start="-translate-x-full"
        x-transition:enter-end="translate-x-0"
@@ -93,13 +93,13 @@
     class="fixed top-16 left-0 bottom-0 w-64 bg-white border-r border-gray-200 shadow-lg z-40 overflow-y-auto transform lg:translate-x-0 lg:transition-all lg:duration-200 group"
     @mouseenter="if (sidebarCollapsed && window.innerWidth >= 1024) sidebarOpen = true"
     @mouseleave="if (sidebarCollapsed && window.innerWidth >= 1024) sidebarOpen = false">
-    <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'p-2' : 'p-4'" class="space-y-6 transition-all duration-200">
+    <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'p-1' : 'p-4'" class="space-y-6 transition-all duration-200">
         <div class="space-y-1">
             <p x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wide transition-all duration-200">General</p>
             @foreach($navItems as $item)
                 <a href="{{ is_array($item['route']) ? route($item['route'][0], $item['route'][1]) : route($item['route']) }}"
                    class="group flex items-center gap-3 px-3 py-2.5 rounded-lg transition {{ request()->routeIs($item['match']) ? 'bg-blue-50 text-blue-700 border border-blue-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
-                   x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-2' : ''">
+                   x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-1 py-2' : ''">
                     <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-700">
                         <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
                     </span>
@@ -114,7 +114,7 @@
                 @foreach($adminItems as $item)
                     <a href="{{ route($item['route']) }}"
                        class="group flex items-center gap-3 px-3 py-2.5 rounded-lg transition {{ request()->routeIs($item['match']) ? 'bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
-                       x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-2' : ''">
+                       x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-1 py-2' : ''">
                         <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700">
                             <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
                         </span>
@@ -128,7 +128,7 @@
                 @foreach($managerItems as $item)
                     <a href="{{ is_array($item['route']) ? route($item['route'][0], $item['route'][1]) : route($item['route']) }}"
                        class="group flex items-center gap-3 px-3 py-2.5 rounded-lg transition {{ request()->routeIs($item['match']) ? 'bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
-                       x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-2' : ''">
+                       x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-1 py-2' : ''">
                         <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700">
                             <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
                         </span>
