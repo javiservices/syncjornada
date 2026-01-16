@@ -7,6 +7,7 @@ use App\Models\Company;
 use App\Models\User;
 use App\Mail\CompanyRequestApproved;
 use App\Mail\CompanyRequestRejected;
+use App\Mail\CompanyRequestReceived;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
@@ -31,6 +32,14 @@ class CompanyRequestController extends Controller
         ]);
 
         $companyRequest = CompanyRequest::create($validated);
+
+        // Enviar confirmación al solicitante indicando que hemos recibido la solicitud
+        try {
+            Mail::to($companyRequest->email)->send(new CompanyRequestReceived($companyRequest));
+        } catch (\Throwable $e) {
+            // No interrumpir el flujo si falla el envío; opcional: loguear
+            // logger()->error('Error sending company request received email: '.$e->getMessage());
+        }
 
         // Opcional: Enviar email de notificación al admin
         // Mail::to(config('mail.admin_email'))->send(new NewCompanyRequest($companyRequest));
