@@ -1,8 +1,16 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Empresas') }}
-        </h2>
+        <div class="flex items-center justify-between">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Empresas') }}
+            </h2>
+            @if(auth()->user()->role === 'admin')
+                <a href="{{ route('companies.create') }}" class="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                    <i class="fas fa-building"></i>
+                    <span>Crear Empresa</span>
+                </a>
+            @endif
+        </div>
     </x-slot>
 
     <div class="py-12">
@@ -10,7 +18,6 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     @if(auth()->user()->role === 'admin')
-                        <a href="{{ route('companies.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4 inline-block">Crear Empresa</a>
                         <form method="GET" class="mb-6 bg-gray-50 p-4 rounded-lg">
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                                 <div>
