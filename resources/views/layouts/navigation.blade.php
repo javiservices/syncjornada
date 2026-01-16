@@ -85,7 +85,7 @@
 </header>
 
 <aside x-cloak
-    class="fixed top-16 left-0 bottom-0 w-auto min-w-14 max-w-64 bg-white border-r border-gray-200 shadow-lg z-40 overflow-hidden transform lg:translate-x-0 lg:transition-all lg:duration-200 group"
+    class="fixed top-16 left-0 bottom-0 w-auto min-w-14 max-w-64 bg-white border-r border-gray-200 shadow-lg z-40 overflow-hidden transform lg:translate-x-0 transition-all duration-300 ease-out group"
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     :style="sidebarCollapsed && window.innerWidth >= 1024 ? 'width: 3.5rem' : 'width: 16rem'"
     x-transition:enter="transform transition ease-out duration-200"
@@ -101,12 +101,19 @@
             <p x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wide transition-all duration-200">General</p>
             @foreach($navItems as $item)
                 <a href="{{ is_array($item['route']) ? route($item['route'][0], $item['route'][1]) : route($item['route']) }}"
-                   class="group flex items-center gap-3 px-3 py-2.5 rounded-lg transition {{ request()->routeIs($item['match']) ? 'bg-blue-50 text-blue-700 border border-blue-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
+                   class="relative group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 {{ request()->routeIs($item['match']) ? 'bg-blue-50 text-blue-700 border border-blue-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
                    x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-1 py-2' : ''">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-700">
+                    <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-700 transition-transform duration-200">
                         <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
                     </span>
                     <span x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
+
+                    {{-- Tooltip cuando está colapsado (se muestra al hover) --}}
+                    <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 hidden group-hover:block' : 'hidden'">
+                        <div class="whitespace-nowrap bg-white text-sm text-gray-800 px-3 py-2 rounded-md shadow-lg border border-gray-100">
+                            {{ $item['label'] }}
+                        </div>
+                    </div>
                 </a>
             @endforeach
         </div>
@@ -116,12 +123,18 @@
                 <p x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wide transition-all duration-200">Administracion</p>
                 @foreach($adminItems as $item)
                     <a href="{{ route($item['route']) }}"
-                       class="group flex items-center gap-3 px-3 py-2.5 rounded-lg transition {{ request()->routeIs($item['match']) ? 'bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
+                       class="relative group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 {{ request()->routeIs($item['match']) ? 'bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
                        x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-1 py-2' : ''">
-                        <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700">
+                        <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700 transition-transform duration-200">
                             <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
                         </span>
                         <span x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
+
+                        <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 hidden group-hover:block' : 'hidden'">
+                            <div class="whitespace-nowrap bg-white text-sm text-gray-800 px-3 py-2 rounded-md shadow-lg border border-gray-100">
+                                {{ $item['label'] }}
+                            </div>
+                        </div>
                     </a>
                 @endforeach
             </div>
@@ -130,12 +143,18 @@
                 <p x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wide transition-all duration-200">Gestion</p>
                 @foreach($managerItems as $item)
                     <a href="{{ is_array($item['route']) ? route($item['route'][0], $item['route'][1]) : route($item['route']) }}"
-                       class="group flex items-center gap-3 px-3 py-2.5 rounded-lg transition {{ request()->routeIs($item['match']) ? 'bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
+                       class="relative group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 {{ request()->routeIs($item['match']) ? 'bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
                        x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-1 py-2' : ''">
-                        <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700">
+                        <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700 transition-transform duration-200">
                             <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
                         </span>
                         <span x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
+
+                        <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 hidden group-hover:block' : 'hidden'">
+                            <div class="whitespace-nowrap bg-white text-sm text-gray-800 px-3 py-2 rounded-md shadow-lg border border-gray-100">
+                                {{ $item['label'] }}
+                            </div>
+                        </div>
                     </a>
                 @endforeach
             </div>
