@@ -11,15 +11,22 @@
                 <div class="p-6">
                     <a href="{{ route('users.create') }}" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 mb-4 inline-block">Crear Usuario</a>
                     <form method="GET" class="mb-6 bg-gray-50 p-4 rounded-lg">
+                        @php
+                            $rolesMap = [
+                                'admin' => 'Administrador',
+                                'manager' => 'Gerente',
+                                'employee' => 'Empleado',
+                            ];
+                        @endphp
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                                 <label for="role" class="block text-sm font-medium text-gray-700">Rol</label>
                                 <select name="role" id="role" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
                                     <option value="">Todos</option>
-                                    <option value="employee" {{ request('role') == 'employee' ? 'selected' : '' }}>Employee</option>
-                                    <option value="manager" {{ request('role') == 'manager' ? 'selected' : '' }}>Manager</option>
+                                    <option value="employee" {{ request('role') == 'employee' ? 'selected' : '' }}>{{ $rolesMap['employee'] }}</option>
+                                    <option value="manager" {{ request('role') == 'manager' ? 'selected' : '' }}>{{ $rolesMap['manager'] }}</option>
                                     @if(auth()->user()->role === 'admin')
-                                        <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                        <option value="admin" {{ request('role') == 'admin' ? 'selected' : '' }}>{{ $rolesMap['admin'] }}</option>
                                     @endif
                                 </select>
                             </div>
@@ -58,7 +65,7 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->email }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $user->company->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ translate_role($user->role) }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $rolesMap[$user->role] ?? ucfirst($user->role) }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                         <div class="flex items-center gap-2">
                                             @php
@@ -110,7 +117,7 @@
                             <div class="bg-gray-50 px-3 py-2 border-b border-gray-200">
                                 <div class="flex justify-between items-center">
                                     <h3 class="text-xs font-semibold text-gray-900">{{ $user->name }}</h3>
-                                    <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">{{ translate_role($user->role) }}</span>
+                                    <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">{{ $rolesMap[$user->role] ?? ucfirst($user->role) }}</span>
                                 </div>
                             </div>
 
