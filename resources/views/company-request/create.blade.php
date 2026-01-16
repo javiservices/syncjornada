@@ -218,7 +218,7 @@
             <div class="mt-8 text-center">
                 <p class="text-gray-600">
                     ¿Tienes preguntas? 
-                    <a href="mailto:soporte@syncjornada.com" class="text-blue-600 hover:text-blue-700 font-semibold">
+                    <a href="mailto:syncjornada@gmail.com" class="text-blue-600 hover:text-blue-700 font-semibold">
                         Contáctanos
                     </a>
                 </p>

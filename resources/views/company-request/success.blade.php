@@ -82,8 +82,8 @@
                     <p class="text-gray-700">
                         <i class="fas fa-phone text-blue-600 mr-2"></i>
                         <strong>Preguntas:</strong> 
-                        <a href="mailto:soporte@syncjornada.com" class="text-blue-600 hover:text-blue-700 font-semibold">
-                            soporte@syncjornada.com
+                        <a href="mailto:syncjornada@gmail.com" class="text-blue-600 hover:text-blue-700 font-semibold">
+                            syncjornada@gmail.com
                         </a>
                     </p>
                 </div>
@@ -98,7 +98,7 @@
                         Volver al Inicio
                     </a>
                     <a 
-                        href="mailto:soporte@syncjornada.com" 
+                        href="mailto:syncjornada@gmail.com" 
                         class="inline-flex items-center justify-center px-6 py-3 bg-white hover:bg-gray-50 text-gray-700 font-semibold rounded-lg border-2 border-gray-300 transition-all"
                     >
                         <i class="fas fa-envelope mr-2"></i>
