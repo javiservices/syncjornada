@@ -34,12 +34,17 @@
     };
 @endphp
 
-<div x-data="{ sidebarCollapsed: JSON.parse(localStorage.getItem('sidebarCollapsed') || 'false'), sidebarOpen: false }">
+<div x-data="{ 
+    sidebarCollapsed: JSON.parse(localStorage.getItem('sidebarCollapsed') || 'false'), 
+    sidebarOpen: false, 
+    canHover: (window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches)
+}"
+     x-init="window.addEventListener('resize', () => { if (window.innerWidth >= 1024) sidebarCollapsed = JSON.parse(localStorage.getItem('sidebarCollapsed') || 'false'); }); window.addEventListener('touchstart', () => { canHover = false }, { once: true })">
 
 <header class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 shadow-sm z-40">
     <div class="h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         <div class="flex items-center space-x-3">
-            <button @click="if (window.innerWidth >= 1024) { sidebarCollapsed = !sidebarCollapsed; localStorage.setItem('sidebarCollapsed', sidebarCollapsed); sidebarOpen = true } else { sidebarOpen = !sidebarOpen }" class="p-2 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors" aria-label="Alternar menu">
+            <button @click="if (window.innerWidth >= 1024) { sidebarCollapsed = !sidebarCollapsed; localStorage.setItem('sidebarCollapsed', sidebarCollapsed); sidebarOpen = !sidebarCollapsed } else { sidebarOpen = !sidebarOpen }" class="p-2 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors" aria-label="Alternar menu">
                 <i x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'fas fa-chevron-right' : 'fas fa-bars'" class="transition-all duration-200"></i>
             </button>
             <div>
@@ -94,8 +99,8 @@
     x-transition:leave="transform transition ease-in duration-200"
     x-transition:leave-start="translate-x-0"
     x-transition:leave-end="-translate-x-full"
-    @mouseenter="if (sidebarCollapsed && window.innerWidth >= 1024) sidebarOpen = true"
-    @mouseleave="if (sidebarCollapsed && window.innerWidth >= 1024) sidebarOpen = false">
+    @mouseenter="if (sidebarCollapsed && window.innerWidth >= 1024 && canHover) sidebarOpen = true"
+    @mouseleave="if (sidebarCollapsed && window.innerWidth >= 1024 && canHover) sidebarOpen = false">
     <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'p-1' : 'p-4'" class="space-y-6 transition-all duration-200">
         <div class="space-y-1">
             <p x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wide transition-all duration-200">General</p>
