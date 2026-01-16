@@ -106,7 +106,7 @@
                     <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-700 transition-transform duration-200">
                         <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
                     </span>
-                    <span x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
+                    <span x-bind:class="(sidebarCollapsed && window.innerWidth >= 1024 && !sidebarOpen) ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
 
                     {{-- Tooltip cuando está colapsado (se muestra al hover) --}}
                     <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 hidden group-hover:block' : 'hidden'">
@@ -128,7 +128,7 @@
                         <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700 transition-transform duration-200">
                             <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
                         </span>
-                        <span x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
+                        <span x-bind:class="(sidebarCollapsed && window.innerWidth >= 1024 && !sidebarOpen) ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
 
                         <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 hidden group-hover:block' : 'hidden'">
                             <div class="whitespace-nowrap bg-white text-sm text-gray-800 px-3 py-2 rounded-md shadow-lg border border-gray-100">
@@ -148,7 +148,7 @@
                         <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700 transition-transform duration-200">
                             <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
                         </span>
-                        <span x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
+                        <span x-bind:class="(sidebarCollapsed && window.innerWidth >= 1024 && !sidebarOpen) ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
 
                         <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 hidden group-hover:block' : 'hidden'">
                             <div class="whitespace-nowrap bg-white text-sm text-gray-800 px-3 py-2 rounded-md shadow-lg border border-gray-100">
