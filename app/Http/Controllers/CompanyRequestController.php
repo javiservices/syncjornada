@@ -3,8 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\CompanyRequest;
+use App\Models\Company;
+use App\Models\User;
+use App\Mail\CompanyRequestApproved;
+use App\Mail\CompanyRequestRejected;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class CompanyRequestController extends Controller
 {
@@ -57,6 +63,57 @@ class CompanyRequestController extends Controller
         ]);
 
         $companyRequest->update($validated);
+
+        // Si se aprueba la solicitud, crear la empresa con los datos proporcionados
+            if (isset($validated['status']) && $validated['status'] === 'approved') {
+                $companyData = [
+                    'name' => $companyRequest->company_name,
+                    'email' => $companyRequest->email,
+                    'phone' => $companyRequest->phone,
+                ];
+
+                $company = Company::where('email', $companyData['email'])
+                    ->orWhere('name', $companyData['name'])
+                    ->first();
+
+                if (! $company) {
+                    $company = Company::create($companyData);
+                }
+
+                // Crear usuario manager para la empresa
+                $plainPassword = Str::random(8);
+                $user = User::where('email', $companyRequest->email)->first();
+                if (! $user) {
+                    $user = User::create([
+                        'name' => $companyRequest->contact_name ?? $companyRequest->email,
+                        'email' => $companyRequest->email,
+                        'password' => $plainPassword,
+                        'company_id' => $company->id,
+                        'role' => 'manager',
+                    ]);
+                } else {
+                    // Si ya existía usuario, asignarle company/role si no los tiene
+                    if (! $user->company_id) {
+                        $user->company_id = $company->id;
+                    }
+                    if ($user->role !== 'manager') {
+                        $user->role = 'manager';
+                    }
+                    $user->save();
+                }
+
+                // Generar token de restablecimiento de contraseña
+                $token = Password::broker()->createToken($user);
+                $resetUrl = url(route('password.reset', ['token' => $token, 'email' => $user->email], false));
+
+                // Enviar correo de aprobación con credenciales y enlace de cambio de contraseña
+                Mail::to($companyRequest->email)->send(new CompanyRequestApproved($company, $user, $plainPassword, $resetUrl));
+            }
+
+            // Si se rechaza, enviar correo indicando motivo (si lo hay)
+            if (isset($validated['status']) && $validated['status'] === 'rejected') {
+                Mail::to($companyRequest->email)->send(new CompanyRequestRejected($companyRequest));
+            }
 
         return back()->with('success', 'Estado actualizado correctamente');
     }
