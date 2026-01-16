@@ -87,7 +87,7 @@
 <aside x-cloak
     class="fixed top-16 left-0 bottom-0 w-auto min-w-14 max-w-64 bg-white border-r border-gray-200 shadow-lg z-40 overflow-hidden transform lg:translate-x-0 transition-all duration-300 ease-out group"
     :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-    :style="sidebarCollapsed && window.innerWidth >= 1024 ? 'width: 3.5rem' : 'width: 16rem'"
+    :style="sidebarCollapsed && window.innerWidth >= 1024 ? (sidebarOpen ? 'width: 16rem' : 'width: 3.5rem') : 'width: 16rem'"
     x-transition:enter="transform transition ease-out duration-200"
     x-transition:enter-start="-translate-x-full"
     x-transition:enter-end="translate-x-0"
