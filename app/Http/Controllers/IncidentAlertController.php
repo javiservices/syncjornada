@@ -21,6 +21,7 @@ class IncidentAlertController extends Controller
     public function update(Request $request)
     {
         $request->validate([
+            'title' => 'required|string|max:255',
             'message' => 'required|string',
             'type' => 'required|in:info,warning,danger',
             'active' => 'boolean',
@@ -31,6 +32,7 @@ class IncidentAlertController extends Controller
             $alert = new IncidentAlert();
         }
 
+        $alert->title = $request->title;
         $alert->message = $request->message;
         $alert->type = $request->type;
         $alert->active = $request->has('active');

@@ -13,5 +13,6 @@ class IncidentAlert extends Model
         'message',
         'type',
         'active',
+        'title',
     ];
 }

@@ -12,6 +12,10 @@
                     <form action="{{ route('admin.incident-alert.update') }}" method="POST">
                         @csrf
                         <div class="mb-4">
+                            <label for="title" class="block text-sm font-medium text-gray-700 mb-2">Título</label>
+                            <input type="text" name="title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" value="{{ old('title', $alert->title) }}" required>
+                        </div>
+                        <div class="mb-4">
                             <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Mensaje</label>
                             <textarea name="message" id="message" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>{{ old('message', $alert->message) }}</textarea>
                         </div>

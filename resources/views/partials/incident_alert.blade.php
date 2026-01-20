@@ -3,7 +3,7 @@
     <div class="flex items-start">
         <i class="fas fa-exclamation-triangle text-{{ $incidentAlert->type === 'warning' ? 'yellow' : ($incidentAlert->type === 'danger' ? 'red' : 'blue') }}-500 text-lg mr-3 mt-1"></i>
         <div>
-            <h3 class="text-sm font-medium text-{{ $incidentAlert->type === 'warning' ? 'yellow' : ($incidentAlert->type === 'danger' ? 'red' : 'blue') }}-800">¡Aviso Importante!</h3>
+            <h3 class="text-sm font-medium text-{{ $incidentAlert->type === 'warning' ? 'yellow' : ($incidentAlert->type === 'danger' ? 'red' : 'blue') }}-800">{{ $incidentAlert->title }}</h3>
             <p class="text-sm text-{{ $incidentAlert->type === 'warning' ? 'yellow' : ($incidentAlert->type === 'danger' ? 'red' : 'blue') }}-700 mt-1">{{ $incidentAlert->message }}</p>
         </div>
     </div>
