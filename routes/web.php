@@ -12,6 +12,7 @@ use App\Http\Controllers\BreakController;
 use App\Http\Controllers\AuditController;
 use App\Http\Controllers\VacationRequestController;
 use App\Http\Controllers\StatisticsController;
+use App\Http\Controllers\IncidentAlertController;
 
 Route::get('/', function () {
     return view('landing');
@@ -69,6 +70,8 @@ Route::middleware('auth')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::get('/solicitudes', [CompanyRequestController::class, 'index'])->name('company-requests.index');
         Route::patch('/solicitudes/{companyRequest}/status', [CompanyRequestController::class, 'updateStatus'])->name('company-requests.update-status');
+        Route::get('/admin/incident-alert', [IncidentAlertController::class, 'edit'])->name('admin.incident-alert.edit');
+        Route::post('/admin/incident-alert', [IncidentAlertController::class, 'update'])->name('admin.incident-alert.update');
     });
 
     Route::middleware('role:manager')->group(function () {

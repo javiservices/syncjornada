@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             CompanySeeder::class,
             UserSeeder::class,
             TimeEntriesSeeder::class,
+            IncidentAlertSeeder::class,
         ]);
     }
 }

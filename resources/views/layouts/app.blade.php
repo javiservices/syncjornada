@@ -45,6 +45,10 @@
                             </div>
                         @endif
 
+                        @php
+                            $incidentAlert = \App\Models\IncidentAlert::where('active', true)->first();
+                        @endphp
+
                         @include('partials.incident_alert')
 
                         <main class="min-h-screen pb-12">
