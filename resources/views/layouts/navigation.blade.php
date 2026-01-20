@@ -11,6 +11,7 @@
         ['label' => 'Reportes', 'route' => 'reports.index', 'icon' => 'fa-chart-bar', 'match' => 'reports.*'],
         ['label' => 'Estadisticas', 'route' => 'statistics.index', 'icon' => 'fa-chart-line', 'match' => 'statistics.*'],
         ['label' => 'Solicitudes', 'route' => 'company-requests.index', 'icon' => 'fa-inbox', 'match' => 'company-requests.*'],
+        ['label' => 'Alerta Incidente', 'route' => 'admin.incident-alert.edit', 'icon' => 'fa-exclamation-triangle', 'match' => 'admin.incident-alert.*'],
     ];
 
     $managerItems = [
@@ -30,6 +31,7 @@
         request()->routeIs('reports.*') => 'Reportes',
         request()->routeIs('statistics.*') => 'Estadisticas',
         request()->routeIs('company-requests.*') => 'Solicitudes',
+        request()->routeIs('admin.incident-alert.*') => 'Alerta Incidente',
         true => 'Dashboard',
     };
 @endphp
