@@ -19,6 +19,8 @@
     <!-- Canonical -->
     <link rel="canonical" href="https://syncjornada.online">
 
+    <link rel="icon" href="{{ asset('images/favicon.ico') }}" type="image/x-icon">
+
     <!-- Open Graph -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="SyncJornada">
