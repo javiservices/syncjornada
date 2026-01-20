@@ -28,6 +28,7 @@ class User extends Authenticatable
         'expected_daily_hours',
         'expected_daily_minutes',
         'notify_on_daily_hours_completion',
+        'incident_alert_shown',
     ];
 
     /**

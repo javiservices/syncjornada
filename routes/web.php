@@ -36,6 +36,11 @@ Route::post('/solicitar-acceso', [CompanyRequestController::class, 'store'])->na
 Route::get('/solicitud-exitosa', [CompanyRequestController::class, 'success'])->name('company-request.success');
 
 Route::middleware('auth')->group(function () {
+    Route::post('/mark-alert-shown', function () {
+        auth()->user()->update(['incident_alert_shown' => true]);
+        return response()->json(['status' => 'ok']);
+    });
+
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('time-entries', TimeEntryController::class);
     Route::post('/check-in-out', [TimeEntryController::class, 'store'])->name('check-in-out');

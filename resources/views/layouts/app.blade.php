@@ -45,6 +45,8 @@
                             </div>
                         @endif
 
+                        @include('partials.incident_alert')
+
                         <main class="min-h-screen pb-12">
                             {{ $slot }}
                         </main>
