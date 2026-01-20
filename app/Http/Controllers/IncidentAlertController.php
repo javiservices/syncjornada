@@ -8,15 +8,6 @@ use Illuminate\Support\Facades\Auth;
 
 class IncidentAlertController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware(function ($request, $next) {
-            if (!in_array(Auth::user()->role, ['admin'])) {
-                abort(403);
-            }
-            return $next($request);
-        });
-    }
 
     public function edit()
     {
