@@ -15,7 +15,7 @@ class IncidentAlertSeeder extends Seeder
     {
         IncidentAlert::create([
             'title' => '¡Aviso Importante!',
-            'message' => 'Debido a un incidente de seguridad, se restauró la base de datos desde una copia de respaldo limpia. Algunos datos recientes pueden haber sido perdidos. Si tienes preguntas, contacta al administrador.',
+            'message' => '<strong>Aviso Importante:</strong> Hemos detectado un intento de ataque a nuestros sistemas. Como medida preventiva, hemos restaurado la base de datos desde una copia de seguridad limpia y segura. Es posible que algunos registros recientes se hayan perdido. Si tienes alguna duda, por favor contacta al administrador.',
             'type' => 'warning',
             'active' => true,
         ]);

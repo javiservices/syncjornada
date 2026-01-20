@@ -4,7 +4,7 @@
         <i class="fas fa-exclamation-triangle text-{{ $incidentAlert->type === 'warning' ? 'yellow' : ($incidentAlert->type === 'danger' ? 'red' : 'blue') }}-500 text-lg mr-3 mt-1"></i>
         <div>
             <h3 class="text-sm font-medium text-{{ $incidentAlert->type === 'warning' ? 'yellow' : ($incidentAlert->type === 'danger' ? 'red' : 'blue') }}-800">{{ $incidentAlert->title }}</h3>
-            <p class="text-sm text-{{ $incidentAlert->type === 'warning' ? 'yellow' : ($incidentAlert->type === 'danger' ? 'red' : 'blue') }}-700 mt-1">{{ $incidentAlert->message }}</p>
+            <p class="text-sm text-{{ $incidentAlert->type === 'warning' ? 'yellow' : ($incidentAlert->type === 'danger' ? 'red' : 'blue') }}-700 mt-1">{!! $incidentAlert->message !!}</p>
         </div>
     </div>
     <button type="button" class="text-{{ $incidentAlert->type === 'warning' ? 'yellow' : ($incidentAlert->type === 'danger' ? 'red' : 'blue') }}-500 hover:text-{{ $incidentAlert->type === 'warning' ? 'yellow' : ($incidentAlert->type === 'danger' ? 'red' : 'blue') }}-600 ml-4" onclick="markAlertAsShown()">

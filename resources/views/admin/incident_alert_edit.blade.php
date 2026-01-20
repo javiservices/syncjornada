@@ -17,7 +17,7 @@
                         </div>
                         <div class="mb-4">
                             <label for="message" class="block text-sm font-medium text-gray-700 mb-2">Mensaje</label>
-                            <textarea name="message" id="message" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>{{ old('message', $alert->message) }}</textarea>
+                            <textarea name="message" id="message" rows="4" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" required>{!! old('message', $alert->message) !!}</textarea>
                         </div>
                         <div class="mb-4">
                             <label for="type" class="block text-sm font-medium text-gray-700 mb-2">Tipo</label>
@@ -40,3 +40,14 @@
         </div>
     </div>
 </x-app-layout>
+
+<script src="https://cdn.ckeditor.com/ckeditor5/40.2.0/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#message' ), {
+            toolbar: [ 'bold', 'italic', 'link', 'bulletedList', 'numberedList' ]
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
