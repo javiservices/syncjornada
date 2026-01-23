@@ -46,7 +46,7 @@
             <p>&copy; {{ date('Y') }} SyncJornada. Todos los derechos reservados. Sin responsabilidad alguna por problemas legales.</p>
             <div class="flex justify-center gap-6 mt-4">
                 <a href="{{ route('terms') }}" class="hover:text-white transition">Términos</a>
-                <a href="{{ route('privacy') }}" class="hover:text-white transition">Privacidad</a>
+                <a href="{{ route('privacy-policy') }}" class="hover:text-white transition">Privacidad</a>
                 <a href="{{ route('cookies') }}" class="hover:text-white transition">Cookies</a>
             </div>
         </div>
