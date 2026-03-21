@@ -9,10 +9,17 @@ export default {
         './resources/views/**/*.blade.php',
     ],
 
+    safelist: [
+        'lg:ml-14',
+        'lg:ml-60',
+        'sidebar-open',
+        'sidebar-collapsed',
+    ],
+
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', 'Figtree', ...defaultTheme.fontFamily.sans],
             },
         },
     },

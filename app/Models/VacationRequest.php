@@ -23,9 +23,12 @@ class VacationRequest extends Model
     ];
 
     protected $casts = [
-        'start_date' => 'date',
-        'end_date' => 'date',
-        'reviewed_at' => 'datetime',
+        'start_date'    => 'date',
+        'end_date'      => 'date',
+        'reviewed_at'   => 'datetime',
+        // RGPD Art. 32 — reason puede contener datos de salud (Art. 9)
+        'reason'        => 'encrypted',
+        'manager_notes' => 'encrypted',
     ];
 
     public function user(): BelongsTo

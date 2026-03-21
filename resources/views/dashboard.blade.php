@@ -1,591 +1,462 @@
 <x-app-layout>
-    <div class="py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header Section -->
-            <div class="mb-8 mt-4">
-                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-900">
-                            Hola, {{ auth()->user()->name }}
-                        </h1>
-                        <p class="mt-2 text-base text-gray-600">
-                            {{ \Carbon\Carbon::now()->locale('es')->isoFormat('dddd, D [de] MMMM [de] YYYY') }}
-                            @if(auth()->user()->company)
-                                <span class="inline-flex items-center ml-2 px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                    <i class="fas fa-building mr-1"></i>{{ auth()->user()->company->name }}
-                                </span>
+
+{{-- CABECERA --}}
+<div class="page-hd">
+    <div>
+        <h1 class="page-title">
+            @php
+                $hour = now()->hour;
+                $greeting = $hour < 12 ? 'Buenos días' : ($hour < 20 ? 'Buenas tardes' : 'Buenas noches');
+            @endphp
+            {{ $greeting }}, {{ explode(' ', Auth::user()->name)[0] }} 👋
+        </h1>
+        <p class="page-sub">
+            {{ now()->isoFormat('dddd, D [de] MMMM [de] YYYY') }}
+            @if(Auth::user()->company)
+                &middot;
+                <span class="inline-flex items-center gap-1 text-blue-600 font-medium">
+                    <i class="fas fa-building text-xs"></i>
+                    {{ Auth::user()->company->name }}
+                </span>
+            @endif
+        </p>
+    </div>
+    <span class="badge {{ Auth::user()->role === 'admin' ? 'badge-indigo' : (Auth::user()->role === 'manager' ? 'badge-purple' : 'badge-blue') }} px-3 py-1.5 text-sm font-semibold capitalize">
+        <i class="fas {{ Auth::user()->role === 'admin' ? 'fa-shield-halved' : (Auth::user()->role === 'manager' ? 'fa-user-tie' : 'fa-user') }} mr-1"></i>
+        {{ Auth::user()->role }}
+    </span>
+</div>
+
+{{-- AVISO FICHAJES PENDIENTES (admin/manager) --}}
+@if(isset($pendingCheckouts) && $pendingCheckouts > 0 && in_array(Auth::user()->role, ['admin','manager']))
+<div class="alert alert-warning">
+    <i class="fas fa-triangle-exclamation text-lg flex-shrink-0"></i>
+    <div>
+        <span class="font-semibold">{{ $pendingCheckouts }} {{ $pendingCheckouts === 1 ? 'empleado tiene' : 'empleados tienen' }} fichaje sin cerrar.</span>
+        <a href="{{ route('reports.index') }}" class="ml-2 underline font-medium hover:no-underline">Ver reportes →</a>
+    </div>
+</div>
+@endif
+
+{{-- ESTADÍSTICAS --}}
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="stat-card">
+        <div class="stat-icon bg-blue-100 text-blue-600"><i class="fas fa-clock"></i></div>
+        <div>
+            <p class="stat-val">{{ $hoursToday['hours'] ?? 0 }}h {{ $hoursToday['minutes'] ?? 0 }}m</p>
+            <p class="stat-lbl">Hoy</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon bg-indigo-100 text-indigo-600"><i class="fas fa-calendar-week"></i></div>
+        <div>
+            <p class="stat-val">{{ $hoursWeek['hours'] ?? 0 }}h {{ $hoursWeek['minutes'] ?? 0 }}m</p>
+            <p class="stat-lbl">Esta semana</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon bg-violet-100 text-violet-600"><i class="fas fa-calendar"></i></div>
+        <div>
+            <p class="stat-val">{{ $hoursMonth['hours'] ?? 0 }}h {{ $hoursMonth['minutes'] ?? 0 }}m</p>
+            <p class="stat-lbl">Este mes</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon bg-emerald-100 text-emerald-600"><i class="fas fa-briefcase"></i></div>
+        <div>
+            <p class="stat-val">{{ $daysWorked ?? 0 }}</p>
+            <p class="stat-lbl">Días trabajados</p>
+        </div>
+    </div>
+</div>
+
+{{-- BLOQUE PRINCIPAL: FICHAR + GRÁFICO --}}
+<div class="grid lg:grid-cols-5 gap-6">
+
+    {{-- TARJETA DE FICHAJE --}}
+    <div class="lg:col-span-2">
+        <div class="checkin-card">
+            {{-- Cabecera con gradiente --}}
+            <div class="checkin-card-hd {{ $isCheckedIn ? 'bg-gradient-to-br from-emerald-600 to-emerald-700' : 'bg-gradient-to-br from-blue-600 to-indigo-700' }}">
+                <div class="flex-1 min-w-0">
+                    <p class="text-xs font-semibold uppercase tracking-wider {{ $isCheckedIn ? 'text-emerald-200' : 'text-blue-200' }} mb-1">Control de jornada</p>
+                    @if($isCheckedIn)
+                        <div class="flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-green-300 animate-pulse"></span>
+                            <p class="text-xl font-bold text-white" id="timer" data-start="{{ $lastEntry?->check_in?->timestamp }}">00:00:00</p>
+                        </div>
+                        <p class="text-sm text-emerald-200 mt-1">
+                            Entrada a las {{ $lastEntry?->check_in?->format('H:i') }}
+                            @if($lastEntry?->remote_work)
+                                &middot; <i class="fas fa-house-laptop"></i> Remoto
                             @endif
                         </p>
-                    </div>
+                    @else
+                        <p class="text-xl font-bold text-white">Sin fichar</p>
+                        <p class="text-sm text-blue-200 mt-1">Registra tu entrada para empezar</p>
+                    @endif
                 </div>
-
-                <!-- Role-based Quick Info -->
-                @if(auth()->user()->role === 'admin')
-                    <div class="mt-6 bg-gradient-to-r from-purple-50 to-blue-50 border border-purple-200 rounded-lg p-3 md:p-4">
-                        <div class="flex items-start gap-2 md:gap-3">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 md:w-10 md:h-10 bg-purple-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-crown text-white text-sm"></i>
-                                </div>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xs md:text-sm font-semibold text-gray-900 mb-1">Panel de Administrador</h3>
-                                <p class="text-xs md:text-sm text-gray-700">Acceso completo al sistema. Gestiona empresas, usuarios y solicitudes desde el menú superior.</p>
-                            </div>
-                        </div>
-                    </div>
-                @elseif(auth()->user()->role === 'manager')
-                    <div class="mt-6 bg-gradient-to-r from-green-50 to-teal-50 border border-green-200 rounded-lg p-3 md:p-4">
-                        <div class="flex items-start gap-2 md:gap-3">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 md:w-10 md:h-10 bg-green-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-user-tie text-white text-sm"></i>
-                                </div>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xs md:text-sm font-semibold text-gray-900 mb-1">Panel de Manager</h3>
-                                <p class="text-xs md:text-sm text-gray-700">Supervisa registros de tiempo y genera reportes del equipo desde el menú "Reportes".</p>
-                            </div>
-                        </div>
-                    </div>
-                @else
-                    <div class="mt-6 bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-3 md:p-4">
-                        <div class="flex items-start gap-2 md:gap-3">
-                            <div class="flex-shrink-0">
-                                <div class="w-8 h-8 md:w-10 md:h-10 bg-blue-600 rounded-lg flex items-center justify-center">
-                                    <i class="fas fa-user text-white text-sm"></i>
-                                </div>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-xs md:text-sm font-semibold text-gray-900 mb-1">Bienvenido a SyncJornada</h3>
-                                <p class="text-xs md:text-sm text-gray-700">Registra tu entrada/salida abajo y revisa tu historial en "Jornadas" del menú superior.</p>
-                            </div>
-                        </div>
-                    </div>
-                @endif
+                <div class="w-12 h-12 rounded-full {{ $isCheckedIn ? 'bg-white/15' : 'bg-white/10' }} flex items-center justify-center text-2xl flex-shrink-0">
+                    @if($isCheckedIn)
+                        <i class="fas fa-circle-check text-green-300"></i>
+                    @else
+                        <i class="far fa-circle text-blue-200"></i>
+                    @endif
+                </div>
             </div>
 
-           <!-- Check In/Out Card - Simplified and Modern -->
-            <div class="mb-6">
-                <div class="bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
-                    <div class="p-4 md:p-6">
-                        <div class="flex items-center justify-between mb-4">
-                            <h2 class="text-base md:text-lg font-semibold text-gray-900">
-                                {{ $isCheckedIn ? 'Registrar Salida' : 'Registrar Entrada' }}
-                            </h2>
-                            @if($isCheckedIn && $lastEntry)
-                                <span class="inline-flex items-center px-2 md:px-3 py-1 bg-green-50 text-green-700 text-xs md:text-sm font-medium rounded-full">
-                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-2 animate-pulse"></span>
-                                    Activo desde {{ \Carbon\Carbon::parse($lastEntry->check_in)->format('H:i') }}
-                                    <span class="text-xs ml-1">({{ \Carbon\Carbon::parse($lastEntry->check_in)->format('d/m') }})</span>
-                                </span>
-                            @endif
-                        </div>
+            {{-- Cuerpo del formulario --}}
+            <div class="checkin-card-body">
+                <form method="POST" action="{{ route('check-in-out') }}" id="checkin-form">
+                    @csrf
 
-                        <form method="POST" action="{{ route('time-entries.store') }}" id="checkInOutForm" class="space-y-4">
-                            @csrf
-                            <input type="hidden" name="latitude" id="latitude">
-                            <input type="hidden" name="longitude" id="longitude">
-                            
-                            <div class="flex items-center p-3 bg-gray-50 rounded-lg border border-gray-200">
-                                <input 
-                                    type="checkbox" 
-                                    id="is_remote" 
-                                    name="is_remote" 
-                                    value="1"
-                                    class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                                >
-                                <label for="is_remote" class="ml-3 text-sm font-medium text-gray-700 cursor-pointer">
-                                    <i class="fas fa-home mr-1 text-gray-500"></i>
-                                    Trabajo remoto
-                                </label>
-                            </div>
+                    {{-- Campos solo al fichar entrada --}}
+                    @if(!$isCheckedIn)
+                    <label class="flex items-center gap-3 bg-slate-50 rounded-xl px-4 py-3 mb-4 cursor-pointer hover:bg-slate-100 transition-colors border border-slate-200">
+                        <input type="checkbox" name="remote_work" value="1" class="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500">
+                        <span class="text-sm text-slate-700 font-medium">
+                            <i class="fas fa-house-laptop mr-1.5 text-slate-400"></i> Trabajo remoto
+                        </span>
+                    </label>
+                    @endif
 
-                            <button 
-                                type="submit" 
-                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2"
-                            >
-                                <i class="fas {{ $isCheckedIn ? 'fa-sign-out-alt' : 'fa-sign-in-alt' }}"></i>
-                                {{ $isCheckedIn ? 'Registrar Salida' : 'Registrar Entrada' }}
-                            </button>
-                        </form>
+                    <div class="field mb-4">
+                        <textarea name="notes" rows="2" class="input resize-none"
+                            placeholder="{{ $isCheckedIn ? 'Notas de salida (opcional)' : 'Notas de entrada (opcional)' }}"></textarea>
+                    </div>
 
-                        {{-- Botón de Pausa/Reanudar (solo si está fichado) --}}
-                        @if($isCheckedIn && $lastEntry)
-                            @php
-                                $activeBreak = $lastEntry->breaks()->whereNull('break_end')->first();
-                            @endphp
-                            <div class="mt-4 pt-4 border-t border-gray-200">
-                                @if($activeBreak)
-                                    <form method="POST" action="{{ route('breaks.end', $lastEntry) }}">
-                                        @csrf
-                                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 shadow-sm">
-                                            <i class="fas fa-play"></i>
-                                            Reanudar Trabajo
-                                            <span class="ml-2 text-xs bg-green-500 px-2 py-0.5 rounded">
-                                                En pausa desde {{ $activeBreak->break_start->format('H:i') }}
-                                            </span>
-                                        </button>
-                                    </form>
-                                @else
-                                    <form method="POST" action="{{ route('breaks.start', $lastEntry) }}" class="space-y-3">
-                                        @csrf
-                                        <div>
-                                            <label for="break-reason" class="block text-sm font-medium text-gray-700 mb-1">
-                                                Motivo de la pausa
-                                            </label>
-                                            <select 
-                                                id="break-reason"
-                                                name="reason" 
-                                                class="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-orange-500 focus:border-orange-500 bg-white shadow-sm"
-                                            >
-                                                <option value="Descanso">☕ Descanso</option>
-                                                <option value="Comida">🍽️ Comida</option>
-                                                <option value="Personal">👤 Asunto personal</option>
-                                                <option value="Otro">📝 Otro</option>
-                                            </select>
-                                        </div>
-                                        <button 
-                                            type="submit" 
-                                            style="background-color: #ea580c;"
-                                            onmouseover="this.style.backgroundColor='#c2410c'" 
-                                            onmouseout="this.style.backgroundColor='#ea580c'"
-                                            class="w-full text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 shadow-sm"
-                                        >
-                                            <i class="fas fa-pause"></i>
-                                            Iniciar Pausa
-                                        </button>
-                                    </form>
-                                @endif
-                            </div>
+                    {{-- Campos ocultos de geolocalización --}}
+                    <input type="hidden" name="latitude" id="geo-lat">
+                    <input type="hidden" name="longitude" id="geo-lng">
+
+                    <button type="submit"
+                        class="w-full py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all duration-200 shadow-lg flex items-center justify-center gap-2
+                        {{ $isCheckedIn
+                            ? 'bg-red-500 hover:bg-red-600 active:bg-red-700 text-white'
+                            : 'bg-blue-600 hover:bg-blue-700 active:bg-blue-800 text-white' }}">
+                        @if($isCheckedIn)
+                            <i class="fas fa-arrow-right-from-bracket"></i> Registrar salida
+                        @else
+                            <i class="fas fa-arrow-right-to-bracket"></i> Registrar entrada
                         @endif
+                    </button>
+                </form>
 
-                        <div id="locationStatus" class="mt-3 text-xs text-center text-gray-500"></div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Statistics Cards - Professional Design -->
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                <!-- Hours Today Card -->
-                <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-300 transition-colors">
-                    <div class="flex items-center gap-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-clock text-blue-600 text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm font-medium text-gray-600">Horas Hoy</p>
-                            <p class="text-2xl font-bold text-gray-900">{{ $hoursToday['hours'] }}h {{ $hoursToday['minutes'] }}min</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hours Week Card -->
-                <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-300 transition-colors">
-                    <div class="flex items-center gap-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-calendar-week text-green-600 text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm font-medium text-gray-600">Esta Semana</p>
-                            <p class="text-2xl font-bold text-gray-900">{{ $hoursWeek['hours'] }}h {{ $hoursWeek['minutes'] }}min</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Hours Month Card -->
-                <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-300 transition-colors">
-                    <div class="flex items-center gap-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-calendar-alt text-purple-600 text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm font-medium text-gray-600">Este Mes</p>
-                            <p class="text-2xl font-bold text-gray-900">{{ $hoursMonth['hours'] }}h {{ $hoursMonth['minutes'] }}min</p>
-                        </div>
-                    </div>
-                    <div class="mt-3 pt-3 border-t border-gray-100">
-                        <p class="text-xs text-gray-600">
-                            <i class="fas fa-briefcase mr-1 text-gray-400"></i>{{ $daysWorked }} días trabajados</p>
-                    </div>
-                </div>
-
-                <!-- Status Card -->
-                <div class="bg-white border border-gray-200 rounded-xl p-5 hover:border-gray-300 transition-colors">
-                    <div class="flex items-center gap-4">
-                        <div class="flex-shrink-0">
-                            <div class="w-12 h-12 {{ $isCheckedIn ? 'bg-green-100' : 'bg-gray-100' }} rounded-lg flex items-center justify-center">
-                                <i class="fas {{ $isCheckedIn ? 'fa-user-check' : 'fa-user-clock' }} {{ $isCheckedIn ? 'text-green-600' : 'text-gray-600' }} text-xl"></i>
-                            </div>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm font-medium text-gray-600">Estado</p>
-                            <p class="text-2xl font-bold {{ $isCheckedIn ? 'text-green-600' : 'text-gray-600' }}">
-                                {{ $isCheckedIn ? 'Activo' : 'Inactivo' }}
-                            </p>
-                        </div>
-                    </div>
-                    <div class="mt-3 pt-3 border-t border-gray-100">
-                        <p class="text-xs text-gray-600">
-                            @if($pendingCheckouts > 0)
-                                <i class="fas fa-exclamation-circle mr-1 text-orange-500"></i>
-                                {{ $pendingCheckouts }} {{ $pendingCheckouts === 1 ? 'entrada pendiente' : 'entradas pendientes' }}
-                            @else
-                                <i class="fas fa-check-circle mr-1 text-green-500"></i>
-                                Todo al día
-                            @endif
-                        </p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Gráficos y Estadísticas -->
-            <div class="mt-8 grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Gráfico de horas trabajadas -->
-                <div class="bg-white border border-gray-200 rounded-xl p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-gray-900">
-                            <i class="fas fa-chart-line mr-2 text-blue-600"></i>
-                            Horas Trabajadas (Últimos 7 días)
-                        </h3>
-                    </div>
-                    <div style="height: 250px;">
-                        <canvas id="hoursChart"></canvas>
-                    </div>
-                </div>
-
-                @if($teamStats)
-                <!-- Estadísticas del equipo (solo managers/admins) -->
-                <div class="bg-white border border-gray-200 rounded-xl p-6">
-                    <div class="flex items-center justify-between mb-4">
-                        <h3 class="text-lg font-semibold text-gray-900">
-                            <i class="fas fa-users mr-2 text-purple-600"></i>
-                            Estado del Equipo Hoy
-                        </h3>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 mb-4">
-                        <div class="bg-green-50 rounded-lg p-4 text-center">
-                            <p class="text-3xl font-bold text-green-600">{{ $teamStats['active_today'] }}</p>
-                            <p class="text-sm text-gray-600 mt-1">Activos ahora</p>
-                        </div>
-                        <div class="bg-orange-50 rounded-lg p-4 text-center">
-                            <p class="text-3xl font-bold text-orange-600">{{ $teamStats['pending_today'] }}</p>
-                            <p class="text-sm text-gray-600 mt-1">Sin cerrar</p>
-                        </div>
-                    </div>
-                    <div style="height: 150px;">
-                        <canvas id="teamChart"></canvas>
-                    </div>
-                </div>
-                @else
-                <!-- Resumen semanal para empleados -->
-                <div class="bg-gradient-to-br from-blue-50 to-purple-50 border border-blue-200 rounded-xl p-6">
-                    <h3 class="text-lg font-semibold text-gray-900 mb-4">
-                        <i class="fas fa-calendar-week mr-2 text-blue-600"></i>
-                        Resumen de la Semana
-                    </h3>
-                    <div class="space-y-4">
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Horas totales:</span>
-                            <span class="text-2xl font-bold text-blue-600">
-                                {{ $hoursWeek['hours'] }}h {{ $hoursWeek['minutes'] }}min
-                            </span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600">Promedio diario:</span>
-                            <span class="text-lg font-semibold text-gray-900">
-                                @php
-                                    $avgMinutes = $hoursWeek['hours'] * 60 + $hoursWeek['minutes'];
-                                    $daysWorkedWeek = $weekEntries->pluck('date')->unique()->count();
-                                    if ($daysWorkedWeek > 0) {
-                                        $avgDaily = $avgMinutes / $daysWorkedWeek;
-                                        $avgHours = floor($avgDaily / 60);
-                                        $avgMins = round($avgDaily % 60);
-                                        echo "{$avgHours}h {$avgMins}min";
-                                    } else {
-                                        echo "0h 0min";
-                                    }
-                                @endphp
-                            </span>
-                        </div>
-                        <div class="pt-4 border-t border-blue-200">
-                            <p class="text-sm text-gray-600 text-center">
-                                <i class="fas fa-info-circle mr-1"></i>
-                                Objetivo: 40 horas semanales
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                @endif
-            </div>
-
-            <!-- Recent Time Entries - Simplified -->
-            <div class="bg-white border border-gray-200 rounded-xl overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-200">
-                    <div class="flex items-center justify-between">
-                        <h2 class="text-lg font-semibold text-gray-900">Registros Recientes</h2>
-                        <a href="{{ route('time-entries.index') }}" class="text-sm text-gray-600 hover:text-gray-900 transition">
-                            Ver todos →
-                        </a>
-                    </div>
-                </div>
-
-                @if($timeEntries->isEmpty())
-                    <div class="p-12 text-center">
-                        <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-clipboard-list text-gray-400 text-3xl"></i>
-                        </div>
-                        <h3 class="text-lg font-semibold text-gray-900 mb-2">No hay registros aún</h3>
-                        <p class="text-sm text-gray-600">
-                            Usa el botón de arriba para registrar tu primera entrada
-                        </p>
-                    </div>
-                @else
-                    <!-- Mobile View: Cards -->
-                    <div class="sm:hidden divide-y divide-gray-100">
-                        @foreach($timeEntries as $entry)
-                            <div class="p-4 hover:bg-gray-50 transition-colors">
-                                <div class="flex items-center justify-between mb-3">
-                                    <span class="text-sm font-medium text-gray-900">
-                                        {{ \Carbon\Carbon::parse($entry->date)->format('d/m/Y') }}
-                                    </span>
-                                    @if(!$entry->check_out)
-                                        <span class="flex items-center text-xs font-medium text-green-600">
-                                            <span class="w-2 h-2 bg-green-500 rounded-full mr-1.5 animate-pulse"></span>
-                                            Activo
-                                        </span>
-                                    @elseif($entry->is_remote)
-                                        <span class="flex items-center text-xs text-gray-600">
-                                            <i class="fas fa-home mr-1 text-gray-500"></i>
-                                            Remoto
-                                        </span>
-                                    @endif
-                                </div>
-                                
-                                <div class="flex items-center justify-between text-sm">
-                                    <div>
-                                        <p class="text-xs text-gray-500 mb-1">Entrada</p>
-                                        <p class="font-medium text-gray-900">
-                                            {{ \Carbon\Carbon::parse($entry->check_in)->format('H:i') }}
-                                        </p>
-                                    </div>
-                                    <div class="text-gray-400">→</div>
-                                    <div class="text-right">
-                                        <p class="text-xs text-gray-500 mb-1">Salida</p>
-                                        <p class="font-medium text-gray-900">
-                                            {{ $entry->check_out ? \Carbon\Carbon::parse($entry->check_out)->format('H:i') : '-' }}
-                                        </p>
-                                    </div>
-                                </div>
-
-                                @if($entry->check_out)
-                                    <div class="mt-3 pt-3 border-t border-gray-100 text-right">
-                                        @php
-                                            $totalMinutes = \Carbon\Carbon::parse($entry->check_in)->diffInMinutes(\Carbon\Carbon::parse($entry->check_out));
-                                            $hours = floor($totalMinutes / 60);
-                                            $minutes = $totalMinutes % 60;
-                                        @endphp
-                                        <span class="text-sm font-semibold text-gray-900">
-                                            {{ $hours }}h {{ $minutes }}min
-                                        </span>
-                                    </div>
-                                @endif
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <!-- Desktop View: Table -->
-                    <div class="hidden sm:block">
-                        <table class="min-w-full">
-                            <thead class="bg-gray-50 border-b border-gray-200">
-                                <tr>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Fecha</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Entrada</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Salida</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Duración</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Estado</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
-                                @foreach($timeEntries as $entry)
-                                    <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">
-                                                {{ \Carbon\Carbon::parse($entry->date)->format('d/m/Y') }}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="flex flex-col">
-                                                <span class="text-sm font-medium text-gray-900">{{ \Carbon\Carbon::parse($entry->check_in)->format('H:i') }}</span>
-                                                <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($entry->check_in)->format('d/m/Y') }}</span>
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($entry->check_out)
-                                            <div class="flex flex-col">
-                                                <span class="text-sm font-medium text-gray-900">{{ \Carbon\Carbon::parse($entry->check_out)->format('H:i') }}</span>
-                                                <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($entry->check_out)->format('d/m/Y') }}</span>
-                                            </div>
-                                            @else
-                                            <span class="text-sm text-gray-500">-</span>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($entry->check_out)
-                                                @php
-                                                    $totalMinutes = \Carbon\Carbon::parse($entry->check_in)->diffInMinutes(\Carbon\Carbon::parse($entry->check_out));
-                                                    $hours = floor($totalMinutes / 60);
-                                                    $minutes = $totalMinutes % 60;
-                                                @endphp
-                                                <div class="text-sm font-semibold text-gray-900">
-                                                    {{ $hours }}h {{ $minutes }}min
-                                                </div>
-                                            @else
-                                                <div class="text-sm text-gray-400">-</div>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            @if(!$entry->check_out)
-                                                <span class="flex items-center text-xs font-medium text-green-600">
-                                                    <span class="w-2 h-2 bg-green-500 rounded-full mr-1.5 animate-pulse"></span>
-                                                    Activo
-                                                </span>
-                                            @elseif($entry->is_remote)
-                                                <span class="flex items-center text-xs text-gray-600">
-                                                    <i class="fas fa-home mr-1 text-gray-500"></i>
-                                                    Remoto
-                                                </span>
-                                            @else
-                                                <span class="text-xs text-gray-500">
-                                                    <i class="fas fa-building mr-1"></i>
-                                                    Oficina
-                                                </span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                {{-- Info de geolocalización --}}
+                @if(Auth::user()->geolocation_consent)
+                <p class="text-xs text-slate-400 mt-3 flex items-center gap-1.5">
+                    <i class="fas fa-location-dot"></i> GPS activado — tu ubicación se registrará
+                </p>
                 @endif
             </div>
         </div>
     </div>
 
-    {{-- Anuncio entre el contenido principal y el footer (no intrusivo) --}}
-    {{-- Solo se mostrará cuando tengas un Ad Slot activo en AdSense --}}
-    {{-- <x-adsense-ad slot="TU_AD_SLOT_AQUI" format="auto" /> --}}
+    {{-- GRÁFICO 7 DÍAS --}}
+    <div class="lg:col-span-3 card">
+        <div class="card-hd">
+            <div class="card-hd-title">
+                <span class="card-icon bg-slate-100 text-slate-500"><i class="fas fa-chart-area"></i></span>
+                <span class="card-title">Últimos 7 días</span>
+            </div>
+            <span class="text-xs text-slate-400 font-medium">
+                Total: {{ array_sum($hoursPerDay ?? []) > 0 ? number_format(array_sum($hoursPerDay ?? []), 1) . 'h' : '0h' }}
+            </span>
+        </div>
+        <div class="card-body">
+            <canvas id="hoursChart" height="200"></canvas>
+        </div>
+    </div>
+</div>
 
-    <script>
-        // Get user's location when form loads
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(
-                function(position) {
-                    document.getElementById('latitude').value = position.coords.latitude;
-                    document.getElementById('longitude').value = position.coords.longitude;
-                    document.getElementById('locationStatus').innerHTML = 
-                        '<i class="fas fa-check-circle mr-1"></i> Ubicación obtenida correctamente';
-                    setTimeout(() => {
-                        document.getElementById('locationStatus').innerHTML = '';
-                    }, 3000);
-                },
-                function(error) {
-                    console.error('Error getting location:', error);
-                    document.getElementById('locationStatus').innerHTML = 
-                        '<i class="fas fa-exclamation-triangle mr-1"></i> No se pudo obtener la ubicación. Continuando sin geolocalización.';
-                }
-            );
-        } else {
-            document.getElementById('locationStatus').innerHTML = 
-                '<i class="fas fa-info-circle mr-1"></i> Geolocalización no disponible en este navegador';
-        }
-    </script>
+{{-- BLOQUE INFERIOR: EQUIPO + ÚLTIMAS JORNADAS --}}
+<div class="grid {{ isset($teamStats) && $teamStats ? 'lg:grid-cols-3' : '' }} gap-6">
 
-    <!-- Chart.js para gráficos -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-    <script>
-        // Gráfico de horas trabajadas últimos 7 días
-        const ctx = document.getElementById('hoursChart');
-        if (ctx) {
-            new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: @json($last7Days),
-                    datasets: [{
-                        label: 'Horas trabajadas',
-                        data: @json($hoursPerDay),
-                        borderColor: 'rgb(37, 99, 235)',
-                        backgroundColor: 'rgba(37, 99, 235, 0.1)',
-                        tension: 0.4,
-                        fill: true,
-                        borderWidth: 2,
-                        pointRadius: 4,
-                        pointBackgroundColor: 'rgb(37, 99, 235)',
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return context.parsed.y.toFixed(2) + ' horas';
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function(value) {
-                                    return value + 'h';
-                                }
-                            }
+    {{-- EQUIPO (solo admin/manager) --}}
+    @if(isset($teamStats) && $teamStats)
+    <div class="lg:col-span-1 space-y-4">
+        <div class="card">
+            <div class="card-hd">
+                <div class="card-hd-title">
+                    <span class="card-icon bg-indigo-50 text-indigo-600"><i class="fas fa-users"></i></span>
+                    <span class="card-title">Equipo hoy</span>
+                </div>
+            </div>
+            <div class="card-body space-y-1 pt-0">
+                <div class="flex items-center justify-between py-3.5 border-b border-slate-50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-emerald-50 flex items-center justify-center">
+                            <i class="fas fa-user-check text-emerald-600 text-sm"></i>
+                        </div>
+                        <span class="text-sm font-medium text-slate-700">Activos ahora</span>
+                    </div>
+                    <span class="text-xl font-bold text-emerald-600">{{ $teamStats['active_today'] ?? 0 }}</span>
+                </div>
+                <div class="flex items-center justify-between py-3.5 border-b border-slate-50">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-orange-50 flex items-center justify-center">
+                            <i class="fas fa-clock text-orange-600 text-sm"></i>
+                        </div>
+                        <span class="text-sm font-medium text-slate-700">Sin cerrar</span>
+                    </div>
+                    <span class="text-xl font-bold text-orange-600">{{ $teamStats['pending_today'] ?? 0 }}</span>
+                </div>
+                <div class="flex items-center justify-between py-3.5">
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center">
+                            <i class="fas fa-users text-blue-600 text-sm"></i>
+                        </div>
+                        <span class="text-sm font-medium text-slate-700">Total empleados</span>
+                    </div>
+                    <span class="text-xl font-bold text-blue-600">{{ $teamStats['total_employees'] ?? 0 }}</span>
+                </div>
+            </div>
+        </div>
+
+        {{-- Accesos rápidos --}}
+        <div class="card">
+            <div class="card-hd">
+                <div class="card-hd-title">
+                    <span class="card-icon bg-amber-50 text-amber-600"><i class="fas fa-bolt"></i></span>
+                    <span class="card-title">Acceso rápido</span>
+                </div>
+            </div>
+            <div class="card-body space-y-2 pt-0">
+                <a href="{{ route('reports.index') }}" class="flex items-center gap-3 py-2.5 px-1 text-sm text-slate-600 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-chart-bar text-slate-400 group-hover:text-blue-500 w-5 text-center"></i>
+                    <span class="font-medium">Reportes del equipo</span>
+                    <i class="fas fa-chevron-right text-xs text-slate-300 ml-auto"></i>
+                </a>
+                <a href="{{ route('vacation-requests.index') }}" class="flex items-center gap-3 py-2.5 px-1 text-sm text-slate-600 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-umbrella-beach text-slate-400 group-hover:text-blue-500 w-5 text-center"></i>
+                    <span class="font-medium">Vacaciones</span>
+                    <i class="fas fa-chevron-right text-xs text-slate-300 ml-auto"></i>
+                </a>
+                <a href="{{ route('users.index') }}" class="flex items-center gap-3 py-2.5 px-1 text-sm text-slate-600 hover:text-blue-600 transition-colors group">
+                    <i class="fas fa-user-gear text-slate-400 group-hover:text-blue-500 w-5 text-center"></i>
+                    <span class="font-medium">Gestión de usuarios</span>
+                    <i class="fas fa-chevron-right text-xs text-slate-300 ml-auto"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    {{-- JORNADAS RECIENTES --}}
+    <div class="{{ isset($teamStats) && $teamStats ? 'lg:col-span-2' : '' }} card">
+        <div class="card-hd">
+            <div class="card-hd-title">
+                <span class="card-icon bg-slate-100 text-slate-500"><i class="fas fa-list-check"></i></span>
+                <span class="card-title">Jornadas recientes</span>
+            </div>
+            <a href="{{ route('time-entries.index') }}" class="btn btn-ghost btn-sm">
+                Ver todas <i class="fas fa-arrow-right ml-1 text-xs"></i>
+            </a>
+        </div>
+        <div class="card-body p-0">
+            @if(isset($timeEntries) && $timeEntries->count() > 0)
+            <div class="tbl-wrap rounded-none border-0 shadow-none">
+                <table class="tbl">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Entrada</th>
+                            <th>Salida</th>
+                            <th>Duración</th>
+                            <th>Tipo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($timeEntries->take(7) as $entry)
+                        <tr>
+                            <td class="font-medium text-slate-900">{{ $entry->check_in?->isoFormat('ddd D MMM') }}</td>
+                            <td>
+                                <span class="inline-flex items-center gap-1.5">
+                                    <i class="fas fa-arrow-right-to-bracket text-emerald-400 text-xs"></i>
+                                    {{ $entry->check_in?->format('H:i') }}
+                                </span>
+                            </td>
+                            <td>
+                                @if($entry->check_out)
+                                    <span class="inline-flex items-center gap-1.5">
+                                        <i class="fas fa-arrow-right-from-bracket text-red-400 text-xs"></i>
+                                        {{ $entry->check_out->format('H:i') }}
+                                    </span>
+                                @else
+                                    <span class="badge badge-orange"><i class="fas fa-spinner fa-spin mr-1"></i>En curso</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($entry->check_out)
+                                    @php $mins = $entry->check_in->diffInMinutes($entry->check_out); @endphp
+                                    <span class="font-semibold text-slate-800">{{ floor($mins/60) }}h {{ $mins%60 }}m</span>
+                                @else
+                                    <span class="text-slate-400">—</span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($entry->remote_work)
+                                    <span class="badge badge-indigo"><i class="fas fa-house-laptop mr-1"></i>Remoto</span>
+                                @else
+                                    <span class="badge badge-gray"><i class="fas fa-building mr-1"></i>Oficina</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+            @else
+            <div class="empty-state py-12">
+                <div class="empty-icon"><i class="fas fa-clock-rotate-left"></i></div>
+                <p class="empty-title">Sin jornadas registradas</p>
+                <p class="empty-text">Tus fichajes aparecerán aquí cuando empieces a registrar tu jornada.</p>
+            </div>
+            @endif
+        </div>
+    </div>
+</div>
+
+{{-- RESUMEN SEMANAL --}}
+@if(isset($weekEntries) && $weekEntries->count() > 0)
+<div class="card">
+    <div class="card-hd">
+        <div class="card-hd-title">
+            <span class="card-icon bg-purple-50 text-purple-600"><i class="fas fa-calendar-week"></i></span>
+            <span class="card-title">Resumen de la semana</span>
+        </div>
+        <span class="text-xs text-slate-400">
+            {{ now()->startOfWeek()->isoFormat('D MMM') }} — {{ now()->endOfWeek()->isoFormat('D MMM') }}
+        </span>
+    </div>
+    <div class="card-body p-0">
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 lg:grid-cols-7 divide-x divide-slate-100">
+            @php
+                $weekDays = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+                $startWeek = now()->startOfWeek();
+            @endphp
+            @for($i = 0; $i < 7; $i++)
+                @php
+                    $day = $startWeek->copy()->addDays($i);
+                    $dayStr = $day->toDateString();
+                    $dayEntries = $weekEntries->where('date', $dayStr);
+                    $dayMins = 0;
+                    foreach($dayEntries as $we) {
+                        if($we->check_out) {
+                            $dayMins += \Carbon\Carbon::parse($we->check_in)->diffInMinutes(\Carbon\Carbon::parse($we->check_out));
                         }
                     }
-                }
-            });
-        }
+                    $isToday = $day->isToday();
+                @endphp
+                <div class="flex flex-col items-center py-4 px-2 {{ $isToday ? 'bg-blue-50/50' : '' }}">
+                    <span class="text-[10px] font-bold uppercase tracking-wider {{ $isToday ? 'text-blue-600' : 'text-slate-400' }}">{{ $weekDays[$i] }}</span>
+                    <span class="text-lg font-bold mt-1 {{ $dayMins > 0 ? ($isToday ? 'text-blue-600' : 'text-slate-800') : 'text-slate-300' }}">
+                        {{ $dayMins > 0 ? floor($dayMins/60) . 'h' : '—' }}
+                    </span>
+                    @if($dayMins > 0)
+                        <span class="text-[10px] text-slate-400 mt-0.5">{{ $dayMins % 60 }}m</span>
+                    @endif
+                    @if($isToday)
+                        <span class="w-1.5 h-1.5 rounded-full bg-blue-500 mt-1.5"></span>
+                    @endif
+                </div>
+            @endfor
+        </div>
+    </div>
+</div>
+@endif
 
-        @if($teamStats)
-        // Gráfico de empleados activos para managers/admins
-        const ctxTeam = document.getElementById('teamChart');
-        if (ctxTeam) {
-            new Chart(ctxTeam, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Activos', 'Inactivos'],
-                    datasets: [{
-                        data: [{{ $teamStats['active_today'] }}, {{ $teamStats['total_employees'] - $teamStats['active_today'] }}],
-                        backgroundColor: [
-                            'rgb(34, 197, 94)',
-                            'rgb(229, 231, 235)'
-                        ],
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script>
+(function(){
+    /* ── Cronómetro en vivo ────────────────────────── */
+    const timerEl = document.getElementById('timer');
+    if (timerEl && timerEl.dataset.start) {
+        const start = parseInt(timerEl.dataset.start) * 1000;
+        function tick() {
+            const diff = Date.now() - start;
+            const h = Math.floor(diff / 3600000);
+            const m = Math.floor((diff % 3600000) / 60000);
+            const s = Math.floor((diff % 60000) / 1000);
+            timerEl.textContent = [h, m, s].map(n => String(n).padStart(2, '0')).join(':');
         }
-        @endif
-    </script>
+        tick();
+        setInterval(tick, 1000);
+    }
+
+    /* ── Geolocalización ───────────────────────────── */
+    if (navigator.geolocation && document.getElementById('geo-lat')) {
+        navigator.geolocation.getCurrentPosition(function(pos) {
+            document.getElementById('geo-lat').value = pos.coords.latitude;
+            document.getElementById('geo-lng').value = pos.coords.longitude;
+        }, function() {}, { enableHighAccuracy: true, timeout: 8000 });
+    }
+
+    /* ── Gráfico de horas ──────────────────────────── */
+    const ctx = document.getElementById('hoursChart');
+    if (!ctx) return;
+
+    const labels = @json($last7Days ?? []);
+    const data   = @json($hoursPerDay ?? []);
+    const max    = Math.max(...data, 8);
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels,
+            datasets: [{
+                label: 'Horas',
+                data,
+                backgroundColor: function(context) {
+                    const chart = context.chart;
+                    const {ctx: c, chartArea} = chart;
+                    if (!chartArea) return 'rgba(99,102,241,.2)';
+                    const gradient = c.createLinearGradient(0, chartArea.bottom, 0, chartArea.top);
+                    gradient.addColorStop(0, 'rgba(99,102,241,.08)');
+                    gradient.addColorStop(1, 'rgba(99,102,241,.25)');
+                    return gradient;
+                },
+                borderColor: 'rgba(99,102,241,.9)',
+                borderWidth: 2,
+                borderRadius: 8,
+                borderSkipped: false,
+                hoverBackgroundColor: 'rgba(99,102,241,.35)',
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: true,
+            animation: { duration: 600, easing: 'easeOutQuart' },
+            plugins: {
+                legend: { display: false },
+                tooltip: {
+                    backgroundColor: '#1e293b',
+                    titleFont: { size: 12, weight: '600' },
+                    bodyFont: { size: 13 },
+                    padding: 10,
+                    cornerRadius: 8,
+                    callbacks: { label: ctx => ' ' + ctx.raw.toFixed(1) + ' horas' }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: Math.ceil(max + 1),
+                    grid: { color: 'rgba(0,0,0,.04)', drawBorder: false },
+                    ticks: { color: '#94a3b8', font: { size: 11 }, callback: v => v + 'h', stepSize: 2 },
+                    border: { display: false }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#94a3b8', font: { size: 11 } },
+                    border: { display: false }
+                }
+            }
+        }
+    });
+})();
+</script>
+@endpush
+
 </x-app-layout>

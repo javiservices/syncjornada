@@ -36,9 +36,11 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'name'             => $request->name,
+            'email'            => $request->email,
+            'password'         => Hash::make($request->password),
+            // RGPD Art. 7: registramos el momento exacto de aceptación de la política de privacidad
+            'data_consent_at'  => now(),
         ]);
 
         event(new Registered($user));

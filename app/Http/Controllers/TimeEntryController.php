@@ -30,7 +30,7 @@ class TimeEntryController extends Controller
             $query->where('date', '<=', $request->date_to);
         }
         if ($request->filled('remote_work') && $request->remote_work !== 'all') {
-            $query->where('is_remote', $request->boolean('remote_work'));
+            $query->where('remote_work', $request->boolean('remote_work'));
         }
 
         $timeEntries = $query->orderBy('date', 'desc')->paginate(25);

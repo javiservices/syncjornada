@@ -1,351 +1,194 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <h2 class="font-semibold text-lg md:text-xl text-gray-800 leading-tight">
-                {{ __('Reportes de Jornada') }}
-            </h2>
-            @if(Auth::user()->role === 'admin')
-            <a href="{{ route('reports.create') }}" class="inline-flex items-center px-3 md:px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-xs md:text-sm font-medium rounded-md transition">
-                <svg class="w-4 h-4 md:w-5 md:h-5 mr-1 md:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
-                </svg>
-                Crear Registro
-            </a>
-            @endif
-        </div>
-    </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6">
-                    <form method="GET" class="mb-6 bg-gray-50 p-3 md:p-4 rounded-lg">
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 md:gap-4">
-                            @if(Auth::user()->role === 'admin')
-                            <div>
-                                <label for="company_id" class="block text-sm font-medium text-gray-700 mb-1">Empresa</label>
-                                <select name="company_id" id="company_id" class="mt-1 block w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="">Todas</option>
-                                    @foreach($companies as $company)
-                                        <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @endif
-                            <div>
-                                <label for="user_id" class="block text-sm font-medium text-gray-700 mb-1">Usuario</label>
-                                <select name="user_id" id="user_id" class="mt-1 block w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="">Todos</option>
-                                    @foreach($users as $u)
-                                        <option value="{{ $u->id }}" {{ request('user_id') == $u->id ? 'selected' : '' }}>{{ $u->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div>
-                                <label for="date_from" class="block text-sm font-medium text-gray-700 mb-1">Fecha Desde</label>
-                                <input type="date" name="date_from" id="date_from" value="{{ request('date_from') }}" class="mt-1 block w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                            <div>
-                                <label for="date_to" class="block text-sm font-medium text-gray-700 mb-1">Fecha Hasta</label>
-                                <input type="date" name="date_to" id="date_to" value="{{ request('date_to') }}" class="mt-1 block w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                            </div>
-                            <div>
-                                <label for="remote_work" class="block text-sm font-medium text-gray-700 mb-1">Remoto</label>
-                                <select name="remote_work" id="remote_work" class="mt-1 block w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                    <option value="all" {{ request('remote_work') == 'all' ? 'selected' : '' }}>Todos</option>
-                                    <option value="1" {{ request('remote_work') === '1' ? 'selected' : '' }}>Sí</option>
-                                    <option value="0" {{ request('remote_work') === '0' ? 'selected' : '' }}>No</option>
-                                </select>
-                            </div>
-                            <div class="flex items-end gap-2 sm:col-span-2 lg:col-span-1">
-                                <button type="submit" class="flex-1 sm:flex-none bg-blue-500 text-white px-4 py-2 rounded text-sm hover:bg-blue-600">Filtrar</button>
-                                <a href="{{ route('reports.index') }}" class="flex-1 sm:flex-none bg-gray-500 text-white px-4 py-2 rounded text-sm hover:bg-gray-600">Limpiar</a>
-                            </div>
-                        </div>
-                    </form>
-
-                    <!-- Botón de exportación oficial (normativa española) -->
-                    <div class="mb-6 p-3 md:p-4 bg-blue-50 border border-blue-200 rounded-lg">
-                        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
-                            <div>
-                                <h3 class="text-xs md:text-sm font-medium text-blue-900">Exportación Oficial (Normativa RD-ley 8/2019)</h3>
-                                <p class="text-xs text-blue-700 mt-1">Exporta los registros con auditoría completa para inspección de trabajo</p>
-                            </div>
-                            <div class="flex gap-2">
-                                <form method="POST" action="{{ route('time-entries.export') }}">
-                                    @csrf
-                                    <input type="hidden" name="start_date" value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}">
-                                    <input type="hidden" name="end_date" value="{{ request('date_to', now()->format('Y-m-d')) }}">
-                                    <input type="hidden" name="company_id" value="{{ request('company_id') }}">
-                                    <input type="hidden" name="user_id" value="{{ request('user_id') }}">
-                                    <input type="hidden" name="format" value="csv">
-                                    <button type="submit" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                                        </svg>
-                                        Exportar CSV
-                                    </button>
-                                </form>
-                                <form method="POST" action="{{ route('time-entries.export') }}">
-                                    @csrf
-                                    <input type="hidden" name="start_date" value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}">
-                                    <input type="hidden" name="end_date" value="{{ request('date_to', now()->format('Y-m-d')) }}">
-                                    <input type="hidden" name="company_id" value="{{ request('company_id') }}">
-                                    <input type="hidden" name="user_id" value="{{ request('user_id') }}">
-                                    <input type="hidden" name="format" value="pdf">
-                                    <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-md text-sm font-medium flex items-center gap-2">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
-                                        </svg>
-                                        Exportar PDF
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Tabla para desktop -->
-                    <div class="hidden md:block overflow-x-auto">
-                        <table id="reports-table" class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    @if(Auth::user()->role === 'admin')
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Empresa</th>
-                                    @endif
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Usuario</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Fecha</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Entrada</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Salida</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Horas</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Remoto</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ubicación</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Notas</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach($timeEntries as $entry)
-                                <tr>
-                                    @if(Auth::user()->role === 'admin')
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $entry->user->company->name }}</td>
-                                    @endif
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $entry->user->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $entry->date }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($entry->check_in)
-                                        <div class="flex flex-col">
-                                            <span class="text-sm text-gray-900">{{ \Carbon\Carbon::parse($entry->check_in)->format('H:i') }}</span>
-                                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($entry->check_in)->format('d/m/Y') }}</span>
-                                        </div>
-                                        @else
-                                        <span class="text-sm text-gray-500">-</span>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap">
-                                        @if($entry->check_out)
-                                        <div class="flex flex-col">
-                                            <span class="text-sm text-gray-900">{{ \Carbon\Carbon::parse($entry->check_out)->format('H:i') }}</span>
-                                            <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($entry->check_out)->format('d/m/Y') }}</span>
-                                        </div>
-                                        @else
-                                        <span class="text-sm text-gray-500">-</span>
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        @if($entry->check_in && $entry->check_out)
-                                            @php
-                                                $totalMinutes = \Carbon\Carbon::parse($entry->check_in)->diffInMinutes(\Carbon\Carbon::parse($entry->check_out));
-                                                $hours = floor($totalMinutes / 60);
-                                                $minutes = $totalMinutes % 60;
-                                            @endphp
-                                            {{ $hours }}h {{ $minutes }}min
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $entry->remote_work ? 'Sí' : 'No' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        @if($entry->check_in_latitude && $entry->check_in_longitude)
-                                            <a href="https://www.google.com/maps?q={{ $entry->check_in_latitude }},{{ $entry->check_in_longitude }}" target="_blank" class="text-blue-600 hover:text-blue-800" title="Ver check-in en mapa">
-                                                📍 Check-in
-                                            </a>
-                                            @if($entry->check_out_latitude && $entry->check_out_longitude)
-                                                <br>
-                                                <a href="https://www.google.com/maps?q={{ $entry->check_out_latitude }},{{ $entry->check_out_longitude }}" target="_blank" class="text-blue-600 hover:text-blue-800" title="Ver check-out en mapa">
-                                                    📍 Check-out
-                                                </a>
-                                            @endif
-                                        @else
-                                            -
-                                        @endif
-                                    </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $entry->notes ?: '-' }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <div class="flex items-center gap-2">
-                                            <a href="{{ route('time-entries.edit', ['time_entry' => $entry->id, 'from' => 'reports']) }}" class="inline-flex items-center px-3 py-1 bg-blue-600 text-white text-xs font-medium rounded-lg hover:bg-blue-700 transition">
-                                                <i class="fas fa-edit mr-1"></i>
-                                                Editar
-                                            </a>
-                                            @if(Auth::user()->role === 'admin')
-                                                <form method="POST" action="{{ route('reports.destroy', $entry) }}" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este registro?\n\nUsuario: {{ $entry->user->name }}\nFecha: {{ $entry->date }}\n\nEsta acción no se puede deshacer.');" class="inline">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                    <button type="submit" class="inline-flex items-center px-3 py-1 bg-red-600 text-white text-xs font-medium rounded-lg hover:bg-red-700 transition">
-                                                        <i class="fas fa-trash mr-1"></i>
-                                                        Eliminar
-                                                    </button>
-                                                </form>
-                                            @endif
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Cards para móvil -->
-                    <div class="md:hidden space-y-2">
-                        @foreach($timeEntries as $entry)
-                        <div class="bg-white border border-gray-200 rounded-md shadow-sm overflow-hidden">
-                            <!-- Header -->
-                            <div class="bg-gray-50 px-3 py-2 border-b border-gray-200">
-                                <div class="flex justify-between items-center">
-                                    <div>
-                                        <h3 class="text-xs font-semibold text-gray-900">{{ $entry->user->name }}</h3>
-                                        @if(Auth::user()->role === 'admin')
-                                        <p class="text-xs text-gray-600">{{ $entry->user->company->name }}</p>
-                                        @endif
-                                    </div>
-                                    <span class="text-xs text-gray-600">{{ $entry->date }}</span>
-                                </div>
-                            </div>
-
-                            <!-- Content -->
-                            <div class="px-3 py-2">
-                                <div class="grid grid-cols-2 gap-2">
-                                    <!-- Columna izquierda -->
-                                    <div class="space-y-1">
-                                        <div class="flex justify-between items-start">
-                                            <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Entrada</span>
-                                            <div class="text-right">
-                                                <span class="text-xs text-gray-900 block">{{ $entry->check_in ? \Carbon\Carbon::parse($entry->check_in)->format('H:i') : '-' }}</span>
-                                                @if($entry->check_in)
-                                                <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($entry->check_in)->format('d/m') }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                        <div class="flex justify-between items-start">
-                                            <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Salida</span>
-                                            <div class="text-right">
-                                                <span class="text-xs text-gray-900 block">{{ $entry->check_out ? \Carbon\Carbon::parse($entry->check_out)->format('H:i') : '-' }}</span>
-                                                @if($entry->check_out)
-                                                <span class="text-xs text-gray-500">{{ \Carbon\Carbon::parse($entry->check_out)->format('d/m') }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <!-- Columna derecha -->
-                                    <div class="space-y-1">
-                                        <div class="flex justify-between">
-                                            <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Horas</span>
-                                            <span class="text-xs text-gray-900">
-                                                @if($entry->check_in && $entry->check_out)
-                                                    @php
-                                                        $totalMinutes = \Carbon\Carbon::parse($entry->check_in)->diffInMinutes(\Carbon\Carbon::parse($entry->check_out));
-                                                        $hours = floor($totalMinutes / 60);
-                                                        $minutes = $totalMinutes % 60;
-                                                    @endphp
-                                                    {{ $hours }}h {{ $minutes }}min
-                                                @else
-                                                    -
-                                                @endif
-                                            </span>
-                                        </div>
-                                        <div class="flex justify-between">
-                                            <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Remoto</span>
-                                            <span class="text-xs text-gray-900">{{ $entry->remote_work ? 'Sí' : 'No' }}</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <!-- Ubicación -->
-                                <div class="mt-2 pt-2 border-t border-gray-200">
-                                    <div class="flex justify-between">
-                                        <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Ubicación</span>
-                                        <span class="text-xs text-gray-900">
-                                            @if($entry->check_in_latitude && $entry->check_in_longitude)
-                                                <a href="https://www.google.com/maps?q={{ $entry->check_in_latitude }},{{ $entry->check_in_longitude }}" target="_blank" class="text-blue-600 hover:text-blue-800">📍 Check-in</a>
-                                                @if($entry->check_out_latitude && $entry->check_out_longitude)
-                                                    <br>
-                                                    <a href="https://www.google.com/maps?q={{ $entry->check_out_latitude }},{{ $entry->check_out_longitude }}" target="_blank" class="text-blue-600 hover:text-blue-800">📍 Check-out</a>
-                                                @endif
-                                            @else
-                                                No registrada
-                                            @endif
-                                        </span>
-                                    </div>
-                                </div>
-
-                                @if($entry->notes)
-                                <div class="mt-2 pt-2 border-t border-gray-200">
-                                    <div class="flex justify-between">
-                                        <span class="text-xs font-medium text-gray-500 uppercase tracking-wider">Notas</span>
-                                        <span class="text-xs text-gray-900 flex-1 ml-2">{{ $entry->notes }}</span>
-                                    </div>
-                                </div>
-                                @endif
-
-                                <!-- Actions -->
-                                <div class="mt-3 pt-3 border-t border-gray-200">
-                                    <div class="flex gap-2">
-                                        <a href="{{ route('time-entries.edit', ['time_entry' => $entry->id, 'from' => 'reports']) }}" class="inline-flex items-center justify-center flex-1 px-3 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition">
-                                            <i class="fas fa-edit mr-2"></i>
-                                            Editar
-                                        </a>
-                                        @if(Auth::user()->role === 'admin')
-                                            <form method="POST" action="{{ route('reports.destroy', $entry) }}" onsubmit="return confirm('¿Estás seguro de que deseas eliminar este registro?\n\nUsuario: {{ $entry->user->name }}\nFecha: {{ $entry->date }}\n\nEsta acción no se puede deshacer.');" class="flex-1">
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="inline-flex items-center justify-center w-full px-3 py-2 bg-red-600 text-white text-sm font-medium rounded-lg hover:bg-red-700 transition">
-                                                    <i class="fas fa-trash mr-2"></i>
-                                                    Eliminar
-                                                </button>
-                                            </form>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-
-                    {{ $timeEntries->links() }}
-                </div>
-            </div>
-        </div>
+{{-- CABECERA --}}
+<div class="page-hd">
+    <div>
+        <h1 class="page-title"><i class="fas fa-chart-bar mr-2 text-blue-500"></i>Reportes de jornada</h1>
+        <p class="page-sub">Registros de fichaje de todos los empleados</p>
     </div>
+    @if(Auth::user()->role === 'admin')
+    <a href="{{ route('reports.create') }}" class="btn btn-success">
+        <i class="fas fa-plus"></i> Crear registro
+    </a>
+    @endif
+</div>
 
-    <!-- DataTables CSS y JS -->
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    
-    <script>
-        $(document).ready(function() {
-            $('#reports-table').DataTable({
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"
-                },
-                "pageLength": 20,
-                "order": [[{{ Auth::user()->role === 'admin' ? '2' : '1' }}], "desc"],
-                "columnDefs": [
-                    { "orderable": false, "targets": -1 }
-                ],
-                "scrollX": true,
-                "autoWidth": false
-            });
-        });
-    </script>
+{{-- FILTROS --}}
+<div class="filter-bar">
+    <form method="GET" class="filter-bar-body">
+        @if(Auth::user()->role === 'admin')
+        <div class="filter-field min-w-[150px]">
+            <label class="filter-label">Empresa</label>
+            <select name="company_id" class="select input-sm">
+                <option value="">Todas</option>
+                @foreach($companies as $company)
+                <option value="{{ $company->id }}" {{ request('company_id') == $company->id ? 'selected' : '' }}>{{ $company->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        @endif
+        <div class="filter-field min-w-[150px]">
+            <label class="filter-label">Usuario</label>
+            <select name="user_id" class="select input-sm">
+                <option value="">Todos</option>
+                @foreach($users as $u)
+                <option value="{{ $u->id }}" {{ request('user_id') == $u->id ? 'selected' : '' }}>{{ $u->name }}</option>
+                @endforeach
+            </select>
+        </div>
+        <div class="filter-field min-w-[130px]">
+            <label class="filter-label">Desde</label>
+            <input type="date" name="date_from" value="{{ request('date_from') }}" class="input input-sm">
+        </div>
+        <div class="filter-field min-w-[130px]">
+            <label class="filter-label">Hasta</label>
+            <input type="date" name="date_to" value="{{ request('date_to') }}" class="input input-sm">
+        </div>
+        <div class="filter-field min-w-[110px]">
+            <label class="filter-label">Remoto</label>
+            <select name="remote_work" class="select input-sm">
+                <option value="all" {{ request('remote_work') == 'all' ? 'selected' : '' }}>Todos</option>
+                <option value="1" {{ request('remote_work') === '1' ? 'selected' : '' }}>Sí</option>
+                <option value="0" {{ request('remote_work') === '0' ? 'selected' : '' }}>No</option>
+            </select>
+        </div>
+        <div class="flex items-end gap-2">
+            <button type="submit" class="btn btn-primary btn-sm"><i class="fas fa-search mr-1"></i>Filtrar</button>
+            <a href="{{ route('reports.index') }}" class="btn btn-secondary btn-sm">Limpiar</a>
+        </div>
+    </form>
+</div>
+
+{{-- EXPORTACIÓN OFICIAL --}}
+<div class="alert alert-info">
+    <i class="fas fa-file-export text-lg flex-shrink-0"></i>
+    <div class="flex-1">
+        <p class="font-semibold text-sm">Exportación oficial (Normativa RD-ley 8/2019)</p>
+        <p class="text-xs mt-0.5 opacity-80">Exporta los registros con auditoría completa para inspección de trabajo</p>
+    </div>
+    <div class="flex items-center gap-2 flex-shrink-0">
+        <form method="POST" action="{{ route('time-entries.export') }}">
+            @csrf
+            <input type="hidden" name="start_date" value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}">
+            <input type="hidden" name="end_date" value="{{ request('date_to', now()->format('Y-m-d')) }}">
+            <input type="hidden" name="company_id" value="{{ request('company_id') }}">
+            <input type="hidden" name="user_id" value="{{ request('user_id') }}">
+            <input type="hidden" name="format" value="csv">
+            <button type="submit" class="btn btn-success btn-sm"><i class="fas fa-file-csv mr-1"></i>CSV</button>
+        </form>
+        <form method="POST" action="{{ route('time-entries.export') }}">
+            @csrf
+            <input type="hidden" name="start_date" value="{{ request('date_from', now()->startOfMonth()->format('Y-m-d')) }}">
+            <input type="hidden" name="end_date" value="{{ request('date_to', now()->format('Y-m-d')) }}">
+            <input type="hidden" name="company_id" value="{{ request('company_id') }}">
+            <input type="hidden" name="user_id" value="{{ request('user_id') }}">
+            <input type="hidden" name="format" value="pdf">
+            <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-file-pdf mr-1"></i>PDF</button>
+        </form>
+    </div>
+</div>
+
+{{-- TABLA --}}
+<div class="card">
+    <div class="card-hd">
+        <div class="card-hd-title">
+            <span class="card-icon bg-slate-100 text-slate-500"><i class="fas fa-list"></i></span>
+            <span class="card-title">Registros de jornada</span>
+        </div>
+        <span class="badge badge-blue">{{ $timeEntries->total() }}</span>
+    </div>
+    <div class="card-body p-0">
+        @if($timeEntries->count() > 0)
+        <div class="tbl-wrap border-0 rounded-none shadow-none">
+            <table class="tbl">
+                <thead>
+                    <tr>
+                        @if(Auth::user()->role === 'admin')<th>Empresa</th>@endif
+                        <th>Usuario</th>
+                        <th>Fecha</th>
+                        <th>Entrada</th>
+                        <th>Salida</th>
+                        <th>Horas</th>
+                        <th>Tipo</th>
+                        <th>Ubicación</th>
+                        <th>Notas</th>
+                        <th class="text-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($timeEntries as $entry)
+                    <tr>
+                        @if(Auth::user()->role === 'admin')
+                        <td class="text-slate-600">{{ $entry->user->company->name ?? '—' }}</td>
+                        @endif
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <div class="avatar avatar-sm">{{ strtoupper(substr($entry->user->name, 0, 1)) }}</div>
+                                <span class="font-medium text-slate-900">{{ $entry->user->name }}</span>
+                            </div>
+                        </td>
+                        <td class="font-medium">{{ $entry->date }}</td>
+                        <td>
+                            @if($entry->check_in)
+                                <span class="inline-flex items-center gap-1"><i class="fas fa-arrow-right-to-bracket text-emerald-400 text-xs"></i>{{ \Carbon\Carbon::parse($entry->check_in)->format('H:i') }}</span>
+                            @else —
+                            @endif
+                        </td>
+                        <td>
+                            @if($entry->check_out)
+                                <span class="inline-flex items-center gap-1"><i class="fas fa-arrow-right-from-bracket text-red-400 text-xs"></i>{{ \Carbon\Carbon::parse($entry->check_out)->format('H:i') }}</span>
+                            @else
+                                <span class="badge badge-orange"><i class="fas fa-spinner fa-spin mr-1"></i>Abierto</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($entry->check_in && $entry->check_out)
+                                @php $mins = \Carbon\Carbon::parse($entry->check_in)->diffInMinutes(\Carbon\Carbon::parse($entry->check_out)); @endphp
+                                <span class="font-semibold">{{ floor($mins/60) }}h {{ $mins%60 }}m</span>
+                            @else —
+                            @endif
+                        </td>
+                        <td>
+                            @if($entry->remote_work)
+                                <span class="badge badge-indigo"><i class="fas fa-house-laptop mr-1"></i>Remoto</span>
+                            @else
+                                <span class="badge badge-gray"><i class="fas fa-building mr-1"></i>Oficina</span>
+                            @endif
+                        </td>
+                        <td>
+                            @if($entry->check_in_latitude && $entry->check_in_longitude)
+                                <a href="https://www.google.com/maps?q={{ $entry->check_in_latitude }},{{ $entry->check_in_longitude }}" target="_blank" class="text-blue-600 hover:underline text-xs"><i class="fas fa-location-dot mr-0.5"></i>Mapa</a>
+                            @else —
+                            @endif
+                        </td>
+                        <td class="max-w-[120px] truncate text-slate-500" title="{{ $entry->notes }}">{{ $entry->notes ?: '—' }}</td>
+                        <td>
+                            <div class="tbl-actions justify-end">
+                                <a href="{{ route('time-entries.edit', ['time_entry' => $entry->id, 'from' => 'reports']) }}" class="btn btn-ghost btn-sm" title="Editar"><i class="fas fa-pen"></i></a>
+                                @if(Auth::user()->role === 'admin')
+                                <form method="POST" action="{{ route('reports.destroy', $entry) }}" onsubmit="return confirm('¿Eliminar este registro de {{ $entry->user->name }}?')" class="inline">
+                                    @csrf @method('DELETE')
+                                    <button type="submit" class="btn btn-ghost btn-sm text-red-500 hover:text-red-700 hover:bg-red-50" title="Eliminar"><i class="fas fa-trash"></i></button>
+                                </form>
+                                @endif
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="px-5 py-4 border-t border-slate-100">
+            {{ $timeEntries->links() }}
+        </div>
+        @else
+        <div class="empty-state">
+            <div class="empty-icon"><i class="fas fa-chart-bar"></i></div>
+            <p class="empty-title">Sin registros</p>
+            <p class="empty-text">No se encontraron registros de jornada con los filtros actuales.</p>
+        </div>
+        @endif
+    </div>
+</div>
+
 </x-app-layout>

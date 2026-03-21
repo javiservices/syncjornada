@@ -86,6 +86,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    // RGPD Art. 20 — Portabilidad: el usuario descarga todos sus datos en JSON
+    Route::get('/profile/export-data', [ProfileController::class, 'exportData'])->name('profile.export-data');
+    // RGPD Art. 7.3 — Revocación/activación del consentimiento de geolocalización
+    Route::patch('/profile/geolocation-consent', [ProfileController::class, 'updateGeolocationConsent'])->name('profile.geolocation-consent');
 });
 
 require __DIR__.'/auth.php';

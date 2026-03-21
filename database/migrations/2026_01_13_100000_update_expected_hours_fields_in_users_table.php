@@ -12,13 +12,17 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            // Eliminar el campo decimal
+            // Eliminar el campo decimal/integer previo
             $table->dropColumn('expected_daily_hours');
             
             // Añadir los nuevos campos
             $table->unsignedTinyInteger('expected_daily_hours')->default(8)->after('role');
-            $table->unsignedTinyInteger('expected_daily_minutes')->default(0)->after('expected_daily_hours');
-            $table->boolean('notify_on_daily_hours_completion')->default(false)->after('expected_daily_minutes');
+            if (!Schema::hasColumn('users', 'expected_daily_minutes')) {
+                $table->unsignedTinyInteger('expected_daily_minutes')->default(0)->after('expected_daily_hours');
+            }
+            if (!Schema::hasColumn('users', 'notify_on_daily_hours_completion')) {
+                $table->boolean('notify_on_daily_hours_completion')->default(false)->after('expected_daily_minutes');
+            }
         });
     }
 

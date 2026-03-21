@@ -197,6 +197,33 @@
                         </div>
                     </div>
 
+                    <!-- Consentimiento RGPD -->
+                    <div class="border border-gray-200 rounded-lg p-4 bg-gray-50">
+                        <div class="flex items-start gap-3">
+                            <input
+                                type="checkbox"
+                                id="consent"
+                                name="consent"
+                                value="1"
+                                {{ old('consent') ? 'checked' : '' }}
+                                class="mt-1 h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                            >
+                            <label for="consent" class="text-sm text-gray-700 cursor-pointer">
+                                He leído y acepto la
+                                <a href="{{ route('privacy') }}" target="_blank" class="text-blue-600 hover:underline font-semibold">Política de Privacidad</a>
+                                y el tratamiento de mis datos personales por parte de SyncJornada con la finalidad de gestionar mi solicitud de acceso, conforme al
+                                <span class="font-semibold">Reglamento (UE) 2016/679 (RGPD)</span> y la
+                                <span class="font-semibold">Ley Orgánica 3/2018 (LOPDGDD)</span>. *
+                            </label>
+                        </div>
+                        @error('consent')
+                            <p class="mt-2 text-sm text-red-600 flex items-center gap-1">
+                                <i class="fas fa-exclamation-circle"></i>
+                                {{ $message }}
+                            </p>
+                        @enderror
+                    </div>
+
                     <!-- Submit Button -->
                     <div class="pt-2">
                         <button 
@@ -209,7 +236,7 @@
                     </div>
 
                     <p class="text-center text-sm text-gray-500">
-                        Al enviar este formulario, aceptas que nos pongamos en contacto contigo para configurar tu cuenta.
+                        * Campos obligatorios. Tus datos no serán cedidos a terceros.
                     </p>
                 </form>
             </div>

@@ -25,13 +25,18 @@ class CompanyRequestController extends Controller
         $validated = $request->validate([
             'company_name' => 'required|string|max:255',
             'contact_name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'phone' => 'nullable|string|max:20',
-            'employees' => 'required|integer|min:1|max:15',
-            'message' => 'nullable|string|max:1000',
+            'email'        => 'required|email|max:255',
+            'phone'        => 'nullable|string|max:20',
+            'employees'    => 'required|integer|min:1|max:15',
+            'message'      => 'nullable|string|max:1000',
+            // RGPD Art. 7: casilla de consentimiento obligatoria
+            'consent'      => 'required|accepted',
         ]);
 
-        $companyRequest = CompanyRequest::create($validated);
+        $companyRequest = CompanyRequest::create(array_merge(
+            $validated,
+            ['consent_given_at' => now()] // Registrar timestamp exacto del consentimiento
+        ));
 
         // Enviar confirmación al solicitante indicando que hemos recibido la solicitud
         try {

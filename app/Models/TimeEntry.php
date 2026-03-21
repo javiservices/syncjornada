@@ -27,11 +27,19 @@ class TimeEntry extends Model
     ];
 
     protected $casts = [
-        'check_in' => 'datetime',
-        'check_out' => 'datetime',
-        'remote_work' => 'boolean',
-        'employee_confirmed' => 'boolean',
-        'is_locked' => 'boolean',
+        'check_in'            => 'datetime',
+        'check_out'           => 'datetime',
+        'remote_work'         => 'boolean',
+        'employee_confirmed'  => 'boolean',
+        'is_locked'           => 'boolean',
+        // RGPD Art. 32 — cifrado AES-256 de datos personales sensibles
+        'check_in_latitude'   => 'encrypted',
+        'check_in_longitude'  => 'encrypted',
+        'check_out_latitude'  => 'encrypted',
+        'check_out_longitude' => 'encrypted',
+        'ip_address'          => 'encrypted',
+        'user_agent'          => 'encrypted',
+        'notes'               => 'encrypted',
     ];
 
     public function user(): BelongsTo

@@ -28,6 +28,9 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
+        // LOPDGDD: registrar último acceso para gestión de cuentas inactivas
+        $request->user()->update(['last_login_at' => now()]);
+
         return redirect()->intended(route('dashboard', absolute: false));
     }
 

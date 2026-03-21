@@ -1,314 +1,254 @@
 <x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Header -->
-            <div class="mb-8">
-                <div class="flex items-center justify-between">
+
+{{-- CABECERA --}}
+<div class="page-hd">
+    <div>
+        <h1 class="page-title"><i class="fas fa-inbox mr-2 text-violet-500"></i>Solicitudes de empresas</h1>
+        <p class="page-sub">Gestiona las solicitudes de acceso de nuevas empresas</p>
+    </div>
+</div>
+
+{{-- ESTADÍSTICAS --}}
+@php
+    $totalRequests = $requests->total();
+    $pendingCount  = \App\Models\CompanyRequest::where('status', 'pending')->count();
+    $approvedCount = \App\Models\CompanyRequest::where('status', 'approved')->count();
+    $rejectedCount = \App\Models\CompanyRequest::where('status', 'rejected')->count();
+@endphp
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+    <div class="stat-card">
+        <div class="stat-icon bg-blue-100 text-blue-600"><i class="fas fa-list"></i></div>
+        <div>
+            <p class="stat-val">{{ $totalRequests }}</p>
+            <p class="stat-lbl">Total</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon bg-amber-100 text-amber-600"><i class="fas fa-clock"></i></div>
+        <div>
+            <p class="stat-val">{{ $pendingCount }}</p>
+            <p class="stat-lbl">Pendientes</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon bg-emerald-100 text-emerald-600"><i class="fas fa-circle-check"></i></div>
+        <div>
+            <p class="stat-val">{{ $approvedCount }}</p>
+            <p class="stat-lbl">Aprobadas</p>
+        </div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-icon bg-red-100 text-red-600"><i class="fas fa-circle-xmark"></i></div>
+        <div>
+            <p class="stat-val">{{ $rejectedCount }}</p>
+            <p class="stat-lbl">Rechazadas</p>
+        </div>
+    </div>
+</div>
+
+{{-- TABLA --}}
+<div class="card" x-data="{ viewOpen: false, rejectOpen: false, current: null, rejectAction: '' }">
+    <div class="card-hd">
+        <div class="card-hd-title">
+            <span class="card-icon bg-violet-50 text-violet-600"><i class="fas fa-inbox"></i></span>
+            <span class="card-title">Listado de solicitudes</span>
+        </div>
+        <span class="badge badge-blue">{{ $totalRequests }}</span>
+    </div>
+    <div class="card-body p-0">
+        @if($requests->isEmpty())
+        <div class="empty-state">
+            <div class="empty-icon"><i class="fas fa-inbox"></i></div>
+            <p class="empty-title">Sin solicitudes</p>
+            <p class="empty-text">Las solicitudes de nuevas empresas aparecerán aquí cuando se envíen.</p>
+        </div>
+        @else
+        <div class="tbl-wrap border-0 rounded-none shadow-none">
+            <table class="tbl">
+                <thead>
+                    <tr>
+                        <th>Empresa</th>
+                        <th>Contacto</th>
+                        <th>Empleados</th>
+                        <th>Fecha</th>
+                        <th>Estado</th>
+                        <th class="text-right">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($requests as $req)
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center flex-shrink-0">
+                                    <i class="fas fa-building text-violet-500 text-xs"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <p class="font-semibold text-slate-900 truncate">{{ $req->company_name }}</p>
+                                    @if($req->message)
+                                    <p class="text-xs text-slate-400 truncate max-w-[180px]">{{ Str::limit($req->message, 40) }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <p class="text-sm font-medium text-slate-800">{{ $req->contact_name }}</p>
+                            <p class="text-xs text-slate-400">{{ $req->email }}</p>
+                            @if($req->phone)
+                            <p class="text-xs text-slate-400">{{ $req->phone }}</p>
+                            @endif
+                        </td>
+                        <td>
+                            <span class="badge badge-gray">{{ $req->employees ?? '—' }}</span>
+                        </td>
+                        <td>
+                            <p class="text-sm text-slate-700">{{ $req->created_at->format('d/m/Y') }}</p>
+                            <p class="text-xs text-slate-400">{{ $req->created_at->diffForHumans() }}</p>
+                        </td>
+                        <td>
+                            @if($req->status === 'pending')
+                                <span class="badge badge-yellow"><i class="fas fa-clock mr-1"></i>Pendiente</span>
+                            @elseif($req->status === 'approved')
+                                <span class="badge badge-green"><i class="fas fa-check mr-1"></i>Aprobada</span>
+                            @else
+                                <span class="badge badge-red"><i class="fas fa-xmark mr-1"></i>Rechazada</span>
+                            @endif
+                        </td>
+                        <td>
+                            <div class="tbl-actions justify-end">
+                                {{-- Ver detalle --}}
+                                <button type="button"
+                                    @click="current = {{ Js::from($req) }}; viewOpen = true"
+                                    class="btn btn-ghost btn-sm" title="Ver detalle">
+                                    <i class="fas fa-eye"></i>
+                                </button>
+
+                                @if($req->status === 'pending')
+                                {{-- Aprobar --}}
+                                <form method="POST" action="{{ route('company-requests.update-status', $req) }}" class="inline" onsubmit="return confirm('¿Aprobar esta solicitud? Se creará la empresa y el usuario manager automáticamente.')">
+                                    @csrf @method('PATCH')
+                                    <input type="hidden" name="status" value="approved">
+                                    <button type="submit" class="btn btn-ghost btn-sm text-emerald-600 hover:bg-emerald-50" title="Aprobar">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </form>
+
+                                {{-- Rechazar --}}
+                                <button type="button"
+                                    @click="rejectAction = '{{ route('company-requests.update-status', $req) }}'; rejectOpen = true"
+                                    class="btn btn-ghost btn-sm text-red-500 hover:bg-red-50" title="Rechazar">
+                                    <i class="fas fa-xmark"></i>
+                                </button>
+                                @endif
+
+                                {{-- Email --}}
+                                <a href="mailto:{{ $req->email }}" class="btn btn-ghost btn-sm" title="Enviar email">
+                                    <i class="fas fa-envelope"></i>
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+
+        @if($requests->hasPages())
+        <div class="px-5 py-4 border-t border-slate-100">
+            {{ $requests->links() }}
+        </div>
+        @endif
+        @endif
+    </div>
+
+    {{-- MODAL: VER DETALLE --}}
+    <template x-teleport="body">
+        <div x-show="viewOpen" x-cloak
+             class="fixed inset-0 z-50 flex items-center justify-center p-4"
+             x-transition:enter="ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+             x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+            <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm" @click="viewOpen = false"></div>
+            <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-lg z-10 overflow-hidden"
+                 @click.away="viewOpen = false" @keydown.escape.window="viewOpen = false">
+                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
+                    <h3 class="text-base font-semibold text-slate-900"><i class="fas fa-inbox mr-2 text-violet-500"></i>Detalle de solicitud</h3>
+                    <button @click="viewOpen = false" class="w-8 h-8 rounded-lg hover:bg-slate-100 flex items-center justify-center text-slate-400 hover:text-slate-600">
+                        <i class="fas fa-xmark"></i>
+                    </button>
+                </div>
+                <div class="px-6 py-5 space-y-4" x-show="current">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Empresa</p>
+                            <p class="text-sm font-medium text-slate-800 mt-0.5" x-text="current?.company_name"></p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Contacto</p>
+                            <p class="text-sm font-medium text-slate-800 mt-0.5" x-text="current?.contact_name"></p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Email</p>
+                            <p class="text-sm text-blue-600 mt-0.5" x-text="current?.email"></p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Teléfono</p>
+                            <p class="text-sm text-slate-800 mt-0.5" x-text="current?.phone || '—'"></p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Empleados</p>
+                            <p class="text-sm text-slate-800 mt-0.5" x-text="current?.employees || '—'"></p>
+                        </div>
+                        <div>
+                            <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Estado</p>
+                            <p class="text-sm font-semibold mt-0.5 capitalize" x-text="current?.status"
+                               :class="{'text-amber-600': current?.status==='pending', 'text-emerald-600': current?.status==='approved', 'text-red-600': current?.status==='rejected'}"></p>
+                        </div>
+                    </div>
                     <div>
-                        <h1 class="text-3xl font-bold text-gray-900">
-                            <i class="fas fa-inbox mr-2 text-purple-600"></i>Solicitudes de Empresas
-                        </h1>
-                        <p class="mt-2 text-gray-600">
-                            Gestiona las solicitudes de acceso para nuevas empresas
-                        </p>
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Mensaje</p>
+                        <div class="mt-1.5 p-3 bg-slate-50 rounded-xl text-sm text-slate-700 min-h-[50px]" x-text="current?.message || 'Sin mensaje'"></div>
+                    </div>
+                    <div x-show="current?.admin_notes">
+                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Notas del admin</p>
+                        <div class="mt-1.5 p-3 bg-amber-50 rounded-xl text-sm text-amber-800" x-text="current?.admin_notes"></div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Statistics Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">Total Solicitudes</p>
-                            <p class="text-3xl font-bold text-gray-900 mt-1">{{ $requests->total() }}</p>
-                        </div>
-                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-list text-blue-600 text-xl"></i>
-                        </div>
-                    </div>
+                <div class="px-6 py-4 border-t border-slate-100 flex justify-end">
+                    <button @click="viewOpen = false" class="btn btn-secondary btn-sm">Cerrar</button>
                 </div>
-                
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">Pendientes</p>
-                            <p class="text-3xl font-bold text-yellow-600 mt-1">
-                                {{ \App\Models\CompanyRequest::where('status', 'pending')->count() }}
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-clock text-yellow-600 text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-md p-6">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-sm font-medium text-gray-600">Aprobadas</p>
-                            <p class="text-3xl font-bold text-green-600 mt-1">
-                                {{ \App\Models\CompanyRequest::where('status', 'approved')->count() }}
-                            </p>
-                        </div>
-                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-check-circle text-green-600 text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Requests Table -->
-            <div class="bg-white rounded-xl shadow-md overflow-hidden">
-                @if($requests->isEmpty())
-                    <div class="p-12 text-center">
-                        <div class="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <i class="fas fa-inbox text-4xl text-gray-400"></i>
-                        </div>
-                        <p class="text-gray-500 text-lg font-medium">No hay solicitudes aún</p>
-                        <p class="text-gray-400 text-sm mt-2">Las solicitudes aparecerán aquí cuando las empresas las envíen</p>
-                    </div>
-                @else
-                    <div class="overflow-x-auto">
-                        <table id="company-requests-table" class="min-w-full divide-y divide-gray-200">
-                            <thead class="bg-gray-50">
-                                <tr>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Empresa
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Contacto
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Empleados
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Teléfono
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Fecha
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Estado
-                                    </th>
-                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                        Acciones
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white divide-y divide-gray-200">
-                                @foreach($requests as $request)
-                                    <tr class="hover:bg-gray-50 transition-colors">
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm font-medium text-gray-900">
-                                                {{ $request->company_name }}
-                                            </div>
-                                            @if($request->message)
-                                                <div class="text-xs text-gray-500 mt-1">
-                                                    {{ Str::limit($request->message, 50) }}
-                                                </div>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm text-gray-900">{{ $request->contact_name }}</div>
-                                            <div class="text-xs text-gray-500">{{ $request->email }}</div>
-                                            @if($request->phone)
-                                                <div class="text-xs text-gray-500">{{ $request->phone }}</div>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm text-gray-900">{{ $request->employees ?? '-' }}</div>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm text-gray-900">{{ $request->phone ?? '-' }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900">
-                                                {{ $request->created_at->format('d/m/Y') }}
-                                            </div>
-                                            <div class="text-xs text-gray-500">
-                                                {{ $request->created_at->diffForHumans() }}
-                                            </div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            @if($request->status === 'pending')
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-                                                    <i class="fas fa-clock mr-1"></i>Pendiente
-                                                </span>
-                                            @elseif($request->status === 'approved')
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                                    <i class="fas fa-check mr-1"></i>Aprobada
-                                                </span>
-                                            @else
-                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                                    <i class="fas fa-times mr-1"></i>Rechazada
-                                                </span>
-                                            @endif
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                            <div class="flex items-center space-x-2">
-                                                @if($request->status === 'pending')
-                                                    <form method="POST" action="{{ route('company-requests.update-status', $request) }}" class="inline">
-                                                        @csrf
-                                                        @method('PATCH')
-                                                        <input type="hidden" name="status" value="approved">
-                                                        <button type="submit" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 bg-white hover:bg-green-50 text-green-700 shadow-sm" title="Aprobar">
-                                                            <i class="fas fa-check"></i>
-                                                            <span class="text-sm">Aprobar</span>
-                                                        </button>
-                                                    </form>
-
-                                                    <button type="button" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 bg-white hover:bg-red-50 text-red-700 shadow-sm reject-btn" data-id="{{ $request->id }}" data-action="{{ route('company-requests.update-status', $request) }}" title="Rechazar">
-                                                        <i class="fas fa-times"></i>
-                                                        <span class="text-sm">Rechazar</span>
-                                                    </button>
-                                                @endif
-
-                                                <button type="button" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 shadow-sm view-btn" data-request='@json($request)' title="Ver solicitud">
-                                                    <i class="fas fa-eye"></i>
-                                                    <span class="text-sm">Ver</span>
-                                                </button>
-
-                                                <a href="mailto:{{ $request->email }}" class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-blue-700 shadow-sm" title="Enviar email">
-                                                    <i class="fas fa-envelope"></i>
-                                                    <span class="text-sm">Email</span>
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Pagination -->
-                    @if($requests->hasPages())
-                        <div class="px-6 py-4 border-t border-gray-200">
-                            {{ $requests->links() }}
-                        </div>
-                    @endif
-                @endif
             </div>
         </div>
-    </div>
+    </template>
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/jquery.dataTables.min.css">
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            if ($('#company-requests-table').length) {
-                $('#company-requests-table').DataTable({
-                    "language": {"url": "//cdn.datatables.net/plug-ins/1.13.7/i18n/es-ES.json"},
-                    "pageLength": 20,
-                    "order": [[5], "desc"],
-                    "columnDefs": [{"orderable": false, "targets": -1}],
-                    "scrollX": true
-                });
-            }
-        });
-    </script>
+    {{-- MODAL: RECHAZAR --}}
+    <template x-teleport="body">
+        <div x-show="rejectOpen" x-cloak
+             class="fixed inset-0 z-50 flex items-center justify-center p-4"
+             x-transition:enter="ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+             x-transition:leave="ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0">
+            <div class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm" @click="rejectOpen = false"></div>
+            <div class="relative bg-white rounded-2xl shadow-xl w-full max-w-md z-10 overflow-hidden"
+                 @click.away="rejectOpen = false" @keydown.escape.window="rejectOpen = false">
+                <div class="px-6 py-4 border-b border-slate-100">
+                    <h3 class="text-base font-semibold text-slate-900"><i class="fas fa-xmark mr-2 text-red-500"></i>Rechazar solicitud</h3>
+                </div>
+                <form :action="rejectAction" method="POST">
+                    @csrf @method('PATCH')
+                    <input type="hidden" name="status" value="rejected">
+                    <div class="px-6 py-5">
+                        <div class="field">
+                            <label for="admin_notes" class="field-label">Motivo del rechazo</label>
+                            <textarea name="admin_notes" id="admin_notes" rows="4" class="input resize-none" placeholder="Explica el motivo del rechazo (opcional, se enviará por email)"></textarea>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4 border-t border-slate-100 flex justify-end gap-3">
+                        <button type="button" @click="rejectOpen = false" class="btn btn-secondary btn-sm">Cancelar</button>
+                        <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-xmark mr-1"></i>Rechazar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </template>
+</div>
+
 </x-app-layout>
-
-<!-- Rechazo Modal -->
-<div id="reject-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-md p-6">
-        <h3 class="text-lg font-semibold mb-4">Motivo del rechazo</h3>
-        <form id="reject-form" method="POST" action="">
-            @csrf
-            @method('PATCH')
-            <input type="hidden" name="status" value="rejected">
-            <div class="mb-4">
-                <label class="block text-sm font-medium text-gray-700">Notas para el solicitante</label>
-                <textarea name="admin_notes" rows="4" class="mt-1 block w-full rounded-md border-gray-300" placeholder="Explique por qué se rechaza la solicitud (opcional)"></textarea>
-            </div>
-            <div class="flex justify-end space-x-2">
-                <button type="button" id="reject-cancel" class="px-4 py-2 bg-gray-200 rounded">Cancelar</button>
-                <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded">Enviar y rechazar</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<script>
-    $(function(){
-        $('.reject-btn').on('click', function(e){
-            e.preventDefault();
-            var action = $(this).data('action');
-            $('#reject-form').attr('action', action);
-            $('#reject-modal').removeClass('hidden').addClass('flex');
-        });
-
-        $('#reject-cancel').on('click', function(){
-            $('#reject-modal').removeClass('flex').addClass('hidden');
-        });
-
-        // View request modal
-        $('.view-btn').on('click', function(){
-            var req = $(this).data('request');
-            $('#view-company').text(req.company_name || '-');
-            $('#view-contact').text(req.contact_name || '-');
-            $('#view-email').text(req.email || '-');
-            $('#view-phone').text(req.phone || '-');
-            $('#view-employees').text(req.employees || '-');
-            $('#view-message').text(req.message || '-');
-            $('#view-status').text(req.status || '-');
-            $('#view-admin-notes').text(req.admin_notes || '-');
-            $('#view-created').text(req.created_at || '-');
-            $('#view-modal').removeClass('hidden').addClass('flex');
-        });
-
-        $('.view-close').on('click', function(){
-            $('#view-modal').removeClass('flex').addClass('hidden');
-        });
-    });
-</script>
-
-<!-- Ver solicitud Modal -->
-<div id="view-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black bg-opacity-50">
-    <div class="bg-white rounded-lg shadow-lg w-11/12 max-w-2xl p-6">
-        <div class="flex items-start justify-between">
-            <h3 class="text-lg font-semibold mb-2">Detalle de la solicitud</h3>
-            <button class="view-close text-gray-400 hover:text-gray-600">&times;</button>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-            <div>
-                <p class="text-xs text-gray-500">Empresa</p>
-                <p id="view-company" class="font-medium text-gray-900">-</p>
-
-                <p class="text-xs text-gray-500 mt-3">Contacto</p>
-                <p id="view-contact" class="font-medium text-gray-900">-</p>
-
-                <p class="text-xs text-gray-500 mt-3">Email</p>
-                <p id="view-email" class="font-medium text-gray-900">-</p>
-
-                <p class="text-xs text-gray-500 mt-3">Teléfono</p>
-                <p id="view-phone" class="font-medium text-gray-900">-</p>
-            </div>
-            <div>
-                <p class="text-xs text-gray-500">Empleados</p>
-                <p id="view-employees" class="font-medium text-gray-900">-</p>
-
-                <p class="text-xs text-gray-500 mt-3">Estado</p>
-                <p id="view-status" class="font-medium text-gray-900">-</p>
-
-                <p class="text-xs text-gray-500 mt-3">Fecha</p>
-                <p id="view-created" class="font-medium text-gray-900">-</p>
-            </div>
-        </div>
-
-        <div class="mt-4">
-            <p class="text-xs text-gray-500">Mensaje</p>
-            <div id="view-message" class="mt-1 p-3 bg-gray-50 rounded text-gray-800">-</div>
-        </div>
-
-        <div class="mt-4">
-            <p class="text-xs text-gray-500">Notas del admin</p>
-            <div id="view-admin-notes" class="mt-1 p-3 bg-gray-50 rounded text-gray-800">-</div>
-        </div>
-
-        <div class="flex justify-end mt-6">
-            <button class="view-close px-4 py-2 bg-gray-200 rounded">Cerrar</button>
-        </div>
-    </div>
-</div>

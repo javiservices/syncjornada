@@ -1,183 +1,151 @@
 @php
-    $navItems = [
-        ['label' => 'Dashboard', 'route' => 'dashboard', 'icon' => 'fa-home', 'match' => 'dashboard'],
-        ['label' => 'Jornadas', 'route' => 'time-entries.index', 'icon' => 'fa-clock', 'match' => 'time-entries.*'],
-        ['label' => 'Vacaciones', 'route' => 'vacation-requests.index', 'icon' => 'fa-umbrella-beach', 'match' => 'vacation-requests.*'],
+    $nav = [
+        ['label'=>'Dashboard',  'route'=>'dashboard',              'icon'=>'fa-house',          'match'=>'dashboard'],
+        ['label'=>'Jornadas',   'route'=>'time-entries.index',     'icon'=>'fa-clock',          'match'=>'time-entries.*'],
+        ['label'=>'Vacaciones', 'route'=>'vacation-requests.index','icon'=>'fa-umbrella-beach', 'match'=>'vacation-requests.*'],
     ];
-
-    $adminItems = [
-        ['label' => 'Empresas', 'route' => 'companies.index', 'icon' => 'fa-building', 'match' => 'companies.*'],
-        ['label' => 'Usuarios', 'route' => 'users.index', 'icon' => 'fa-users', 'match' => 'users.*'],
-        ['label' => 'Reportes', 'route' => 'reports.index', 'icon' => 'fa-chart-bar', 'match' => 'reports.*'],
-        ['label' => 'Estadisticas', 'route' => 'statistics.index', 'icon' => 'fa-chart-line', 'match' => 'statistics.*'],
-        ['label' => 'Solicitudes', 'route' => 'company-requests.index', 'icon' => 'fa-inbox', 'match' => 'company-requests.*'],
-        ['label' => 'Alerta Incidente', 'route' => 'admin.incident-alert.edit', 'icon' => 'fa-exclamation-triangle', 'match' => 'admin.incident-alert.*'],
+    $admin = [
+        ['label'=>'Empresas',         'route'=>'companies.index',           'icon'=>'fa-building',            'match'=>'companies.*'],
+        ['label'=>'Usuarios',         'route'=>'users.index',               'icon'=>'fa-users',               'match'=>'users.*'],
+        ['label'=>'Reportes',         'route'=>'reports.index',             'icon'=>'fa-chart-bar',           'match'=>'reports.*'],
+        ['label'=>'Estadísticas',     'route'=>'statistics.index',          'icon'=>'fa-chart-line',          'match'=>'statistics.*'],
+        ['label'=>'Solicitudes',      'route'=>'company-requests.index',    'icon'=>'fa-inbox',               'match'=>'company-requests.*'],
+        ['label'=>'Alerta Incidente', 'route'=>'admin.incident-alert.edit', 'icon'=>'fa-triangle-exclamation','match'=>'admin.incident-alert.*'],
     ];
-
-    $managerItems = [
-        ['label' => 'Mi Empresa', 'route' => ['companies.show', Auth::user()->company_id], 'icon' => 'fa-building', 'match' => 'companies.show'],
-        ['label' => 'Empleados', 'route' => 'users.index', 'icon' => 'fa-users', 'match' => 'users.*'],
-        ['label' => 'Reportes', 'route' => 'reports.index', 'icon' => 'fa-chart-bar', 'match' => 'reports.*'],
-        ['label' => 'Estadisticas', 'route' => 'statistics.index', 'icon' => 'fa-chart-line', 'match' => 'statistics.*'],
+    $manager = [
+        ['label'=>'Mi Empresa',   'route'=>['companies.show', Auth::user()->company_id], 'icon'=>'fa-building',   'match'=>'companies.show'],
+        ['label'=>'Empleados',    'route'=>'users.index',      'icon'=>'fa-users',       'match'=>'users.*'],
+        ['label'=>'Reportes',     'route'=>'reports.index',    'icon'=>'fa-chart-bar',   'match'=>'reports.*'],
+        ['label'=>'Estadísticas', 'route'=>'statistics.index', 'icon'=>'fa-chart-line',  'match'=>'statistics.*'],
     ];
-
-    $routeName = request()->route() ? request()->route()->getName() : null;
-    $pageTitle = match (true) {
-        $routeName === 'dashboard' => 'Dashboard',
-        request()->routeIs('time-entries.*') => 'Jornadas',
-        request()->routeIs('vacation-requests.*') => 'Vacaciones',
-        request()->routeIs('companies.*') => 'Empresas',
-        request()->routeIs('users.*') => 'Usuarios',
-        request()->routeIs('reports.*') => 'Reportes',
-        request()->routeIs('statistics.*') => 'Estadisticas',
-        request()->routeIs('company-requests.*') => 'Solicitudes',
-        request()->routeIs('admin.incident-alert.*') => 'Alerta Incidente',
-        true => 'Dashboard',
-    };
+    $initials = collect(explode(' ', Auth::user()->name))->take(2)->map(fn($w)=>strtoupper($w[0]))->implode('');
 @endphp
 
-<div x-data="{ 
-    sidebarCollapsed: JSON.parse(localStorage.getItem('sidebarCollapsed') || 'false'), 
-    sidebarOpen: false, 
-    canHover: (window.matchMedia && window.matchMedia('(hover: hover) and (pointer: fine)').matches)
-}"
-     x-init="window.addEventListener('resize', () => { if (window.innerWidth >= 1024) sidebarCollapsed = JSON.parse(localStorage.getItem('sidebarCollapsed') || 'false'); }); window.addEventListener('touchstart', () => { canHover = false }, { once: true })">
+<div
+    x-data="{
+        sc: JSON.parse(localStorage.getItem('sidebarCollapsed')||'false'),
+        open: false,
+        toggle() {
+            if (window.innerWidth >= 1024) {
+                this.sc = !this.sc;
+                localStorage.setItem('sidebarCollapsed', this.sc);
+                window.dispatchEvent(new CustomEvent('sidebar-toggled',{detail:{collapsed:this.sc}}));
+            } else { this.open = !this.open; }
+        }
+    }"
+    @keydown.escape.window="open=false"
+    @resize.window.debounce="if(window.innerWidth>=1024) open=false"
+>
 
-<header class="fixed top-0 left-0 right-0 h-16 bg-white border-b border-gray-200 shadow-sm z-40">
-    <div class="h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
-        <div class="flex items-center space-x-3">
-            <button @click="if (window.innerWidth >= 1024) { sidebarCollapsed = !sidebarCollapsed; localStorage.setItem('sidebarCollapsed', sidebarCollapsed); sidebarOpen = !sidebarCollapsed } else { sidebarOpen = !sidebarOpen }" class="p-2 rounded-lg hover:bg-gray-100 text-gray-700 transition-colors" aria-label="Alternar menu">
-                <i x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'fas fa-chevron-right' : 'fas fa-bars'" class="transition-all duration-200"></i>
-            </button>
-            <div>
-                <p class="text-xs uppercase tracking-wide text-gray-500">SyncJornada</p>
-                <p class="text-lg font-bold text-gray-900">{{ $pageTitle }}</p>
-            </div>
-        </div>
-
-        <div class="flex items-center space-x-3">
-            <x-dropdown align="right" width="48">
-                <x-slot name="trigger">
-                    <button class="inline-flex items-center gap-2 px-3 py-2 rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 shadow-sm">
-                        <span class="hidden sm:inline text-sm font-semibold">{{ Auth::user()->name }}</span>
-                        <span class="h-9 w-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 text-white flex items-center justify-center">
-                            <i class="fas fa-user text-sm" aria-hidden="true"></i>
-                        </span>
-                        <i class="fas fa-chevron-down text-xs text-gray-400"></i>
-                    </button>
-                </x-slot>
-
-                <x-slot name="content">
-                    <div class="px-4 py-3 border-b border-gray-100">
-                        <p class="text-sm font-semibold text-gray-900">{{ Auth::user()->name }}</p>
-                        <p class="text-xs text-gray-500">{{ Auth::user()->email }}</p>
-                    </div>
-                    <x-dropdown-link :href="route('profile.edit')" class="flex items-center space-x-2">
-                        <i class="fas fa-user-circle text-gray-500" aria-hidden="true"></i>
-                        <span>Perfil</span>
-                    </x-dropdown-link>
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
-                        <x-dropdown-link :href="route('logout')"
-                                         onclick="event.preventDefault(); this.closest('form').submit();"
-                                         class="flex items-center space-x-2 text-red-600 hover:bg-red-50">
-                            <i class="fas fa-sign-out-alt" aria-hidden="true"></i>
-                            <span>Salir</span>
-                        </x-dropdown-link>
-                    </form>
-                </x-slot>
-            </x-dropdown>
-        </div>
+{{-- TOPBAR --}}
+<header class="topbar">
+    <div class="flex items-center gap-3">
+        <button @click="toggle()" class="w-9 h-9 rounded-lg flex items-center justify-center text-slate-500 hover:bg-slate-100 hover:text-slate-700 transition-colors" aria-label="Menú">
+            <i class="fas fa-bars text-sm"></i>
+        </button>
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-2.5">
+            <img src="{{ asset('images/logo/logo-icon.svg') }}" alt="SyncJornada" class="w-8 h-8 flex-shrink-0">
+            <span class="hidden sm:block font-bold text-slate-800 tracking-tight text-[15px]">Sync<span class="text-blue-600">Jornada</span></span>
+        </a>
     </div>
+
+    <x-dropdown align="right" width="56">
+        <x-slot name="trigger">
+            <button class="flex items-center gap-2.5 h-9 pl-2 pr-3 rounded-xl hover:bg-slate-100 transition-colors group">
+                <div class="avatar text-xs">{{ $initials }}</div>
+                <div class="hidden sm:flex flex-col items-start leading-none gap-0.5">
+                    <span class="text-xs font-semibold text-slate-700">{{ Str::words(Auth::user()->name,1,'') }}</span>
+                    <span class="text-[10px] text-slate-400 capitalize">{{ Auth::user()->role }}</span>
+                </div>
+                <i class="fas fa-chevron-down text-[9px] text-slate-400 ml-0.5"></i>
+            </button>
+        </x-slot>
+        <x-slot name="content">
+            <div class="px-4 py-3.5 border-b border-slate-100 bg-slate-50/80">
+                <div class="flex items-center gap-3">
+                    <div class="avatar">{{ $initials }}</div>
+                    <div class="min-w-0">
+                        <p class="text-sm font-semibold text-slate-800 truncate">{{ Auth::user()->name }}</p>
+                        <p class="text-xs text-slate-500 truncate">{{ Auth::user()->email }}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="py-1">
+                <a href="{{ route('profile.edit') }}" class="dd-item">
+                    <i class="fas fa-circle-user w-4 text-center text-slate-400 text-sm"></i> Mi perfil
+                </a>
+            </div>
+            <div class="border-t border-slate-100 py-1">
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <button type="submit" class="dd-item w-full text-left text-red-600 hover:bg-red-50">
+                        <i class="fas fa-arrow-right-from-bracket w-4 text-center text-red-400 text-sm"></i> Cerrar sesión
+                    </button>
+                </form>
+            </div>
+        </x-slot>
+    </x-dropdown>
 </header>
 
-<aside x-cloak
-    class="fixed top-16 left-0 bottom-0 w-auto min-w-14 max-w-64 bg-white border-r border-gray-200 shadow-lg z-40 overflow-hidden transform lg:translate-x-0 transition-all duration-300 ease-out group"
-    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
-    :style="sidebarCollapsed && window.innerWidth >= 1024 ? (sidebarOpen ? 'width: 16rem' : 'width: 3.5rem') : 'width: 16rem'"
-    x-transition:enter="transform transition ease-out duration-200"
-    x-transition:enter-start="-translate-x-full"
-    x-transition:enter-end="translate-x-0"
-    x-transition:leave="transform transition ease-in duration-200"
-    x-transition:leave-start="translate-x-0"
-    x-transition:leave-end="-translate-x-full"
-    @mouseenter="if (sidebarCollapsed && window.innerWidth >= 1024 && canHover) sidebarOpen = true"
-    @mouseleave="if (sidebarCollapsed && window.innerWidth >= 1024 && canHover) sidebarOpen = false">
-    <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'p-1' : 'p-4'" class="space-y-6 transition-all duration-200">
-        <div class="space-y-1">
-            <p x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wide transition-all duration-200">General</p>
-            @foreach($navItems as $item)
-                <a href="{{ is_array($item['route']) ? route($item['route'][0], $item['route'][1]) : route($item['route']) }}"
-                   class="relative group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 {{ request()->routeIs($item['match']) ? 'bg-blue-50 text-blue-700 border border-blue-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
-                   x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-1 py-2' : ''">
-                    <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-blue-100 group-hover:text-blue-700 transition-transform duration-200">
-                        <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
-                    </span>
-                    <span x-bind:class="(sidebarCollapsed && window.innerWidth >= 1024 && !sidebarOpen) ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
+{{-- MOBILE OVERLAY --}}
+<div x-cloak x-show="open"
+     x-transition:enter="transition-opacity ease-out duration-200" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100"
+     x-transition:leave="transition-opacity ease-in duration-150" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0"
+     @click="open=false" class="mob-overlay"></div>
 
-                    {{-- Tooltip cuando está colapsado (se muestra al hover) --}}
-                    <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 hidden group-hover:block' : 'hidden'">
-                        <div class="whitespace-nowrap bg-white text-sm text-gray-800 px-3 py-2 rounded-md shadow-lg border border-gray-100">
-                            {{ $item['label'] }}
-                        </div>
-                    </div>
-                </a>
-            @endforeach
-        </div>
+{{-- SIDEBAR --}}
+<aside x-cloak
+       :class="{ 'sidebar-open': open, 'sidebar-col': sc && window.innerWidth>=1024 }"
+       @mouseenter="if(sc && window.innerWidth>=1024) open=true"
+       @mouseleave="if(sc && window.innerWidth>=1024) open=false"
+       class="sidebar">
+
+    <div class="sidebar-body">
+        <p class="sidebar-sep">General</p>
+        @foreach($nav as $item)
+        @php $href = is_array($item['route']) ? route($item['route'][0],$item['route'][1]) : route($item['route']); @endphp
+        <a href="{{ $href }}" class="nav-item {{ request()->routeIs($item['match']) ? 'is-active' : '' }}" title="{{ $item['label'] }}">
+            <span class="nav-icon"><i class="fas {{ $item['icon'] }}"></i></span>
+            <span class="nav-label">{{ $item['label'] }}</span>
+            <span class="nav-tip">{{ $item['label'] }}</span>
+        </a>
+        @endforeach
 
         @if(Auth::user()->role === 'admin')
-            <div class="space-y-1">
-                <p x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wide transition-all duration-200">Administracion</p>
-                @foreach($adminItems as $item)
-                    <a href="{{ route($item['route']) }}"
-                       class="relative group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 {{ request()->routeIs($item['match']) ? 'bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
-                       x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-1 py-2' : ''">
-                        <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700 transition-transform duration-200">
-                            <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
-                        </span>
-                        <span x-bind:class="(sidebarCollapsed && window.innerWidth >= 1024 && !sidebarOpen) ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
-
-                        <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 hidden group-hover:block' : 'hidden'">
-                            <div class="whitespace-nowrap bg-white text-sm text-gray-800 px-3 py-2 rounded-md shadow-lg border border-gray-100">
-                                {{ $item['label'] }}
-                            </div>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
+        <p class="sidebar-sep">Administración</p>
+        @foreach($admin as $item)
+        <a href="{{ route($item['route']) }}" class="nav-item {{ request()->routeIs($item['match']) ? 'is-active' : '' }}" title="{{ $item['label'] }}">
+            <span class="nav-icon"><i class="fas {{ $item['icon'] }}"></i></span>
+            <span class="nav-label">{{ $item['label'] }}</span>
+            <span class="nav-tip">{{ $item['label'] }}</span>
+        </a>
+        @endforeach
         @elseif(Auth::user()->role === 'manager')
-            <div class="space-y-1">
-                <p x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'hidden' : ''" class="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wide transition-all duration-200">Gestion</p>
-                @foreach($managerItems as $item)
-                    <a href="{{ is_array($item['route']) ? route($item['route'][0], $item['route'][1]) : route($item['route']) }}"
-                       class="relative group flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200 {{ request()->routeIs($item['match']) ? 'bg-indigo-50 text-indigo-700 border border-indigo-100 shadow-sm' : 'text-gray-700 hover:bg-gray-50' }}"
-                       x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'justify-center px-1 py-2' : ''">
-                        <span class="flex h-9 w-9 items-center justify-center rounded-md bg-gray-100 text-gray-600 group-hover:bg-indigo-100 group-hover:text-indigo-700 transition-transform duration-200">
-                            <i class="fas {{ $item['icon'] }} text-sm" aria-hidden="true"></i>
-                        </span>
-                        <span x-bind:class="(sidebarCollapsed && window.innerWidth >= 1024 && !sidebarOpen) ? 'hidden' : ''" class="text-sm font-medium transition-all duration-200">{{ $item['label'] }}</span>
-
-                        <div x-bind:class="sidebarCollapsed && window.innerWidth >= 1024 ? 'absolute left-full ml-2 top-1/2 -translate-y-1/2 z-50 hidden group-hover:block' : 'hidden'">
-                            <div class="whitespace-nowrap bg-white text-sm text-gray-800 px-3 py-2 rounded-md shadow-lg border border-gray-100">
-                                {{ $item['label'] }}
-                            </div>
-                        </div>
-                    </a>
-                @endforeach
-            </div>
+        <p class="sidebar-sep">Gestión</p>
+        @foreach($manager as $item)
+        @php $href = is_array($item['route']) ? route($item['route'][0],$item['route'][1]) : route($item['route']); @endphp
+        <a href="{{ $href }}" class="nav-item {{ request()->routeIs($item['match']) ? 'is-active' : '' }}" title="{{ $item['label'] }}">
+            <span class="nav-icon"><i class="fas {{ $item['icon'] }}"></i></span>
+            <span class="nav-label">{{ $item['label'] }}</span>
+            <span class="nav-tip">{{ $item['label'] }}</span>
+        </a>
+        @endforeach
         @endif
+
+        <div class="mt-auto sidebar-foot">
+            <a href="{{ route('profile.edit') }}" class="nav-item {{ request()->routeIs('profile.*') ? 'is-active' : '' }} mx-0 rounded-none px-4" title="Mi perfil">
+                <span class="nav-icon"><i class="fas fa-circle-user"></i></span>
+                <span class="nav-label">Mi perfil</span>
+                <span class="nav-tip">Mi perfil</span>
+            </a>
+        </div>
     </div>
+
+    <button class="hidden lg:flex items-center justify-center h-10 sidebar-foot w-full hover:bg-slate-50 transition-colors text-slate-300 hover:text-slate-500"
+            @click.stop="sc=!sc; localStorage.setItem('sidebarCollapsed',sc); open=false; window.dispatchEvent(new CustomEvent('sidebar-toggled',{detail:{collapsed:sc}}))"
+            :title="sc?'Expandir':'Colapsar'">
+        <i class="fas text-xs" :class="sc?'fa-chevron-right':'fa-chevron-left'"></i>
+    </button>
 </aside>
 
 </div>
-
-<div x-cloak
-     x-show="sidebarOpen && window.innerWidth < 1024"
-     x-transition:enter="transition-opacity ease-out duration-200"
-     x-transition:enter-start="opacity-0"
-     x-transition:enter-end="opacity-100"
-     x-transition:leave="transition-opacity ease-in duration-200"
-     x-transition:leave-start="opacity-100"
-     x-transition:leave-end="opacity-0"
-     @click="sidebarOpen = false"
-     class="fixed inset-0 bg-gray-900/50 z-20 lg:hidden"></div>

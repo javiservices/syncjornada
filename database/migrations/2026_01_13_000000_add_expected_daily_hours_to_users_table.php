@@ -9,7 +9,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->decimal('expected_daily_hours', 4, 2)->default(8.00)->after('role');
+            if (!Schema::hasColumn('users', 'expected_daily_hours')) {
+                $table->decimal('expected_daily_hours', 4, 2)->default(8.00)->after('role');
+            }
         });
     }
 

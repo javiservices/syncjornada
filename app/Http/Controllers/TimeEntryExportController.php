@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TimeEntry;
 use App\Models\Company;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
@@ -21,7 +22,7 @@ class TimeEntryExportController extends Controller
         ]);
 
         $user = auth()->user();
-        $query = TimeEntry::with(['user.company', 'audits.user']);
+        $query = TimeEntry::with(['user.company', 'audits.user', 'breaks']);
 
         // Filtrar por fechas
         $query->whereBetween('date', [$request->start_date, $request->end_date]);
@@ -165,20 +166,84 @@ class TimeEntryExportController extends Controller
 
     private function exportPdf($entries, $request)
     {
-        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('exports.time-entries-pdf', [
-            'entries' => $entries,
-            'startDate' => $request->start_date,
-            'endDate' => $request->end_date,
-            'generatedAt' => now(),
-            'generatedBy' => auth()->user(),
-        ]);
+        try {
+            $user = auth()->user();
 
-        // Set paper and orientation for wide tables
-        $pdf->setPaper('a4', 'landscape');
+            // Group entries by employee for better readability
+            $grouped = $entries->groupBy(function ($entry) {
+                return $entry->user_id;
+            });
 
-        $base = 'registro_jornada_' . now()->format('Y-m-d_His');
-        $filename = Str::slug($base) . '.pdf';
+            // Pre-compute summary statistics
+            $totalMinutes = 0;
+            $totalBreakMinutes = 0;
+            $totalDays = 0;
+            $remoteCount = 0;
+            $presentialCount = 0;
+            $incompleteCount = 0;
+            $modifiedCount = 0;
 
-        return $pdf->download($filename);
+            foreach ($entries as $entry) {
+                if ($entry->check_in && $entry->check_out) {
+                    $totalMinutes += $entry->check_in->diffInMinutes($entry->check_out);
+                    $totalDays++;
+
+                    // Sum break time
+                    foreach ($entry->breaks as $brk) {
+                        if ($brk->break_end) {
+                            $totalBreakMinutes += $brk->break_start->diffInMinutes($brk->break_end);
+                        }
+                    }
+                } else {
+                    $incompleteCount++;
+                }
+
+                if ($entry->remote_work) {
+                    $remoteCount++;
+                } else {
+                    $presentialCount++;
+                }
+
+                // Count entries modified by someone other than the employee
+                $externalEdits = $entry->audits->filter(fn($a) => $a->action !== 'created' && $a->user_id !== $entry->user_id);
+                if ($externalEdits->count() > 0) {
+                    $modifiedCount++;
+                }
+            }
+
+            $netMinutes = max(0, $totalMinutes - $totalBreakMinutes);
+
+            // Generate a unique document reference
+            $docRef = strtoupper(substr(md5($user->id . $request->start_date . $request->end_date . now()->timestamp), 0, 12));
+
+            $pdf = Pdf::loadView('exports.time-entries-pdf', [
+                'entries'           => $entries,
+                'grouped'           => $grouped,
+                'startDate'         => $request->start_date,
+                'endDate'           => $request->end_date,
+                'generatedAt'       => now(),
+                'generatedBy'       => $user,
+                // Pre-computed stats
+                'totalMinutes'      => $totalMinutes,
+                'totalBreakMinutes' => $totalBreakMinutes,
+                'netMinutes'        => $netMinutes,
+                'totalDays'         => $totalDays,
+                'remoteCount'       => $remoteCount,
+                'presentialCount'   => $presentialCount,
+                'incompleteCount'   => $incompleteCount,
+                'modifiedCount'     => $modifiedCount,
+                'docRef'            => $docRef,
+            ]);
+
+            $pdf->setPaper('a4', 'landscape');
+
+            $base = 'registro_jornada_' . now()->format('Y-m-d_His');
+            $filename = Str::slug($base) . '.pdf';
+
+            return $pdf->download($filename);
+        } catch (\Exception $e) {
+            \Log::error('PDF Export Error: ' . $e->getMessage());
+            return back()->with('error', 'Error al generar el PDF. Inténtalo de nuevo o usa el formato CSV.');
+        }
     }
 }
